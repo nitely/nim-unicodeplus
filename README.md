@@ -47,6 +47,7 @@ echo "A Title - Maybe?".isTitle()
 ```
 
 ```nim
+import unicode except isTitle
 import unicodeplus
 
 echo "A Title - Maybe?".isTitle()
