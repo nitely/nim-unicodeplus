@@ -5,7 +5,7 @@ import unicode except
 
 import unicodedb
 
-iterator runes(s: seq[Rune]): Rune =
+iterator runes(s: seq[Rune]): Rune {.inline.} =
   # no-op
   for r in s:
     yield r
@@ -16,9 +16,9 @@ template runeCheck(s, runeProc) =
   ## `false` if `s` is empty
   result = false
   for r in s.runes:
-    if not runeProc(r):
-      return false
-    result = true
+    result = runeProc(r)
+    if not result:
+      break
 
 proc isDecimal*(c: Rune): bool =
   ## Return `true` if the given character
@@ -144,10 +144,9 @@ proc isPrintable*(c: Rune): bool =
   ## Nonprintable characters are those characters
   ## defined in the UCD as “Other” or “Separator”,
   ## except for the ASCII space (0x20)
-  let cat = c.category()
   result = (
     c == Rune(0x20) or
-    cat[0] notin {'C', 'Z'})
+    c.category()[0] notin {'C', 'Z'})
 
 proc isPrintable*(s: string | seq[Rune]): bool =
   ## Nonprintable characters are those characters
@@ -156,9 +155,9 @@ proc isPrintable*(s: string | seq[Rune]): bool =
   ## characters meet this condition or the string is empty
   result = true
   for r in s.runes:
-    if not r.isPrintable():
-      return false
-    result = true
+    result = r.isPrintable()
+    if not result:
+      break
 
 proc isWhiteSpace*(c: Rune): bool =
   ## Whitespace characters are those characters
@@ -167,9 +166,8 @@ proc isWhiteSpace*(c: Rune): bool =
   ## bidirectional property being one of
   ## “WS”, “B”, or “S”. Return `true` if the
   ## character meets this condition
-  let cat = c.category()
   result = (
-    cat[0] in {'C', 'Z'} or
+    c.category()[0] in {'C', 'Z'} or
     c.bidirectional() in ["WS", "B", "S"])
 
 proc isWhiteSpace*(s: string | seq[Rune]): bool =
@@ -193,9 +191,9 @@ proc isUpper*(s: string | seq[Rune]): bool =
   for r in s.runes:
     let ut = r.unicodeTypes()
     if utmCased in ut:
-      if utmUppercase notin ut:
-        return false
-      result = true
+      result = utmUppercase in ut
+      if not result:
+        break
 
 proc isLower*(c: Rune): bool =
   ## return `true` if the character is lower-case
@@ -208,9 +206,9 @@ proc isLower*(s: string | seq[Rune]): bool =
   for r in s.runes:
     let ut = r.unicodeTypes()
     if utmCased in ut:
-      if utmLowercase notin ut:
-        return false
-      result = true
+      result = utmLowercase in ut
+      if not result:
+        break
 
 proc isTitle*(c: Rune): bool =
   ## Ligatures containing uppercase
@@ -230,9 +228,11 @@ proc isTitle*(s: string | seq[Rune]): bool =
   for r in s.runes:
     let ut = r.unicodeTypes()
     if utmUppercase in ut and isLastCased:
-      return false
-    elif utmLowercase in ut and not isLastCased:
-      return false
+      result = false
+      break
+    if utmLowercase in ut and not isLastCased:
+      result = false
+      break
     isLastCased = utmCased in ut
     result = true
 

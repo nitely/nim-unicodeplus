@@ -34,7 +34,7 @@ assert "abcd".isPrintable()
 ## vs Nim's stdlib
 
 Although this library will be a replacement
-for Nim's unicode module, it's not a *drop-in replacement*.
+for Nim's unicode module, it won't be a *drop-in replacement*.
 Some of the APIs don't show the same behavior.
 
 To illustrate:
