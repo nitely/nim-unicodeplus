@@ -3,7 +3,8 @@
 import unicode except
   isTitle, isLower, isUpper, isAlpha, isWhiteSpace
 
-import unicodedb
+import unicodedb/properties
+import unicodedb/types
 
 iterator runes(s: seq[Rune]): Rune {.inline.} =
   # no-op
@@ -15,7 +16,7 @@ template runeCheck(s, runeProc) =
   ## passes `runeProc` test. Return
   ## `false` if `s` is empty
   result = false
-  for r in s.runes:
+  for r in runes(s):
     result = runeProc(r)
     if not result:
       break
@@ -235,7 +236,36 @@ proc isTitle*(s: string | seq[Rune]): bool =
       break
     isLastCased = utmCased in ut
     result = true
+# todo: needs toLower
+#[]
+proc cmpCi*(a, b: Rune): int =
+  ## Case insensitive comparison
+  RuneImpl(a.toLower()) - RuneImpl(b.toLower())
 
+proc cmpCi*(a, b: seq[Rune]): int =
+  ## Case insensitive comparison
+  result = a.len - b.len
+  if result != 0:
+    return
+  for i in 0 .. a.high:
+    result = a[i].toLower() - b[i].toLower()
+    if result != 0:
+      return
+
+proc cmpCi*(a, b: string): int =
+  ## Case insensitive comparison
+  var
+    i = 0
+    j = 0
+    ar, br: Rune
+  while i < a.len and j < b.len:
+    fastRuneAt(a, i, ar)
+    fastRuneAt(b, j, br)
+    result = RuneImpl(ar.toLower()) - RuneImpl(br.toLower())
+    if result != 0:
+      return
+  result = a.len - b.len
+]#
 when isMainModule:
   doAssert(not "".isLower())
   doAssert(not "A".isLower())
