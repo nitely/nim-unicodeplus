@@ -13,9 +13,7 @@ iterator runes(s: seq[Rune]): Rune {.inline.} =
 
 template runeCheck(s, runeProc) =
   ## Check all characters in `s`
-  ## passes `runeProc` test. Return
-  ## `false` if `s` is empty
-  result = false
+  ## passes `runeProc` test.
   for r in runes(s):
     result = runeProc(r)
     if not result:
@@ -31,7 +29,7 @@ proc isDecimal*(c: Rune): bool =
   ## value `Numeric_Type=Decimal`
   utmDecimal in c.unicodeTypes()
 
-proc isDecimal*(s: string | seq[Rune]): bool =
+proc isDecimal*(s: string): bool =
   ## Return `true` if all characters in the
   ## string are decimal characters and there
   ## is at least one character, false otherwise.
@@ -40,6 +38,9 @@ proc isDecimal*(s: string | seq[Rune]): bool =
   ## ARABIC-INDIC DIGIT ZERO. Formally, a decimal
   ## is a character that has the property
   ## value `Numeric_Type=Decimal`
+  runeCheck(s, isDecimal)
+
+proc isDecimal*(s: seq[Rune]): bool =
   runeCheck(s, isDecimal)
 
 proc isDigit*(c: Rune): bool =
@@ -59,7 +60,7 @@ proc isDigit*(c: Rune): bool =
     utmDigit in ut or
     utmDecimal in ut)
 
-proc isDigit*(s: string | seq[Rune]): bool =
+proc isDigit*(s: string): bool =
   ## Return `true` if all characters in the
   ## string are digits and there is at least
   ## one character, `false` otherwise. Digits
@@ -71,6 +72,9 @@ proc isDigit*(s: string | seq[Rune]): bool =
   ## numbers. Formally, a digit is a character
   ## that has the property value `Numeric_Type=Digit`
   ## or `Numeric_Type=Decimal`
+  runeCheck(s, isDigit)
+
+proc isDigit*(s: seq[Rune]): bool =
   runeCheck(s, isDigit)
 
 proc isNumeric*(c: Rune): bool =
@@ -88,7 +92,7 @@ proc isNumeric*(c: Rune): bool =
     utmDecimal in ut or
     utmNumeric in ut)
 
-proc isNumeric*(s: string | seq[Rune]): bool =
+proc isNumeric*(s: string): bool =
   ## Return `true` if all characters in the
   ## string are numeric, and there
   ## is at least one character, `false` otherwise.
@@ -101,6 +105,9 @@ proc isNumeric*(s: string | seq[Rune]): bool =
   ## Numeric_Type=Decimal or Numeric_Type=Numeric
   runeCheck(s, isNumeric)
 
+proc isNumeric*(s: seq[Rune]): bool =
+  runeCheck(s, isNumeric)
+
 proc isAlpha*(c: Rune): bool =
   ## Return `true` if the given characters
   ## is alphabetic and there.
@@ -110,7 +117,7 @@ proc isAlpha*(c: Rune): bool =
   ## property defined in the UCD
   c.category()[0] == 'L'
 
-proc isAlpha*(s: string | seq[Rune]): bool =
+proc isAlpha*(s: string): bool =
   ## Return `true` if all characters in
   ## the string are alphabetic and there
   ## is at least one character, `false` otherwise.
@@ -118,6 +125,9 @@ proc isAlpha*(s: string | seq[Rune]): bool =
   ## characters defined in the UCD as “Letter”.
   ## This is not the same as the “Alphabetic”
   ## property defined in the UCD
+  runeCheck(s, isAlpha)
+
+proc isAlpha*(s: seq[Rune]): bool =
   runeCheck(s, isAlpha)
 
 proc isAlnum*(c: Rune): bool =
@@ -130,7 +140,7 @@ proc isAlnum*(c: Rune): bool =
   ## or `c.isNumeric()`
   c.isAlpha() or c.isNumeric()
 
-proc isAlnum*(s: string | seq[Rune]): bool =
+proc isAlnum*(s: string): bool =
   ## Return `true` if all characters in
   ## the string are alphanumeric and
   ## there is at least one character,
@@ -141,6 +151,9 @@ proc isAlnum*(s: string | seq[Rune]): bool =
   ## or `c.isNumeric()`
   runeCheck(s, isAlnum)
 
+proc isAlnum*(s: seq[Rune]): bool =
+  runeCheck(s, isAlnum)
+
 proc isPrintable*(c: Rune): bool =
   ## Nonprintable characters are those characters
   ## defined in the UCD as “Other” or “Separator”,
@@ -149,16 +162,17 @@ proc isPrintable*(c: Rune): bool =
     c == Rune(0x20) or
     c.category()[0] notin {'C', 'Z'})
 
-proc isPrintable*(s: string | seq[Rune]): bool =
+proc isPrintable*(s: string): bool =
   ## Nonprintable characters are those characters
   ## defined in the UCD as “Other” or “Separator”,
   ## except for the ASCII space (0x20). Return `true` if all
   ## characters meet this condition or the string is empty
   result = true
-  for r in s.runes:
-    result = r.isPrintable()
-    if not result:
-      break
+  runeCheck(s, isPrintable)
+
+proc isPrintable*(s: seq[Rune]): bool =
+  result = true
+  runeCheck(s, isPrintable)
 
 proc isWhiteSpace*(c: Rune): bool =
   ## Whitespace characters are those characters
@@ -171,7 +185,7 @@ proc isWhiteSpace*(c: Rune): bool =
     c.category()[0] in {'C', 'Z'} or
     c.bidirectional() in ["WS", "B", "S"])
 
-proc isWhiteSpace*(s: string | seq[Rune]): bool =
+proc isWhiteSpace*(s: string): bool =
   ## Whitespace characters are those characters
   ## defined in the Unicode character database
   ## as “Other” or “Separator” and those with
@@ -179,6 +193,9 @@ proc isWhiteSpace*(s: string | seq[Rune]): bool =
   ## “WS”, “B”, or “S”. Return `true` if all
   ## characters meet this condition. Return
   ## `false` if the string is empty
+  runeCheck(s, isWhiteSpace)
+
+proc isWhiteSpace*(s: seq[Rune]): bool =
   runeCheck(s, isWhiteSpace)
 
 proc isUpper*(c: Rune): bool =
