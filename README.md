@@ -9,6 +9,16 @@ follows Python's API behavior for each operation.
 > Note: this is a WIP! But what's
 > implemented is already ready to use.
 
+## Install
+
+```
+nimble install unicodeplus
+```
+
+## Compatibility
+
+Nim 0.17.2, 0.18.0
+
 ## Usage
 
 ```nim
@@ -17,8 +27,8 @@ import unicode except
   isTitle, isLower, isUpper, isAlpha, isWhiteSpace
 import unicodeplus
 
-assert "abc".isLower()
-assert "ABC".isUpper()
+assert "abc def ghi".isLower()
+assert "ABC DEF GHI".isUpper()
 assert "A Title - Yes!".isTitle()
 assert "  \L".isWhiteSpace()
 assert "abc123۲⅕".isAlnum()

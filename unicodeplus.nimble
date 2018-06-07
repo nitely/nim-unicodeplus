@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.1.1"
+version       = "0.2.0"
 author        = "Esteban Castro Borsani (@nitely)"
 description   = "Common unicode operations"
 license       = "MIT"
@@ -9,7 +9,7 @@ srcDir = "src"
 # Dependencies
 
 requires "nim >= 0.17.2"
-requires "unicodedb >= 0.2 & < 0.3"
+requires "unicodedb >= 0.4 & < 0.5"
 
 task test, "Test":
   exec "nim c -r src/unicodeplus"
