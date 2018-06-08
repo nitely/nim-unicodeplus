@@ -1,13 +1,12 @@
 ## This module provides common unicode operations
 
-import unicode except
-  isTitle, isLower, isUpper, isAlpha, isWhiteSpace
+from unicode import
+  Rune, runes, `==`
 
 import unicodedb/properties
 import unicodedb/types
 
-export unicode except
-  isTitle, isLower, isUpper, isAlpha, isWhiteSpace
+export Rune
 
 iterator runes(s: seq[Rune]): Rune {.inline.} =
   # no-op
