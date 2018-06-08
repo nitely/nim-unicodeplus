@@ -22,9 +22,6 @@ Nim 0.17.2, 0.18.0
 ## Usage
 
 ```nim
-# This won't be required when unicodeplus is complete
-import unicode except
-  isTitle, isLower, isUpper, isAlpha, isWhiteSpace
 import unicodeplus
 
 assert "abc def ghi".isLower()
@@ -52,16 +49,15 @@ To illustrate:
 ```nim
 import unicode
 
-echo "A Title - Maybe?".isTitle()
-# false
+assert(not "A Title - Maybe?".isTitle)
+assert(not "I'M UPPER?".isUpper)
 ```
 
 ```nim
-import unicode except isTitle
 import unicodeplus
 
-echo "A Title - Maybe?".isTitle()
-# true
+assert "A Title - Maybe?".isTitle
+assert "I'M UPPER?".isUpper
 ```
 
 ## Tests

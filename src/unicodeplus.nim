@@ -6,6 +6,9 @@ import unicode except
 import unicodedb/properties
 import unicodedb/types
 
+export unicode except
+  isTitle, isLower, isUpper, isAlpha, isWhiteSpace
+
 iterator runes(s: seq[Rune]): Rune {.inline.} =
   # no-op
   for r in s:
@@ -253,6 +256,7 @@ proc isTitle*(s: string | seq[Rune]): bool =
       break
     isLastCased = utmCased in ut
     result = true
+
 # todo: needs toLower
 #[]
 proc cmpCi*(a, b: Rune): int =
@@ -283,173 +287,3 @@ proc cmpCi*(a, b: string): int =
       return
   result = a.len - b.len
 ]#
-when isMainModule:
-  doAssert(not "".isLower())
-  doAssert(not "A".isLower())
-  doAssert(not "aBC".isLower())
-  doAssert("abc".isLower())
-  doAssert("abc def".isLower())
-  doAssert(not Rune(0x1FFC).isLower())
-  doAssert(not Rune(0x2167).isLower())
-  doAssert(Rune(0x2177).isLower())
-  # non-BMP, uppercase
-  doAssert(not Rune(0x10401).isLower())
-  doAssert(not Rune(0x10427).isLower())
-  # non-BMP, lowercase
-  doAssert(Rune(0x10429).isLower())
-  doAssert(Rune(0x1044E).isLower())
-  # non-BMP, non-cased
-  doAssert(not Rune(0x1F40D).isLower())
-  doAssert(not Rune(0x1F46F).isLower())
-
-  doAssert(not "".isUpper())
-  doAssert(not "a".isUpper())
-  doAssert(not "aBC".isUpper())
-  doAssert("ABC".isUpper())
-  doAssert("ABC DEF".isUpper())
-  doAssert(not Rune(0x1FFC).isUpper())
-  doAssert(Rune(0x2167).isUpper())
-  doAssert(not Rune(0x2177).isUpper())
-  # non-BMP, uppercase
-  doAssert(Rune(0x10401).isUpper())
-  doAssert(Rune(0x10427).isUpper())
-  # non-BMP, lowercase
-  doAssert(not Rune(0x10429).isUpper())
-  doAssert(not Rune(0x1044E).isUpper())
-  # non-BMP, non-cased
-  doAssert(not Rune(0x1F40D).isUpper())
-  doAssert(not Rune(0x1F46F).isUpper())
-
-  doAssert(Rune(0x1FFC).isTitle())
-  doAssert(not "".isTitle())
-  doAssert("Greek \u1FFCitlecases ...".isTitle())
-  doAssert(not "not A title".isTitle())
-  doAssert("A Nice Title".isTitle())
-  doAssert("A Title - Yes!".isTitle())
-  doAssert("> A > Title >".isTitle())
-  doAssert("ǅ".isTitle())
-  # non-BMP, uppercase + lowercase
-  doAssert(@[Rune(0x10401), Rune(0x10429)].isTitle())
-  doAssert(@[Rune(0x10427), Rune(0x1044E)].isTitle())
-  doAssert(not Rune(0x10429).isTitle())
-  doAssert(not Rune(0x1044E).isTitle())
-  doAssert(not Rune(0x1F40D).isTitle())
-  doAssert(not Rune(0x1F46F).isTitle())
-
-  doAssert(not "".isWhiteSpace())
-  doAssert("   ".isWhiteSpace())
-  doAssert("  \L".isWhiteSpace())
-  doAssert(Rune(0x2000).isWhiteSpace())
-  doAssert(Rune(0x200A).isWhiteSpace())
-  doAssert(not Rune(0x2014).isWhiteSpace())
-  doAssert(not Rune(0x10401).isWhiteSpace())
-  doAssert(not Rune(0x10427).isWhiteSpace())
-  doAssert(not Rune(0x10429).isWhiteSpace())
-  doAssert(not Rune(0x1044E).isWhiteSpace())
-  doAssert(not Rune(0x1F40D).isWhiteSpace())
-  doAssert(not Rune(0x1F46F).isWhiteSpace())
-
-  doAssert(not "".isAlnum())
-  doAssert("abc123۲⅕".isAlnum())
-  doAssert(not "abc123!".isAlnum())
-  doAssert(Rune(0x10401).isAlnum())
-  doAssert(Rune(0x10427).isAlnum())
-  doAssert(Rune(0x10429).isAlnum())
-  doAssert(Rune(0x1044E).isAlnum())
-  doAssert(Rune(0x1D7F6).isAlnum())
-  doAssert(Rune(0x11066).isAlnum())
-  doAssert(Rune(0x104A0).isAlnum())
-  doAssert(Rune(0x1F107).isAlnum())
-  doAssert(not Rune(0x2000).isAlnum())
-  doAssert(not "@".isAlnum())
-
-  doAssert(not "".isAlpha())
-  doAssert("abcd".isAlpha())
-  doAssert(not "0123".isAlpha())
-  doAssert(Rune(0x1FFC).isAlpha())
-  # non-BMP, cased
-  doAssert(Rune(0x10401).isAlpha())
-  doAssert(Rune(0x10427).isAlpha())
-  doAssert(Rune(0x10429).isAlpha())
-  doAssert(Rune(0x1044E).isAlpha())
-  # non-BMP, non-cased
-  doAssert(not Rune(0x1F40D).isAlpha())
-  doAssert(not Rune(0x1F46F).isAlpha())
-
-  doAssert(not "".isDecimal())
-  doAssert(not "a".isDecimal())
-  doAssert("0".isDecimal())
-  doAssert(not Rune(0x2460).isDecimal())  # CIRCLED DIGIT ONE
-  doAssert(not Rune(0xBC).isDecimal())  # VULGAR FRACTION ONE QUARTER
-  doAssert(Rune(0x0660).isDecimal())  # ARABIC-INDIC DIGIT ZERO
-  doAssert("0123456789".isDecimal())
-  doAssert(not "0123456789a".isDecimal())
-  doAssert(not Rune(0x10401).isDecimal())
-  doAssert(not Rune(0x10427).isDecimal())
-  doAssert(not Rune(0x10429).isDecimal())
-  doAssert(not Rune(0x1044E).isDecimal())
-  doAssert(not Rune(0x1F40D).isDecimal())
-  doAssert(not Rune(0x1F46F).isDecimal())
-  doAssert(not Rune(0x11065).isDecimal())
-  doAssert(not Rune(0x1F107).isDecimal())
-  doAssert(Rune(0x1D7F6).isDecimal())
-  doAssert(Rune(0x11066).isDecimal())
-  doAssert(Rune(0x104A0).isDecimal())
-
-  doAssert(not "".isDigit())
-  doAssert("0123456789".isDigit())
-  doAssert(not "0123456789a".isDigit())
-  doAssert("۲".isDigit())  # Kharosthi numeral
-  doAssert(not "⅕".isDigit())
-  doAssert(Rune(0x2460).isDigit())
-  doAssert(not Rune(0xBC).isDigit())
-  doAssert(Rune(0x0660).isDigit())
-  doAssert(not Rune(0x10401).isDigit())
-  doAssert(not Rune(0x10427).isDigit())
-  doAssert(not Rune(0x10429).isDigit())
-  doAssert(not Rune(0x1044E).isDigit())
-  doAssert(not Rune(0x1F40D).isDigit())
-  doAssert(not Rune(0x1F46F).isDigit())
-  doAssert(not Rune(0x11065).isDigit())
-  doAssert(Rune(0x1D7F6).isDigit())
-  doAssert(Rune(0x11066).isDigit())
-  doAssert(Rune(0x104A0).isDigit())
-  doAssert(Rune(0x1F107).isDigit())
-
-  doAssert(not "".isNumeric())
-  doAssert(not "a".isNumeric())
-  doAssert("0".isNumeric())
-  doAssert(Rune(0x2460).isNumeric())
-  doAssert(Rune(0xBC).isNumeric())
-  doAssert(Rune(0x0660).isNumeric())
-  doAssert("0123456789".isNumeric())
-  doAssert(not "0123456789a".isNumeric())
-  doAssert(not "abcd".isNumeric())
-  doAssert("۲".isNumeric())  # Kharosthi numeral
-  doAssert("⅕".isNumeric())
-  doAssert(not Rune(0x10401).isNumeric())
-  doAssert(not Rune(0x10427).isNumeric())
-  doAssert(not Rune(0x10429).isNumeric())
-  doAssert(not Rune(0x1044E).isNumeric())
-  doAssert(not Rune(0x1F40D).isNumeric())
-  doAssert(not Rune(0x1F46F).isNumeric())
-  doAssert(Rune(0x11065).isNumeric())
-  doAssert(Rune(0x1D7F6).isNumeric())
-  doAssert(Rune(0x11066).isNumeric())
-  doAssert(Rune(0x104A0).isNumeric())
-  doAssert(Rune(0x1F107).isNumeric())
-
-  doAssert("".isPrintable())
-  doAssert(" ".isPrintable())
-  doAssert("abcd".isPrintable())
-  doAssert(not "abcd\L".isPrintable())
-  doAssert(not "abcd\L".isPrintable())
-  # some defined Unicode character
-  doAssert(Rune(0x0374).isPrintable())
-  # undefined character
-  doAssert(not Rune(0x0378).isPrintable())
-  # single surrogate character
-  doAssert(not Rune(0xD800).isPrintable())
-  # non-BMP
-  doAssert(Rune(0x1F46F).isPrintable())
-  doAssert(not Rune(0xE0020).isPrintable())
