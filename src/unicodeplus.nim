@@ -57,10 +57,7 @@ proc isDigit*(c: Rune): bool =
   ## numbers. Formally, a digit is a character
   ## that has the property value `Numeric_Type=Digit`
   ## or `Numeric_Type=Decimal`
-  let ut = c.unicodeTypes()
-  result = (
-    utmDigit in ut or
-    utmDecimal in ut)
+  result = utmDigit+utmDecimal in c.unicodeTypes()
 
 proc isDigit*(s: string): bool =
   ## Return `true` if all characters in the
@@ -88,11 +85,7 @@ proc isNumeric*(c: Rune): bool =
   ## numeric characters are those with the
   ## property value `Numeric_Type=Digit`,
   ## `Numeric_Type=Decimal` or `Numeric_Type=Numeric`
-  let ut = c.unicodeTypes()
-  result = (
-    utmDigit in ut or
-    utmDecimal in ut or
-    utmNumeric in ut)
+  result = utmDigit+utmDecimal+utmNumeric in c.unicodeTypes()
 
 proc isNumeric*(s: string): bool =
   ## Return `true` if all characters in the
@@ -117,7 +110,7 @@ proc isAlpha*(c: Rune): bool =
   ## characters defined in the UCD as “Letter”.
   ## This is not the same as the “Alphabetic”
   ## property defined in the UCD
-  c.category()[0] == 'L'
+  c.unicodeCategory() in ctgL
 
 proc isAlpha*(s: string): bool =
   ## Return `true` if all characters in
@@ -162,7 +155,7 @@ proc isPrintable*(c: Rune): bool =
   ## except for the ASCII space (0x20)
   result = (
     c == Rune(0x20) or
-    c.category()[0] notin {'C', 'Z'})
+    c.unicodeCategory() notin ctgC+ctgZ)
 
 proc isPrintable*(s: string): bool =
   ## Nonprintable characters are those characters
@@ -184,7 +177,7 @@ proc isWhiteSpace*(c: Rune): bool =
   ## “WS”, “B”, or “S”. Return `true` if the
   ## character meets this condition
   result = (
-    c.category()[0] in {'C', 'Z'} or
+    c.unicodeCategory() in ctgC+ctgZ or
     c.bidirectional() in ["WS", "B", "S"])
 
 proc isWhiteSpace*(s: string): bool =
@@ -234,7 +227,7 @@ proc isTitle*(c: Rune): bool =
   ## Ligatures containing uppercase
   ## followed by lowercase letters
   ## (e.g., ǅ, ǈ, ǋ, and ǲ)
-  c.category() == "Lt"
+  c.unicodeCategory() == ctgLt
 
 proc isTitle*(s: string | seq[Rune]): bool =
   ## a title is a unicode sequence of
