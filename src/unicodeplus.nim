@@ -29,7 +29,11 @@ proc isDecimal*(c: Rune): bool =
   ## ARABIC-INDIC DIGIT ZERO. Formally, a decimal
   ## is a character that has the property
   ## value `Numeric_Type=Decimal`
-  utmDecimal in c.unicodeTypes()
+  case c.int
+  of '0'.ord .. '9'.ord:
+    true
+  else:
+    utmDecimal in c.unicodeTypes()
 
 proc isDecimal*(s: string): bool =
   ## Return `true` if all characters in the
@@ -57,7 +61,11 @@ proc isDigit*(c: Rune): bool =
   ## numbers. Formally, a digit is a character
   ## that has the property value `Numeric_Type=Digit`
   ## or `Numeric_Type=Decimal`
-  result = utmDigit+utmDecimal in c.unicodeTypes()
+  case c.int
+  of '0'.ord .. '9'.ord:
+    true
+  else:
+    utmDigit+utmDecimal in c.unicodeTypes()
 
 proc isDigit*(s: string): bool =
   ## Return `true` if all characters in the
@@ -85,7 +93,11 @@ proc isNumeric*(c: Rune): bool =
   ## numeric characters are those with the
   ## property value `Numeric_Type=Digit`,
   ## `Numeric_Type=Decimal` or `Numeric_Type=Numeric`
-  result = utmDigit+utmDecimal+utmNumeric in c.unicodeTypes()
+  case c.int
+  of '0'.ord .. '9'.ord:
+    true
+  else:
+    utmDigit+utmDecimal+utmNumeric in c.unicodeTypes()
 
 proc isNumeric*(s: string): bool =
   ## Return `true` if all characters in the
@@ -105,12 +117,16 @@ proc isNumeric*(s: seq[Rune]): bool =
 
 proc isAlpha*(c: Rune): bool =
   ## Return `true` if the given characters
-  ## is alphabetic and there.
+  ## is alphabetic.
   ## Alphabetic characters are those
   ## characters defined in the UCD as “Letter”.
   ## This is not the same as the “Alphabetic”
   ## property defined in the UCD
-  c.unicodeCategory() in ctgL
+  case c.int
+  of 'a'.ord .. 'z'.ord, 'A'.ord .. 'Z'.ord:
+    true
+  else:
+    c.unicodeCategory() in ctgL
 
 proc isAlpha*(s: string): bool =
   ## Return `true` if all characters in
@@ -133,7 +149,12 @@ proc isAlnum*(c: Rune): bool =
   ## returns `true`: `c.isAlpha()`,
   ## `c.isDecimal()`, `c.isDigit()`,
   ## or `c.isNumeric()`
-  c.isAlpha() or c.isNumeric()
+  case c.int
+  of 'a'.ord .. 'z'.ord, 'A'.ord .. 'Z'.ord, '0'.ord .. '9'.ord:
+    true
+  else:
+    (c.unicodeCategory() in ctgL or
+      utmDigit+utmDecimal+utmNumeric in c.unicodeTypes())
 
 proc isAlnum*(s: string): bool =
   ## Return `true` if all characters in
@@ -153,9 +174,9 @@ proc isPrintable*(c: Rune): bool =
   ## Nonprintable characters are those characters
   ## defined in the UCD as “Other” or “Separator”,
   ## except for the ASCII space (0x20)
-  result = (
+  result =
     c == Rune(0x20) or
-    c.unicodeCategory() notin ctgC+ctgZ)
+    c.unicodeCategory() notin ctgC+ctgZ
 
 proc isPrintable*(s: string): bool =
   ## Nonprintable characters are those characters
@@ -176,9 +197,9 @@ proc isWhiteSpace*(c: Rune): bool =
   ## bidirectional property being one of
   ## “WS”, “B”, or “S”. Return `true` if the
   ## character meets this condition
-  result = (
+  result =
     c.unicodeCategory() in ctgC+ctgZ or
-    c.bidirectional() in ["WS", "B", "S"])
+    c.bidirectional() in ["WS", "B", "S"]
 
 proc isWhiteSpace*(s: string): bool =
   ## Whitespace characters are those characters
