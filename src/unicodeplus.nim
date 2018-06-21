@@ -8,6 +8,28 @@ import unicodedb/types
 
 export Rune
 
+proc genNums(): array[127, bool] =
+  for i in '0'.ord .. '9'.ord:
+    result[i] = true
+proc genLetters(): array[127, bool] =
+  for i in 'a'.ord .. 'z'.ord:
+    result[i] = true
+  for i in 'A'.ord .. 'Z'.ord:
+    result[i] = true
+proc genAlphaNums(): array[127, bool] =
+  for i in '0'.ord .. '9'.ord:
+    result[i] = true
+  for i in 'a'.ord .. 'z'.ord:
+    result[i] = true
+  for i in 'A'.ord .. 'Z'.ord:
+    result[i] = true
+
+# this is faster than a case-of all cases
+const
+  nums = genNums()
+  letters = genLetters()
+  alphaNums = genAlphaNums()
+
 iterator runes(s: seq[Rune]): Rune {.inline.} =
   # no-op
   for r in s:
@@ -29,9 +51,8 @@ proc isDecimal*(c: Rune): bool =
   ## ARABIC-INDIC DIGIT ZERO. Formally, a decimal
   ## is a character that has the property
   ## value `Numeric_Type=Decimal`
-  case c.int
-  of '0'.ord .. '9'.ord:
-    true
+  result = if c.int < 128:
+    nums[c.int]
   else:
     utmDecimal in c.unicodeTypes()
 
@@ -61,9 +82,8 @@ proc isDigit*(c: Rune): bool =
   ## numbers. Formally, a digit is a character
   ## that has the property value `Numeric_Type=Digit`
   ## or `Numeric_Type=Decimal`
-  case c.int
-  of '0'.ord .. '9'.ord:
-    true
+  result = if c.int < 128:
+    nums[c.int]
   else:
     utmDigit+utmDecimal in c.unicodeTypes()
 
@@ -93,9 +113,8 @@ proc isNumeric*(c: Rune): bool =
   ## numeric characters are those with the
   ## property value `Numeric_Type=Digit`,
   ## `Numeric_Type=Decimal` or `Numeric_Type=Numeric`
-  case c.int
-  of '0'.ord .. '9'.ord:
-    true
+  result = if c.int < 128:
+    nums[c.int]
   else:
     utmDigit+utmDecimal+utmNumeric in c.unicodeTypes()
 
@@ -122,9 +141,8 @@ proc isAlpha*(c: Rune): bool =
   ## characters defined in the UCD as “Letter”.
   ## This is not the same as the “Alphabetic”
   ## property defined in the UCD
-  case c.int
-  of 'a'.ord .. 'z'.ord, 'A'.ord .. 'Z'.ord:
-    true
+  result = if c.int < 128:
+    letters[c.int]
   else:
     c.unicodeCategory() in ctgL
 
@@ -149,9 +167,8 @@ proc isAlnum*(c: Rune): bool =
   ## returns `true`: `c.isAlpha()`,
   ## `c.isDecimal()`, `c.isDigit()`,
   ## or `c.isNumeric()`
-  case c.int
-  of 'a'.ord .. 'z'.ord, 'A'.ord .. 'Z'.ord, '0'.ord .. '9'.ord:
-    true
+  result = if c.int < 128:
+    alphaNums[c.int]
   else:
     (c.unicodeCategory() in ctgL or
       utmDigit+utmDecimal+utmNumeric in c.unicodeTypes())
