@@ -44,13 +44,6 @@ template runeCheck(s, runeProc) =
       break
 
 proc isDecimal*(c: Rune): bool =
-  ## Return `true` if the given character
-  ## is decimal characters and there.
-  ## Decimal characters are those that can be
-  ## used to form numbers in base 10, e.g. U+0660,
-  ## ARABIC-INDIC DIGIT ZERO. Formally, a decimal
-  ## is a character that has the property
-  ## value `Numeric_Type=Decimal`
   result = if c.int < 128:
     nums[c.int]
   else:
@@ -71,17 +64,6 @@ proc isDecimal*(s: seq[Rune]): bool =
   runeCheck(s, isDecimal)
 
 proc isDigit*(c: Rune): bool =
-  ## Return `true` if the given character
-  ## is digit and there is at least
-  ## one character, `false` otherwise. Digits
-  ## include decimal characters and digits that
-  ## need special handling, such as the
-  ## compatibility superscript digits. This
-  ## covers digits which cannot be used to
-  ## form numbers in base 10, like the Kharosthi
-  ## numbers. Formally, a digit is a character
-  ## that has the property value `Numeric_Type=Digit`
-  ## or `Numeric_Type=Decimal`
   result = if c.int < 128:
     nums[c.int]
   else:
@@ -105,14 +87,6 @@ proc isDigit*(s: seq[Rune]): bool =
   runeCheck(s, isDigit)
 
 proc isNumeric*(c: Rune): bool =
-  ## Return `true` if the given character is numeric.
-  ## Numeric characters include digit characters,
-  ## and all characters that have the Unicode
-  ## numeric value property, e.g. U+2155,
-  ## VULGAR FRACTION ONE FIFTH. Formally,
-  ## numeric characters are those with the
-  ## property value `Numeric_Type=Digit`,
-  ## `Numeric_Type=Decimal` or `Numeric_Type=Numeric`
   result = if c.int < 128:
     nums[c.int]
   else:
@@ -135,12 +109,6 @@ proc isNumeric*(s: seq[Rune]): bool =
   runeCheck(s, isNumeric)
 
 proc isAlpha*(c: Rune): bool =
-  ## Return `true` if the given characters
-  ## is alphabetic.
-  ## Alphabetic characters are those
-  ## characters defined in the UCD as “Letter”.
-  ## This is not the same as the “Alphabetic”
-  ## property defined in the UCD
   result = if c.int < 128:
     letters[c.int]
   else:
@@ -160,13 +128,6 @@ proc isAlpha*(s: seq[Rune]): bool =
   runeCheck(s, isAlpha)
 
 proc isAlnum*(c: Rune): bool =
-  ## Return `true` if the given
-  ## characters is alphanumeric.
-  ## A `c` character is
-  ## alphanumeric if one of the following
-  ## returns `true`: `c.isAlpha()`,
-  ## `c.isDecimal()`, `c.isDigit()`,
-  ## or `c.isNumeric()`
   result = if c.int < 128:
     alphaNums[c.int]
   else:
@@ -188,9 +149,6 @@ proc isAlnum*(s: seq[Rune]): bool =
   runeCheck(s, isAlnum)
 
 proc isPrintable*(c: Rune): bool =
-  ## Nonprintable characters are those characters
-  ## defined in the UCD as “Other” or “Separator”,
-  ## except for the ASCII space (0x20)
   result =
     c == Rune(0x20) or
     c.unicodeCategory() notin ctgC+ctgZ
@@ -208,12 +166,6 @@ proc isPrintable*(s: seq[Rune]): bool =
   runeCheck(s, isPrintable)
 
 proc isWhiteSpace*(c: Rune): bool =
-  ## Whitespace characters are those characters
-  ## defined in the Unicode character database
-  ## as “Other” or “Separator” and those with
-  ## bidirectional property being one of
-  ## “WS”, “B”, or “S”. Return `true` if the
-  ## character meets this condition
   result =
     c.unicodeCategory() in ctgC+ctgZ or
     c.bidirectional() in ["WS", "B", "S"]
@@ -232,7 +184,6 @@ proc isWhiteSpace*(s: seq[Rune]): bool =
   runeCheck(s, isWhiteSpace)
 
 proc isUpper*(c: Rune): bool =
-  ## return `true` if the character is upper-case
   utmUppercase in c.unicodeTypes()
 
 proc isUpper*(s: string | seq[Rune]): bool =
@@ -247,7 +198,6 @@ proc isUpper*(s: string | seq[Rune]): bool =
         break
 
 proc isLower*(c: Rune): bool =
-  ## return `true` if the character is lower-case
   utmLowercase in c.unicodeTypes()
 
 proc isLower*(s: string | seq[Rune]): bool =
@@ -262,13 +212,15 @@ proc isLower*(s: string | seq[Rune]): bool =
         break
 
 proc isTitle*(c: Rune): bool =
-  ## Ligatures containing uppercase
+  ## Return ``true`` for ligatures
+  ## containing uppercase
   ## followed by lowercase letters
-  ## (e.g., ǅ, ǈ, ǋ, and ǲ)
+  ## (e.g., ǅ, ǈ, ǋ, and ǲ).
+  ## Return ``false`` otherwise
   c.unicodeCategory() == ctgLt
 
 proc isTitle*(s: string | seq[Rune]): bool =
-  ## a title is a unicode sequence of
+  ## A title is a unicode sequence of
   ## uncased characters followed by an
   ## uppercase character and cased
   ## characters followed by a lowercase
