@@ -1,3 +1,12 @@
+v0.4.0
+==================
+
+* Drop Nim 0.17 support
+* Add Nim 0.19 support
+* Update dependenciesZ
+
+* ASCII optimizations
+
 v0.3.2
 ==================
 
