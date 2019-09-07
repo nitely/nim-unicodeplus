@@ -8,15 +8,15 @@ import unicodedb/types
 
 export Rune
 
-proc genNums(): array[127, bool] =
+proc genNums(): array[128, bool] =
   for i in '0'.ord .. '9'.ord:
     result[i] = true
-proc genLetters(): array[127, bool] =
+proc genLetters(): array[128, bool] =
   for i in 'a'.ord .. 'z'.ord:
     result[i] = true
   for i in 'A'.ord .. 'Z'.ord:
     result[i] = true
-proc genAlphaNums(): array[127, bool] =
+proc genAlphaNums(): array[128, bool] =
   for i in '0'.ord .. '9'.ord:
     result[i] = true
   for i in 'a'.ord .. 'z'.ord:
