@@ -181,3 +181,19 @@ test "isPrintable":
   # non-BMP
   check(Rune(0x1F46F).isPrintable())
   check(not Rune(0xE0020).isPrintable())
+
+test "sanityCheck":
+  # I don't care about the results
+  # just make sure it does not fail
+  for c in 0 .. 0x10FFFF:
+    discard Rune(c).isPrintable()
+    discard Rune(c).isNumeric()
+    discard Rune(c).isDigit()
+    discard Rune(c).isDecimal()
+    discard Rune(c).isAlpha()
+    discard Rune(c).isAlnum()
+    discard Rune(c).isWhiteSpace()
+    discard Rune(c).isTitle()
+    discard Rune(c).isUpper()
+    discard Rune(c).isLower()
+    
