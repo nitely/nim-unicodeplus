@@ -1,3 +1,9 @@
+v0.5.1
+==================
+
+* Fixes index error when checking ascii char 127
+* Add Nim 0.20 to CI config
+
 v0.5.0
 ==================
 
