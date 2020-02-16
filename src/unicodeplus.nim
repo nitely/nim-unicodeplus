@@ -1,10 +1,12 @@
 ## This module provides common unicode operations
 
 from unicode import
-  Rune, runes, `==`
+  Rune, runes, `==`, fastRuneAt, fastToUtf8Copy, toUtf8
 
 import unicodedb/properties
 import unicodedb/types
+import unicodedb/casing
+import segmentation
 
 export Rune
 
@@ -239,33 +241,21 @@ proc isTitle*(s: string | seq[Rune]): bool =
     isLastCased = utmCased in ut
     result = true
 
-# todo: needs toLower
-#[]
-proc cmpCi*(a, b: Rune): int =
-  ## Case insensitive comparison
-  RuneImpl(a.toLower()) - RuneImpl(b.toLower())
-
-proc cmpCi*(a, b: seq[Rune]): int =
-  ## Case insensitive comparison
-  result = a.len - b.len
-  if result != 0:
-    return
-  for i in 0 .. a.high:
-    result = a[i].toLower() - b[i].toLower()
-    if result != 0:
-      return
-
-proc cmpCi*(a, b: string): int =
-  ## Case insensitive comparison
-  var
-    i = 0
-    j = 0
-    ar, br: Rune
-  while i < a.len and j < b.len:
-    fastRuneAt(a, i, ar)
-    fastRuneAt(b, j, br)
-    result = RuneImpl(ar.toLower()) - RuneImpl(br.toLower())
-    if result != 0:
-      return
-  result = a.len - b.len
-]#
+func toTitle*(s: string): string {.inline.} =
+  ## Return `s` in title case.
+  ## Beware the result may be
+  ## longer than `s`
+  result = newString(s.len + 16)
+  result.setLen(0)
+  var r: Rune
+  var ra: int
+  for wb in s.wordsBounds:
+    ra = wb.a
+    fastRuneAt(s, ra, r, true)
+    for rr in r.titleCase:
+      let pos = result.len
+      fastToUtf8Copy(rr, result, pos, false)
+    # XXX memCopy
+    # this will preallocate if needed
+    for i in ra .. wb.b:
+      result.add s[i]

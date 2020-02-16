@@ -197,3 +197,20 @@ test "sanityCheck":
     discard Rune(c).isUpper()
     discard Rune(c).isLower()
     
+test "toTitle":
+  check "a".toTitle == "A"
+  check "1".toTitle == "1"
+  check "some title".toTitle == "Some Title"
+  check "The quick? (“brown”) fox can’t jump 32.3 feet, right?".toTitle ==
+    "The Quick? (“Brown”) Fox Can’t Jump 32.3 Feet, Right?"
+  check "a ⓗ Ⓗ ⓗ a".toTitle == "A Ⓗ Ⓗ Ⓗ A"
+  check "ⓗola".toTitle == "Ⓗola"
+  check "諸".toTitle == "諸"
+  check "ab 諸 ab ⓗ ab".toTitle == "Ab 諸 Ab Ⓗ Ab"
+  check "abc 弢ⒶΪ def".toTitle == "Abc 弢ⒶΪ Def"
+  check "abc 弢Ⓐ def".toTitle == "Abc 弢Ⓐ Def"
+  check "abc ⒶΪ def".toTitle == "Abc ⒶΪ Def"
+  check "abc 弢Ϊ def".toTitle == "Abc 弢Ϊ Def"
+  check "abc 弢 def".toTitle == "Abc 弢 Def"
+  check "abc Ⓐ def".toTitle == "Abc Ⓐ Def"
+  check "abc Ϊ def".toTitle == "Abc Ϊ Def"
