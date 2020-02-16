@@ -260,6 +260,8 @@ template caseConversionImpl(
       let pos = result.len
       fastToUtf8Copy(rr, result, pos, false)
 
+# This follows Unicode Chapter 3,
+# "Default Case Algorithms" section
 proc toUpper*(s: string): string {.inline.} =
   ## Return `s` in upper case.
   ## Beware the result may be
