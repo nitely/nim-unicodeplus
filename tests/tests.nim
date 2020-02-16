@@ -196,7 +196,7 @@ test "sanityCheck":
     discard Rune(c).isTitle()
     discard Rune(c).isUpper()
     discard Rune(c).isLower()
-    
+
 test "toTitle":
   check "a".toTitle == "A"
   check "1".toTitle == "1"
