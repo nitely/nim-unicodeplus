@@ -16,7 +16,7 @@
 <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro:400,500,600' rel='stylesheet' type='text/css'/>
 
 <!-- CSS -->
-<title>Module unicodeplus</title>
+<title>unicodeplus</title>
 <style type="text/css" >
 /*
 Stylesheet for use with Docutils/rst2html.
@@ -27,232 +27,130 @@ customize this style sheet.
 Modified from Chad Skeeters' rst2html-style
 https://bitbucket.org/cskeeters/rst2html-style/
 
-Modified by Boyd Greenfield
+Modified by Boyd Greenfield and narimiran
 */
-/* SCSS variables */
-/* Text weights */
-/* Body colors */
-/* Text colors */
-/* Link colors */
-/* Syntax highlighting colors */
-/* Pct changes */
-/* Mixins */
-/* Body/layout */
+
 html {
   font-size: 100%;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%; }
 
-/* Where we want fancier font if available */
-h1, h2, h3, h4, h5, h6, p.module-desc, table.docinfo + blockquote p, table.docinfo blockquote p, h1 + blockquote p {
-  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif !important; }
-
-h1.title {
-  font-weight: 900; }
-
 body {
   font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 20px;
-  color: #444;
-  letter-spacing: 0.15px;
-  background-color: rgba(252, 248, 244, 0.45); }
+  font-size: 1.125em;
+  line-height: 1.5;
+  color: #222;
+  background-color: #FCFCFC; }
 
 /* Skeleton grid */
 .container {
   position: relative;
   width: 100%;
-  max-width: 960px;
+  max-width: 1050px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0;
   box-sizing: border-box; }
 
 .column,
 .columns {
   width: 100%;
   float: left;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  margin-left: 1%;
+}
 
-/* For devices larger than 400px */
-@media (min-width: 400px) {
-  .container {
-    width: 100%;
-    padding: 0; } }
-/* For devices larger than 650px */
-@media (min-width: 650px) {
-  .container {
-    width: 100%; }
+.column:first-child,
+.columns:first-child {
+  margin-left: 0; }
 
-  .column,
-  .columns {
-    margin-left: 4%; }
+.three.columns {
+  width: 19%; }
 
-  .column:first-child,
-  .columns:first-child {
-    margin-left: 0; }
+.nine.columns {
+  width: 80.0%; }
 
-  .one.column,
-  .one.columns {
-    width: 4.66666666667%; }
+.twelve.columns {
+  width: 100%;
+  margin-left: 0; }
 
-  .two.columns {
-    width: 13.3333333333%; }
-
+@media screen and (max-width: 860px) {
   .three.columns {
-    width: 22%; }
-
-  .four.columns {
-    width: 30.6666666667%; }
-
-  .five.columns {
-    width: 39.3333333333%; }
-
-  .six.columns {
-    width: 48%; }
-
-  .seven.columns {
-    width: 56.6666666667%; }
-
-  .eight.columns {
-    width: 65.3333333333%; }
-
+    display: none;
+  }
   .nine.columns {
-    width: 74.0%; }
-
-  .ten.columns {
-    width: 82.6666666667%; }
-
-  .eleven.columns {
-    width: 91.3333333333%; }
-
-  .twelve.columns {
-    width: 100%;
-    margin-left: 0; }
-
-  .one-third.column {
-    width: 30.6666666667%; }
-
-  .two-thirds.column {
-    width: 65.3333333333%; } }
-/* Customer Overrides */
-.footer {
-  text-align: center;
-  color: #969696;
-  padding-top: 10%; }
-
-p.module-desc {
-  font-size: 1.1em;
-  color: #666666; }
-
-a.link-seesrc {
-  color: #aec7d2;
-  font-style: italic; }
-
-a.link-seesrc:hover {
-  color: #6c9aae; }
-
-#toc-list {
-  word-wrap: break-word; }
-
-ul.simple-toc {
-  list-style: none; }
-
-ul.simple-toc a.reference-toplevel {
-  font-weight: bold;
-  color: #0077b3; }
-
-ul.simple-toc-section {
-  list-style-type: circle;
-  color: #6c9aae; }
-
-ul.simple-toc-section a.reference {
-  color: #0077b3; }
+    width: 98.0%;
+  }
+  body {
+    font-size: 1em;
+    line-height: 1.35;
+  }
+}
 
 cite {
   font-style: italic !important; }
 
-dt > pre {
-  border-color: rgba(0, 0, 0, 0.1);
-  background-color: rgba(255, 255, 255, 0.3);
-  margin: 15px 0px 5px; }
-
-dd > pre {
-  border-color: rgba(0, 0, 0, 0.1);
-  background-color: whitesmoke;
-  margin-top: 8px; }
-
-.item > dd {
-  margin-left: 10px;
-  margin-bottom: 30px; }
-
-/* Nim line-numbered tables */
-.line-nums-table {
-  width: 100%;
-  table-layout: fixed; }
 
 /* Nim search input */
-div#searchInput {
-  margin-bottom: 8px;
+div#searchInputDiv {
+  margin-bottom: 1em;
 }
-div#searchInput input#searchInput {
-  width: 10em;
-}
-div.search-groupby {
-  margin-bottom: 8px;
+input#searchInput {
+  width: 80%;
 }
 
-table.line-nums-table {
-  border-radius: 4px;
-  border: 1px solid #cccccc;
-  background-color: whitesmoke;
-  border-collapse: separate;
-  margin-top: 15px;
-  margin-bottom: 25px; }
-
-.line-nums-table tbody {
-  border: none; }
-
-.line-nums-table td pre {
-  border: none;
-  background-color: transparent; }
-
-.line-nums-table td.blob-line-nums {
-  width: 28px; }
-
-.line-nums-table td.blob-line-nums pre {
-  color: #b0b0b0;
-  -webkit-filter: opacity(75%);
-  text-align: right;
-  border-color: transparent;
-  background-color: transparent;
-  padding-left: 0px;
-  margin-left: 0px;
-  padding-right: 0px;
-  margin-right: 0px; }
+/*
+ * Some custom formatting for input forms.
+ * This also fixes input form colors on Firefox with a dark system theme on Linux.
+ */
+input {
+  -moz-appearance: none;
+  color: #333;
+  background-color: #f8f8f8;
+  border: 1px solid #aaa;
+  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+  font-size: 0.9em;
+  padding: 6px;
+}
+input:focus {
+  border: 1px solid #1fa0eb;
+  box-shadow: 0 0 2px #1fa0eb;
+}
 
 /* Docgen styles */
 /* Links */
 a {
-  color: #0077b3;
-  text-decoration: none; }
+  color: #07b;
+  text-decoration: none;
+}
+
+a span.Identifier {
+  text-decoration: underline;
+  text-decoration-color: #aab;
+}
+
+a.reference-toplevel {
+  font-weight: bold;
+}
+
+a.toc-backref {
+  text-decoration: none;
+  color: #222; }
+
+a.link-seesrc {
+  color: #607c9f;
+  font-size: 0.9em;
+  font-style: italic; }
 
 a:hover,
 a:focus {
-  color: #00334d;
+  color: #607c9f;
   text-decoration: underline; }
 
-a:visited {
-  color: #00334d; }
+a:hover span.Identifier {
+  color: #607c9f;
+}
 
-a:focus {
-  outline: thin dotted #2d2d2d;
-  outline: 5px auto -webkit-focus-ring-color;
-  outline-offset: -2px; }
-
-a:hover,
-a:active {
-  outline: 0; }
 
 sub,
 sup {
@@ -329,379 +227,258 @@ img {
 
   h2,
   h3 {
-    page-break-after: avoid; } }
-.img-rounded {
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px; }
+    page-break-after: avoid; }
+}
 
-.img-polaroid {
-  padding: 4px;
-  background-color: rgba(252, 248, 244, 0.75);
-  border: 1px solid #ccc;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
 
 p {
-  margin: 0 0 8px; }
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
 
 small {
   font-size: 85%; }
 
 strong {
-  font-weight: 600; }
+  font-weight: 600;
+  font-size: 0.95em;
+  color: #3c3c3c;
+}
 
 em {
   font-style: italic; }
 
-cite {
-  font-style: normal; }
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
-  font-weight: 600;
-  line-height: 20px;
-  color: inherit;
-  text-rendering: optimizelegibility; }
-
 h1 {
-  font-size: 2em;
+  font-size: 1.8em;
   font-weight: 400;
-  padding-bottom: .15em;
-  border-bottom: 1px solid #aaaaaa;
-  margin-top: 1.0em;
+  padding-bottom: .25em;
+  border-bottom: 1px solid #aaa;
+  margin-top: 2.5em;
+  margin-bottom: 1em;
   line-height: 1.2em; }
 
 h1.title {
   padding-bottom: 1em;
   border-bottom: 0px;
-  font-size: 2.75em; }
+  font-size: 2.5em;
+  text-align: center;
+  font-weight: 900;
+  margin-top: 0.75em;
+  margin-bottom: 0em;
+}
 
 h2 {
-  font-size: 1.5em;
-  margin-top: 1.5em; }
+  font-size: 1.3em;
+  margin-top: 2em; }
+
+h2.subtitle {
+  text-align: center; }
 
 h3 {
-  font-size: 1.3em;
+  font-size: 1.125em;
   font-style: italic;
-  margin-top: 0.75em; }
+  margin-top: 1.5em; }
 
 h4 {
-  font-size: 1.3em;
-  margin-top: 0.5em; }
+  font-size: 1.125em;
+  margin-top: 1em; }
 
 h5 {
-  font-size: 1.2em;
-  margin-top: 0.25em; }
+  font-size: 1.125em;
+  margin-top: 0.75em; }
 
 h6 {
   font-size: 1.1em; }
 
+
 ul,
 ol {
   padding: 0;
-  margin: 0 0 0px 15px; }
+  margin-top: 0.5em;
+  margin-left: 0.75em; }
 
 ul ul,
 ul ol,
 ol ol,
 ol ul {
-  margin-bottom: 0; }
+  margin-bottom: 0;
+  margin-left: 1.25em; }
 
 li {
-  line-height: 20px; }
-
-dl {
-  margin-bottom: 20px; }
-
-dt,
-dd {
-  line-height: 20px; }
-
-dt {
-  font-weight: bold; }
-
-dd {
-  margin-left: 10px;
-  margin-bottom: 26px; }
-
-hr {
-  margin: 20px 0;
-  border: 0;
-  border-top: 1px solid #eeeeee;
-  border-bottom: 1px solid #ffffff; }
-
-abbr[title],
-abbr[data-original-title] {
-  cursor: help;
-  border-bottom: 1px dotted #999999; }
-
-abbr.initialism {
-  font-size: 90%;
-  text-transform: uppercase; }
-
-blockquote {
-  padding: 0 0 0 15px;
-  margin: 0 0 20px;
-  border-left: 5px solid #EFEBE0; }
-
-table.docinfo + blockquote, table.docinfo blockquote, h1 + blockquote {
-  border-left: 5px solid #c9c9c9;
+    list-style-type: circle;
 }
 
-table.docinfo + blockquote p, table.docinfo blockquote p, h1 + blockquote p {
-  margin-bottom: 0;
-  font-size: 15px;
-  font-weight: 200;
-  line-height: 1.5;
-  font-style: italic; }
+ul.simple-boot li {
+    list-style-type: none;
+    margin-left: 0em;
+    margin-bottom: 0.5em;
+}
 
-q:before,
-q:after,
-blockquote:before,
-blockquote:after {
-  content: ""; }
+ol.simple > li, ul.simple > li {
+  margin-bottom: 0.25em;
+  margin-left: 0.4em }
 
-address {
-  display: block;
-  margin-bottom: 20px;
-  font-style: normal;
-  line-height: 20px; }
+ul.simple.simple-toc > li {
+    margin-top: 1em;
+}
 
-code,
-pre {
-  font-family: "Source Code Pro", Monaco, Menlo, Consolas, "Courier New", monospace;
-  padding: 0 3px 2px;
-  font-weight: 500;
-  font-size: 12px;
-  color: #444444;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px; }
+ul.simple-toc {
+  list-style: none;
+  font-size: 0.9em;
+  margin-left: -0.3em;
+  margin-top: 1em; }
+
+ul.simple-toc > li {
+    list-style-type: none;
+}
+
+ul.simple-toc-section {
+  list-style-type: circle;
+  margin-left: 1em;
+  color: #6c9aae; }
+
+
+ol.arabic {
+  list-style: decimal; }
+
+ol.loweralpha {
+  list-style: lower-alpha; }
+
+ol.upperalpha {
+  list-style: upper-alpha; }
+
+ol.lowerroman {
+  list-style: lower-roman; }
+
+ol.upperroman {
+  list-style: upper-roman; }
+
+ul.auto-toc {
+  list-style-type: none; }
+
+
+dl {
+  margin-bottom: 1.5em; }
+
+dt {
+  margin-bottom: -0.5em;
+  margin-left: 0.0em; }
+
+dd {
+  margin-left: 2.0em;
+  margin-bottom: 3.0em;
+  margin-top: 0.5em; }
+
+
+hr {
+  margin: 2em 0;
+  border: 0;
+  border-top: 1px solid #aaa; }
+
+blockquote {
+  font-size: 0.9em;
+  font-style: italic;
+  padding-left: 0.5em;
+  margin-left: 0;
+  border-left: 5px solid #bbc;
+}
 
 .pre {
   font-family: "Source Code Pro", Monaco, Menlo, Consolas, "Courier New", monospace;
-  font-weight: 600;
-  /*color: #504da6;*/
+  font-weight: 500;
+  font-size: 0.85em;
+  background-color: #f0f3ff;
+  padding-left: 3px;
+  padding-right: 3px;
+  border-radius: 4px;
 }
 
-code {
-  padding: 2px 4px;
-  color: #444444;
-  white-space: nowrap;
-  background-color: white;
-  border: 1px solid #777777; }
-
 pre {
+  font-family: "Source Code Pro", Monaco, Menlo, Consolas, "Courier New", monospace;
+  color: #222;
+  font-weight: 500;
   display: inline-block;
   box-sizing: border-box;
-  min-width: calc(100% - 19.5px);
-  padding: 9.5px;
-  margin: 0.25em 10px 10px 10px;
-  font-size: 15px;
-  line-height: 20px;
+  min-width: 100%;
+  padding: 0.5em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  font-size: 0.85em;
   white-space: pre !important;
   overflow-y: hidden;
   overflow-x: visible;
-  background-color: rgba(0, 0, 0, 0.01);
-  border: 1px solid #cccccc;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px; }
-
-pre.prettyprint {
-  margin-bottom: 20px; }
-
-pre code {
-  padding: 0;
-  color: inherit;
-  white-space: pre;
-  overflow-x: visible;
-  background-color: transparent;
-  border: 0; }
+  background-color: ghostwhite;
+  border: 1px solid #dde;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px; }
 
 .pre-scrollable {
   max-height: 340px;
   overflow-y: scroll; }
 
+
+/* Nim line-numbered tables */
+.line-nums-table {
+  width: 100%;
+  table-layout: fixed; }
+
+table.line-nums-table {
+  border-radius: 4px;
+  border: 1px solid #cccccc;
+  background-color: ghostwhite;
+  border-collapse: separate;
+  margin-top: 15px;
+  margin-bottom: 25px; }
+
+.line-nums-table tbody {
+  border: none; }
+
+.line-nums-table td pre {
+  border: none;
+  background-color: transparent; }
+
+.line-nums-table td.blob-line-nums {
+  width: 28px; }
+
+.line-nums-table td.blob-line-nums pre {
+  color: #b0b0b0;
+  -webkit-filter: opacity(75%);
+  text-align: right;
+  border-color: transparent;
+  background-color: transparent;
+  padding-left: 0px;
+  margin-left: 0px;
+  padding-right: 0px;
+  margin-right: 0px; }
+
+
 table {
   max-width: 100%;
   background-color: transparent;
+  margin-top: 0.5em;
+  margin-bottom: 1.5em;
   border-collapse: collapse;
-  border-spacing: 0; }
-
-table th, table td {
-  padding: 0px 8px 0px;
+  border-color: #ccc;
+  border-spacing: 0;
+  font-size: 0.9em;
 }
 
-.table {
-  width: 100%;
-  margin-bottom: 20px; }
+table th, table td {
+  padding: 0px 0.5em 0px;
+}
 
-.table th,
-.table td {
-  padding: 8px;
-  line-height: 20px;
-  text-align: left;
-  vertical-align: top;
-  border-top: 1px solid #444444; }
-
-.table th {
+table th {
+  background-color: #e8e8e8;
   font-weight: bold; }
 
-.table thead th {
-  vertical-align: bottom; }
+table th.docinfo-name {
+    background-color: transparent;
+}
 
-.table caption + thead tr:first-child th,
-.table caption + thead tr:first-child td,
-.table colgroup + thead tr:first-child th,
-.table colgroup + thead tr:first-child td,
-.table thead:first-child tr:first-child th,
-.table thead:first-child tr:first-child td {
-  border-top: 0; }
+table tr:hover {
+  background-color: ghostwhite; }
 
-.table tbody + tbody {
-  border-top: 2px solid #444444; }
-
-.table .table {
-  background-color: rgba(252, 248, 244, 0.75); }
-
-.table-condensed th,
-.table-condensed td {
-  padding: 4px 5px; }
-
-.table-bordered {
-  border: 1px solid #444444;
-  border-collapse: separate;
-  *border-collapse: collapse;
-  border-left: 0;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px; }
-
-.table-bordered th,
-.table-bordered td {
-  border-left: 1px solid #444444; }
-
-.table-bordered caption + thead tr:first-child th,
-.table-bordered caption + tbody tr:first-child th,
-.table-bordered caption + tbody tr:first-child td,
-.table-bordered colgroup + thead tr:first-child th,
-.table-bordered colgroup + tbody tr:first-child th,
-.table-bordered colgroup + tbody tr:first-child td,
-.table-bordered thead:first-child tr:first-child th,
-.table-bordered tbody:first-child tr:first-child th,
-.table-bordered tbody:first-child tr:first-child td {
-  border-top: 0; }
-
-.table-bordered thead:first-child tr:first-child > th:first-child,
-.table-bordered tbody:first-child tr:first-child > td:first-child,
-.table-bordered tbody:first-child tr:first-child > th:first-child {
-  -webkit-border-top-left-radius: 4px;
-  border-top-left-radius: 4px;
-  -moz-border-radius-topleft: 4px; }
-
-.table-bordered thead:first-child tr:first-child > th:last-child,
-.table-bordered tbody:first-child tr:first-child > td:last-child,
-.table-bordered tbody:first-child tr:first-child > th:last-child {
-  -webkit-border-top-right-radius: 4px;
-  border-top-right-radius: 4px;
-  -moz-border-radius-topright: 4px; }
-
-.table-bordered thead:last-child tr:last-child > th:first-child,
-.table-bordered tbody:last-child tr:last-child > td:first-child,
-.table-bordered tbody:last-child tr:last-child > th:first-child,
-.table-bordered tfoot:last-child tr:last-child > td:first-child,
-.table-bordered tfoot:last-child tr:last-child > th:first-child {
-  -webkit-border-bottom-left-radius: 4px;
-  border-bottom-left-radius: 4px;
-  -moz-border-radius-bottomleft: 4px; }
-
-.table-bordered thead:last-child tr:last-child > th:last-child,
-.table-bordered tbody:last-child tr:last-child > td:last-child,
-.table-bordered tbody:last-child tr:last-child > th:last-child,
-.table-bordered tfoot:last-child tr:last-child > td:last-child,
-.table-bordered tfoot:last-child tr:last-child > th:last-child {
-  -webkit-border-bottom-right-radius: 4px;
-  border-bottom-right-radius: 4px;
-  -moz-border-radius-bottomright: 4px; }
-
-.table-bordered tfoot + tbody:last-child tr:last-child td:first-child {
-  -webkit-border-bottom-left-radius: 0;
-  border-bottom-left-radius: 0;
-  -moz-border-radius-bottomleft: 0; }
-
-.table-bordered tfoot + tbody:last-child tr:last-child td:last-child {
-  -webkit-border-bottom-right-radius: 0;
-  border-bottom-right-radius: 0;
-  -moz-border-radius-bottomright: 0; }
-
-.table-bordered caption + thead tr:first-child th:first-child,
-.table-bordered caption + tbody tr:first-child td:first-child,
-.table-bordered colgroup + thead tr:first-child th:first-child,
-.table-bordered colgroup + tbody tr:first-child td:first-child {
-  -webkit-border-top-left-radius: 4px;
-  border-top-left-radius: 4px;
-  -moz-border-radius-topleft: 4px; }
-
-.table-bordered caption + thead tr:first-child th:last-child,
-.table-bordered caption + tbody tr:first-child td:last-child,
-.table-bordered colgroup + thead tr:first-child th:last-child,
-.table-bordered colgroup + tbody tr:first-child td:last-child {
-  -webkit-border-top-right-radius: 4px;
-  border-top-right-radius: 4px;
-  -moz-border-radius-topright: 4px; }
-
-table.docutils th {
-  background-color: #e8e8e8; }
-
-table.docutils tr:hover {
-  background-color: whitesmoke; }
-
-.table-striped tbody > tr:nth-child(odd) > td,
-.table-striped tbody > tr:nth-child(odd) > th {
-  background-color: rgba(252, 248, 244, 0.75); }
-
-.table-hover tbody tr:hover > td,
-.table-hover tbody tr:hover > th {
-  background-color: rgba(241, 222, 204, 0.75); }
-
-table td[class*="span"],
-table th[class*="span"],
-.row-fluid table td[class*="span"],
-.row-fluid table th[class*="span"] {
-  display: table-cell;
-  float: none;
-  margin-left: 0; }
-
-.hero-unit {
-  padding: 60px;
-  margin-bottom: 30px;
-  font-size: 18px;
-  font-weight: 200;
-  line-height: 30px;
-  color: inherit;
-  background-color: rgba(230, 197, 164, 0.75);
-  -webkit-border-radius: 6px;
-  -moz-border-radius: 6px;
-  border-radius: 6px; }
-
-.hero-unit h1 {
-  margin-bottom: 0;
-  font-size: 60px;
-  line-height: 1;
-  letter-spacing: -1px;
-  color: inherit; }
-
-.hero-unit li {
-  line-height: 30px; }
 
 /* rst2html default used to remove borders from tables and images */
 .borderless, table.borderless td, table.borderless th {
@@ -722,10 +499,6 @@ table.borderless td, table.borderless th {
 .hidden {
   display: none; }
 
-a.toc-backref {
-  text-decoration: none;
-  color: #444444; }
-
 blockquote.epigraph {
   margin: 2em 5em; }
 
@@ -735,85 +508,6 @@ dl.docutils dd {
 object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
   overflow: hidden; }
 
-/* Uncomment (and remove this text!) to get bold-faced definition list terms
-dl.docutils dt {
-  font-weight: bold }
-*/
-div.abstract {
-  margin: 2em 5em; }
-
-div.abstract p.topic-title {
-  font-weight: bold;
-  text-align: center; }
-
-div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {
-  margin: 2em;
-  border: medium outset;
-  padding: 1em; }
-
-div.note, div.warning {
-  margin: 1.5em 0px;
-  border: none; }
-
-div.note p.admonition-title,
-div.warning p.admonition-title {
-  display: none; }
-
-/* Clearfix
- * http://css-tricks.com/snippets/css/clear-fix/
- */
-div.note:after,
-div.warning:after {
-  content: "";
-  display: table;
-  clear: both; }
-
-div.note p:before,
-div.warning p:before {
-  display: block;
-  float: left;
-  font-size: 4em;
-  line-height: 1em;
-  margin-right: 20px;
-  margin-left: 0em;
-  margin-top: -10px;
-  content: '\0270D';
-  /*handwriting*/ }
-
-div.warning p:before {
-  content: '\026A0';
-  /*warning*/ }
-
-div.admonition p.admonition-title, div.hint p.admonition-title,
-div.important p.admonition-title, div.note p.admonition-title,
-div.tip p.admonition-title {
-  font-weight: bold;
-  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif; }
-
-div.attention p.admonition-title, div.caution p.admonition-title,
-div.danger p.admonition-title, div.error p.admonition-title,
-div.warning p.admonition-title, .code .error {
-  color: #b30000;
-  font-weight: bold;
-  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif; }
-
-/* Uncomment (and remove this text!) to get reduced vertical space in
-   compound paragraphs.
-div.compound .compound-first, div.compound .compound-middle {
-  margin-bottom: 0.5em }
-
-div.compound .compound-last, div.compound .compound-middle {
-  margin-top: 0.5em }
-*/
-div.dedication {
-  margin: 2em 5em;
-  text-align: center;
-  font-style: italic; }
-
-div.dedication p.topic-title {
-  font-weight: bold;
-  font-style: normal; }
 
 div.figure {
   margin-left: 2em;
@@ -821,7 +515,13 @@ div.figure {
 
 div.footer, div.header {
   clear: both;
+  text-align: center;
+  color: #666;
   font-size: smaller; }
+
+div.footer {
+    padding-top: 5em;
+}
 
 div.line-block {
   display: block;
@@ -833,45 +533,24 @@ div.line-block div.line-block {
   margin-bottom: 0;
   margin-left: 1.5em; }
 
-div.sidebar {
-  margin: 0 0 0.5em 1em;
-  border: medium outset;
-  padding: 1em;
-  background-color: rgba(252, 248, 244, 0.75);
-  width: 40%;
-  float: right;
-  clear: right; }
-
-div.sidebar p.rubric {
-  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
-  font-size: medium; }
-
-div.system-messages {
-  margin: 5em; }
-
-div.system-messages h1 {
-  color: #b30000; }
-
-div.system-message {
-  border: medium outset;
-  padding: 1em; }
-
-div.system-message p.system-message-title {
-  color: #b30000;
-  font-weight: bold; }
-
 div.topic {
   margin: 2em; }
 
-h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
-h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
-  margin-top: 0.4em; }
+div.search_results {
+  background-color: antiquewhite;
+  margin: 3em;
+  padding: 1em;
+  border: 1px solid #4d4d4d;
+}
 
-h1.title {
-  text-align: center; }
+div#global-links ul {
+  margin-left: 0;
+  list-style-type: none;
+}
 
-h2.subtitle {
-  text-align: center; }
+div#global-links > simple-boot {
+    margin-left: 3em;
+}
 
 hr.docutils {
   width: 75%; }
@@ -905,30 +584,6 @@ img.align-center, .figure.align-center, object.align-center {
 div.align-right {
   text-align: inherit; }
 
-/* div.align-center * { */
-/*   text-align: left } */
-
-ul.simple > li {
-  margin-bottom: 0.5em }
-
-ol.simple, ul.simple {
-  margin-bottom: 1em; }
-
-ol.arabic {
-  list-style: decimal; }
-
-ol.loweralpha {
-  list-style: lower-alpha; }
-
-ol.upperalpha {
-  list-style: upper-alpha; }
-
-ol.lowerroman {
-  list-style: lower-roman; }
-
-ol.upperroman {
-  list-style: upper-roman; }
-
 p.attribution {
   text-align: right;
   margin-left: 50%; }
@@ -948,15 +603,6 @@ p.rubric {
   font-size: larger;
   color: maroon;
   text-align: center; }
-
-p.sidebar-title {
-  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
-  font-weight: bold;
-  font-size: larger; }
-
-p.sidebar-subtitle {
-  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
-  font-weight: bold; }
 
 p.topic-title {
   font-weight: bold; }
@@ -997,21 +643,13 @@ pre.code .inserted, code .inserted {
   background-color: #A3D289; }
 
 span.classifier {
-  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
   font-style: oblique; }
 
 span.classifier-delimiter {
-  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
   font-weight: bold; }
-
-span.interpreted {
-  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif; }
 
 span.option {
   white-space: nowrap; }
-
-span.pre {
-  white-space: pre; }
 
 span.problematic {
   color: #b30000; }
@@ -1019,44 +657,6 @@ span.problematic {
 span.section-subtitle {
   /* font-size relative to parent (h1..h6 element) */
   font-size: 80%; }
-
-table.citation {
-  border-left: solid 1px #666666;
-  margin-left: 1px; }
-
-table.docinfo {
-  margin: 0em;
-  margin-top: 2em;
-  margin-bottom: 2em;
-  font-family: "Lato", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif !important;
-  color: #444444; }
-
-table.docutils {
-  margin-top: 0.5em;
-  margin-bottom: 0.5em; }
-
-table.footnote {
-  border-left: solid 1px #2d2d2d;
-  margin-left: 1px; }
-
-table.docutils td, table.docutils th,
-table.docinfo td, table.docinfo th {
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  vertical-align: top; }
-
-table.docutils th.field-name, table.docinfo th.docinfo-name {
-  font-weight: 700;
-  text-align: left;
-  white-space: nowrap;
-  padding-left: 0; }
-
-h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
-h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
-  font-size: 100%; }
-
-ul.auto-toc {
-  list-style-type: none; }
 
 span.DecNumber {
   color: #252dbe; }
@@ -1074,7 +674,7 @@ span.FloatNumber {
   color: #252dbe; }
 
 span.Identifier {
-  color: #3b3b3b; }
+  color: #222; }
 
 span.Keyword {
   font-weight: 600;
@@ -1139,72 +739,63 @@ dt pre > span.Identifier, dt pre > span.Operator {
   color: #155da4;
   font-weight: 700; }
 
-dt pre > span.Identifier ~ span.Identifier, dt pre > span.Operator ~ span.Identifier {
-  color: inherit;
-  font-weight: inherit; }
-
-dt pre > span.Operator ~ span.Identifier, dt pre > span.Operator ~ span.Operator {
+dt pre > span.Keyword ~ span.Identifier, dt pre > span.Identifier ~ span.Identifier,
+dt pre > span.Operator ~ span.Identifier, dt pre > span.Other ~ span.Identifier {
   color: inherit;
   font-weight: inherit; }
 
 /* Nim sprite for the footer (taken from main page favicon) */
 .nim-sprite {
   display: inline-block;
-  height: 12px;
-  width: 12px;
+  height: 16px;
+  width: 16px;
   background-position: 0 0;
-  background-size: 12px 12px;
+  background-size: 16px 16px;
   -webkit-filter: opacity(50%);
   background-repeat: no-repeat;
   background-image: url("data:image/x-icon;base64,AAABAAEAEBAAAAEAIABoBAAAFgAAACgAAAAQAAAAIAAAAAEAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAAUAAAAF////AP///wD///8A////AP///wD///8A////AP///wD///8A////AAAAAAIAAABbAAAAlQAAAKIAAACbAAAAmwAAAKIAAACVAAAAWwAAAAL///8A////AP///wD///8A////AAAAABQAAADAAAAAYwAAAA3///8A////AP///wD///8AAAAADQAAAGMAAADAAAAAFP///wD///8A////AP///wAAAACdAAAAOv///wD///8A////AP///wD///8A////AP///wD///8AAAAAOgAAAJ3///8A////AP///wAAAAAnAAAAcP///wAAAAAoAAAASv///wD///8A////AP///wAAAABKAAAAKP///wAAAABwAAAAJ////wD///8AAAAAgQAAABwAAACIAAAAkAAAAJMAAACtAAAAFQAAABUAAACtAAAAkwAAAJAAAACIAAAAHAAAAIH///8A////AAAAAKQAAACrAAAAaP///wD///8AAAAARQAAANIAAADSAAAARf///wD///8AAAAAaAAAAKsAAACk////AAAAADMAAACcAAAAnQAAABj///8A////AP///wAAAAAYAAAAGP///wD///8A////AAAAABgAAACdAAAAnAAAADMAAAB1AAAAwwAAAP8AAADpAAAAsQAAAE4AAAAb////AP///wAAAAAbAAAATgAAALEAAADpAAAA/wAAAMMAAAB1AAAAtwAAAOkAAAD/AAAA/wAAAP8AAADvAAAA3gAAAN4AAADeAAAA3gAAAO8AAAD/AAAA/wAAAP8AAADpAAAAtwAAAGUAAAA/AAAA3wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAAD/AAAA/wAAAP8AAADfAAAAPwAAAGX///8A////AAAAAEgAAADtAAAAvwAAAL0AAADGAAAA7wAAAO8AAADGAAAAvQAAAL8AAADtAAAASP///wD///8A////AP///wD///8AAAAAO////wD///8A////AAAAAIcAAACH////AP///wD///8AAAAAO////wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A////AP///wD///8A//8AAP//AAD4HwAA7/cAAN/7AAD//wAAoYUAAJ55AACf+QAAh+EAAAAAAADAAwAA4AcAAP5/AAD//wAA//8AAA==");
   margin-bottom: -5px; }
-div.pragma {
+
+span.pragmadots {
+  /* Position: relative frees us up to make the dots
+  look really nice without fucking up the layout and
+  causing bulging in the parent container */
+  position: relative;
+  /* 1px down looks slightly nicer */
+  top: 1px;
+  padding: 2px;
+  background-color: #e8e8e8;
+  border-radius: 4px;
+  margin: 0 2px;
+  cursor: pointer;
+  font-size: 0.8em;
+}
+
+span.pragmadots:hover {
+  background-color: #DBDBDB;
+}
+span.pragmawrap {
   display: none;
 }
-span.pragmabegin {
-  cursor: pointer;
-}
-span.pragmaend {
-  cursor: pointer;
-}
 
-div.search_results {
-  background-color: antiquewhite;
-  margin: 3em;
-  padding: 1em;
-  border: 1px solid #4d4d4d;
-}
-
-div#global-links ul {
-  margin-left: 0;
-  list-style-type: none;
+span.attachedType {
+  display: none;
+  visibility: hidden;
 }
 </style>
 
-<script type="text/javascript" src="../dochack.js"></script>
+<script type="text/javascript" src="dochack.js"></script>
 
 <script type="text/javascript">
-function togglepragma(d) {
-  if (d.style.display != 'inline')
-    d.style.display = 'inline';
-  else
-    d.style.display = 'none';
-}
-
 function main() {
-  var elements = document.getElementsByClassName("pragmabegin");
-  for (var i = 0; i < elements.length; ++i) {
-    var e = elements[i];
-    e.onclick = function(event) {
-      togglepragma(event.target.nextSibling);
-    };
-  }
-  var elements = document.getElementsByClassName("pragmaend");
-  for (var i = 0; i < elements.length; ++i) {
-    var e = elements[i];
-    e.onclick = function(event) {
-      togglepragma(event.target.previousSibling);
-    };
+  var pragmaDots = document.getElementsByClassName("pragmadots");
+  for (var i = 0; i < pragmaDots.length; i++) {
+    pragmaDots[i].onclick = function(event) {
+      // Hide tease
+      event.target.parentNode.style.display = "none";
+      // Show actual
+      event.target.parentNode.nextElementSibling.style.display = "inline";
+    }
   }
 }
 </script>
@@ -1213,14 +804,14 @@ function main() {
 <body onload="main()">
 <div class="document" id="documentId">
   <div class="container">
-    <h1 class="title">Module unicodeplus</h1>
+    <h1 class="title">unicodeplus</h1>
     <div class="row">
   <div class="three columns">
   <div id="global-links">
     <ul class="simple">
     </ul>
   </div>
-  <div id="searchInput">
+  <div id="searchInputDiv">
     Search: <input type="text" id="searchInput"
       onkeyup="search()" />
   </div>
@@ -1233,68 +824,74 @@ function main() {
   </div>
   <ul class="simple simple-toc" id="toc-list">
 <li>
-  <a class="reference reference-toplevel" href="#6" id="56">Imports</a>
+  <a class="reference reference-toplevel" href="#12" id="62">Procs</a>
   <ul class="simple simple-toc-section">
-    
+      <li><a class="reference" href="#isDecimal%2CRune"
+    title="isDecimal(c: Rune): bool"><wbr />is<wbr />Decimal<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isDecimal%2Cstring"
+    title="isDecimal(s: string): bool"><wbr />is<wbr />Decimal<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isDecimal%2Cseq%5BT%5D%5BRune%5D"
+    title="isDecimal(s: seq[Rune]): bool"><wbr />is<wbr />Decimal<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isDigit%2CRune"
+    title="isDigit(c: Rune): bool"><wbr />is<wbr />Digit<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isDigit%2Cstring"
+    title="isDigit(s: string): bool"><wbr />is<wbr />Digit<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isDigit%2Cseq%5BT%5D%5BRune%5D"
+    title="isDigit(s: seq[Rune]): bool"><wbr />is<wbr />Digit<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isNumeric%2CRune"
+    title="isNumeric(c: Rune): bool"><wbr />is<wbr />Numeric<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isNumeric%2Cstring"
+    title="isNumeric(s: string): bool"><wbr />is<wbr />Numeric<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isNumeric%2Cseq%5BT%5D%5BRune%5D"
+    title="isNumeric(s: seq[Rune]): bool"><wbr />is<wbr />Numeric<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isAlpha%2CRune"
+    title="isAlpha(c: Rune): bool"><wbr />is<wbr />Alpha<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isAlpha%2Cstring"
+    title="isAlpha(s: string): bool"><wbr />is<wbr />Alpha<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isAlpha%2Cseq%5BT%5D%5BRune%5D"
+    title="isAlpha(s: seq[Rune]): bool"><wbr />is<wbr />Alpha<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isAlnum%2CRune"
+    title="isAlnum(c: Rune): bool"><wbr />is<wbr />Alnum<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isAlnum%2Cstring"
+    title="isAlnum(s: string): bool"><wbr />is<wbr />Alnum<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isAlnum%2Cseq%5BT%5D%5BRune%5D"
+    title="isAlnum(s: seq[Rune]): bool"><wbr />is<wbr />Alnum<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isPrintable%2CRune"
+    title="isPrintable(c: Rune): bool"><wbr />is<wbr />Printable<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isPrintable%2Cstring"
+    title="isPrintable(s: string): bool"><wbr />is<wbr />Printable<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isPrintable%2Cseq%5BT%5D%5BRune%5D"
+    title="isPrintable(s: seq[Rune]): bool"><wbr />is<wbr />Printable<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isWhiteSpace%2CRune"
+    title="isWhiteSpace(c: Rune): bool"><wbr />is<wbr />White<wbr />Space<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isWhiteSpace%2Cstring"
+    title="isWhiteSpace(s: string): bool"><wbr />is<wbr />White<wbr />Space<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isWhiteSpace%2Cseq%5BT%5D%5BRune%5D"
+    title="isWhiteSpace(s: seq[Rune]): bool"><wbr />is<wbr />White<wbr />Space<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isUpper%2CRune"
+    title="isUpper(c: Rune): bool"><wbr />is<wbr />Upper<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isUpper"
+    title="isUpper(s: string | seq[Rune]): bool"><wbr />is<wbr />Upper<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isLower%2CRune"
+    title="isLower(c: Rune): bool"><wbr />is<wbr />Lower<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isLower"
+    title="isLower(s: string | seq[Rune]): bool"><wbr />is<wbr />Lower<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isTitle%2CRune"
+    title="isTitle(c: Rune): bool"><wbr />is<wbr />Title<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#isTitle"
+    title="isTitle(s: string | seq[Rune]): bool"><wbr />is<wbr />Title<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#toUpper%2Cstring"
+    title="toUpper(s: string): string"><wbr />to<wbr />Upper<span class="attachedType"></span></a></li>
+  <li><a class="reference" href="#toLower%2Cstring"
+    title="toLower(s: string): string"><wbr />to<wbr />Lower<span class="attachedType"></span></a></li>
+
   </ul>
 </li>
 <li>
-  <a class="reference reference-toplevel" href="#12" id="62">Procs</a>
+  <a class="reference reference-toplevel" href="#13" id="63">Funcs</a>
   <ul class="simple simple-toc-section">
-      <li><a class="reference" href="#isDecimal,Rune"
-    title="isDecimal(c: Rune): bool"><wbr />is<wbr />Decimal<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isDecimal,string"
-    title="isDecimal(s: string): bool"><wbr />is<wbr />Decimal<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isDecimal,seq[Rune]"
-    title="isDecimal(s: seq[Rune]): bool"><wbr />is<wbr />Decimal<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isDigit,Rune"
-    title="isDigit(c: Rune): bool"><wbr />is<wbr />Digit<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isDigit,string"
-    title="isDigit(s: string): bool"><wbr />is<wbr />Digit<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isDigit,seq[Rune]"
-    title="isDigit(s: seq[Rune]): bool"><wbr />is<wbr />Digit<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isNumeric,Rune"
-    title="isNumeric(c: Rune): bool"><wbr />is<wbr />Numeric<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isNumeric,string"
-    title="isNumeric(s: string): bool"><wbr />is<wbr />Numeric<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isNumeric,seq[Rune]"
-    title="isNumeric(s: seq[Rune]): bool"><wbr />is<wbr />Numeric<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isAlpha,Rune"
-    title="isAlpha(c: Rune): bool"><wbr />is<wbr />Alpha<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isAlpha,string"
-    title="isAlpha(s: string): bool"><wbr />is<wbr />Alpha<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isAlpha,seq[Rune]"
-    title="isAlpha(s: seq[Rune]): bool"><wbr />is<wbr />Alpha<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isAlnum,Rune"
-    title="isAlnum(c: Rune): bool"><wbr />is<wbr />Alnum<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isAlnum,string"
-    title="isAlnum(s: string): bool"><wbr />is<wbr />Alnum<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isAlnum,seq[Rune]"
-    title="isAlnum(s: seq[Rune]): bool"><wbr />is<wbr />Alnum<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isPrintable,Rune"
-    title="isPrintable(c: Rune): bool"><wbr />is<wbr />Printable<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isPrintable,string"
-    title="isPrintable(s: string): bool"><wbr />is<wbr />Printable<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isPrintable,seq[Rune]"
-    title="isPrintable(s: seq[Rune]): bool"><wbr />is<wbr />Printable<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isWhiteSpace,Rune"
-    title="isWhiteSpace(c: Rune): bool"><wbr />is<wbr />White<wbr />Space<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isWhiteSpace,string"
-    title="isWhiteSpace(s: string): bool"><wbr />is<wbr />White<wbr />Space<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isWhiteSpace,seq[Rune]"
-    title="isWhiteSpace(s: seq[Rune]): bool"><wbr />is<wbr />White<wbr />Space<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isUpper,Rune"
-    title="isUpper(c: Rune): bool"><wbr />is<wbr />Upper<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isUpper,"
-    title="isUpper(s: string | seq[Rune]): bool"><wbr />is<wbr />Upper<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isLower,Rune"
-    title="isLower(c: Rune): bool"><wbr />is<wbr />Lower<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isLower,"
-    title="isLower(s: string | seq[Rune]): bool"><wbr />is<wbr />Lower<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isTitle,Rune"
-    title="isTitle(c: Rune): bool"><wbr />is<wbr />Title<span class="attachedType" style="visibility:hidden"></span></a></li>
-  <li><a class="reference" href="#isTitle,"
-    title="isTitle(s: string | seq[Rune]): bool"><wbr />is<wbr />Title<span class="attachedType" style="visibility:hidden"></span></a></li>
+      <li><a class="reference" href="#toTitle%2Cstring"
+    title="toTitle(s: string): string"><wbr />to<wbr />Title<span class="attachedType"></span></a></li>
 
   </ul>
 </li>
@@ -1304,148 +901,224 @@ function main() {
   </div>
   <div class="nine columns" id="content">
   <div id="tocRoot"></div>
+  
   <p class="module-desc">This module provides common unicode operations</p>
-  <div class="section" id="6">
-<h1><a class="toc-backref" href="#6">Imports</a></h1>
-<dl class="item">
-<a class="reference external" href="unicode.html">unicode</a>, <a class="reference external" href="unicodedb/properties.html">unicodedb/properties</a>, <a class="reference external" href="unicodedb/types.html">unicodedb/types</a>
-</dl></div>
-<div class="section" id="12">
+  <div class="section" id="12">
 <h1><a class="toc-backref" href="#12">Procs</a></h1>
 <dl class="item">
-<dt id="isDecimal"><a name="isDecimal,Rune"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isDecimal</span><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<a id="isDecimal,Rune"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isDecimal%2CRune"><span class="Identifier">isDecimal</span></a><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
+
 
 
 </dd>
-<dt id="isDecimal"><a name="isDecimal,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isDecimal</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<a id="isDecimal,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isDecimal%2Cstring"><span class="Identifier">isDecimal</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
-Return <cite>true</cite> if all characters in the string are decimal characters and there is at least one character, false otherwise. Decimal characters are those that can be used to form numbers in base 10, e.g. U+0660, ARABIC-INDIC DIGIT ZERO. Formally, a decimal is a character that has the property value <cite>Numeric_Type=Decimal</cite>
+
+Return <tt class="docutils literal"><span class="pre">true</span></tt> if all characters in the string are decimal characters and there is at least one character, false otherwise. Decimal characters are those that can be used to form numbers in base 10, e.g. U+0660, ARABIC-INDIC DIGIT ZERO. Formally, a decimal is a character that has the property value <tt class="docutils literal"><span class="pre">Numeric_Type=Decimal</span></tt>
 
 </dd>
-<dt id="isDecimal"><a name="isDecimal,seq[Rune]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isDecimal</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-Check all characters in <cite>s</cite> passes <cite>runeProc</cite> test.
-
-</dd>
-<dt id="isDigit"><a name="isDigit,Rune"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isDigit</span><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<a id="isDecimal,seq[T][Rune]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isDecimal%2Cseq%5BT%5D%5BRune%5D"><span class="Identifier">isDecimal</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
-</dd>
-<dt id="isDigit"><a name="isDigit,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isDigit</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-Return <cite>true</cite> if all characters in the string are digits and there is at least one character, <cite>false</cite> otherwise. Digits include decimal characters and digits that need special handling, such as the compatibility superscript digits. This covers digits which cannot be used to form numbers in base 10, like the Kharosthi numbers. Formally, a digit is a character that has the property value <cite>Numeric_Type=Digit</cite> or <cite>Numeric_Type=Decimal</cite>
-
-</dd>
-<dt id="isDigit"><a name="isDigit,seq[Rune]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isDigit</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-Check all characters in <cite>s</cite> passes <cite>runeProc</cite> test.
-
-</dd>
-<dt id="isNumeric"><a name="isNumeric,Rune"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isNumeric</span><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
 
 
 </dd>
-<dt id="isNumeric"><a name="isNumeric,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isNumeric</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<a id="isDigit,Rune"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isDigit%2CRune"><span class="Identifier">isDigit</span></a><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
-Return <cite>true</cite> if all characters in the string are numeric, and there is at least one character, <cite>false</cite> otherwise. Numeric characters include digit characters, and all characters that have the Unicode numeric value property, e.g. U+2155, VULGAR FRACTION ONE FIFTH. Formally, numeric characters are those with the property value Numeric_Type=Digit, Numeric_Type=Decimal or Numeric_Type=Numeric
 
-</dd>
-<dt id="isNumeric"><a name="isNumeric,seq[Rune]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isNumeric</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-Check all characters in <cite>s</cite> passes <cite>runeProc</cite> test.
-
-</dd>
-<dt id="isAlpha"><a name="isAlpha,Rune"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isAlpha</span><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
 
 
 </dd>
-<dt id="isAlpha"><a name="isAlpha,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isAlpha</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<a id="isDigit,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isDigit%2Cstring"><span class="Identifier">isDigit</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
-Return <cite>true</cite> if all characters in the string are alphabetic and there is at least one character, <cite>false</cite> otherwise. Alphabetic characters are those characters defined in the UCD as “Letter”. This is not the same as the “Alphabetic” property defined in the UCD
+
+Return <tt class="docutils literal"><span class="pre">true</span></tt> if all characters in the string are digits and there is at least one character, <tt class="docutils literal"><span class="pre">false</span></tt> otherwise. Digits include decimal characters and digits that need special handling, such as the compatibility superscript digits. This covers digits which cannot be used to form numbers in base 10, like the Kharosthi numbers. Formally, a digit is a character that has the property value <tt class="docutils literal"><span class="pre">Numeric_Type=Digit</span></tt> or <tt class="docutils literal"><span class="pre">Numeric_Type=Decimal</span></tt>
 
 </dd>
-<dt id="isAlpha"><a name="isAlpha,seq[Rune]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isAlpha</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-Check all characters in <cite>s</cite> passes <cite>runeProc</cite> test.
-
-</dd>
-<dt id="isAlnum"><a name="isAlnum,Rune"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isAlnum</span><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<a id="isDigit,seq[T][Rune]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isDigit%2Cseq%5BT%5D%5BRune%5D"><span class="Identifier">isDigit</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
-</dd>
-<dt id="isAlnum"><a name="isAlnum,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isAlnum</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-Return <cite>true</cite> if all characters in the string are alphanumeric and there is at least one character, <cite>false</cite> otherwise. A <cite>c</cite> character is alphanumeric if one of the following returns <cite>true</cite>: <cite>c.isAlpha()</cite>, <cite>c.isDecimal()</cite>, <cite>c.isDigit()</cite>, or <cite>c.isNumeric()</cite>
-
-</dd>
-<dt id="isAlnum"><a name="isAlnum,seq[Rune]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isAlnum</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-Check all characters in <cite>s</cite> passes <cite>runeProc</cite> test.
-
-</dd>
-<dt id="isPrintable"><a name="isPrintable,Rune"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isPrintable</span><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
 
 
 </dd>
-<dt id="isPrintable"><a name="isPrintable,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isPrintable</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<a id="isNumeric,Rune"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isNumeric%2CRune"><span class="Identifier">isNumeric</span></a><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
-Nonprintable characters are those characters defined in the UCD as “Other” or “Separator”, except for the ASCII space (0x20). Return <cite>true</cite> if all characters meet this condition or the string is empty
 
-</dd>
-<dt id="isPrintable"><a name="isPrintable,seq[Rune]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isPrintable</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-Check all characters in <cite>s</cite> passes <cite>runeProc</cite> test.
-
-</dd>
-<dt id="isWhiteSpace"><a name="isWhiteSpace,Rune"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isWhiteSpace</span><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
 
 
 </dd>
-<dt id="isWhiteSpace"><a name="isWhiteSpace,string"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isWhiteSpace</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<a id="isNumeric,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isNumeric%2Cstring"><span class="Identifier">isNumeric</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
-Whitespace characters are those characters defined in the Unicode character database as “Other” or “Separator” and those with bidirectional property being one of “WS”, “B”, or “S”. Return <cite>true</cite> if all characters meet this condition. Return <cite>false</cite> if the string is empty
+
+Return <tt class="docutils literal"><span class="pre">true</span></tt> if all characters in the string are numeric, and there is at least one character, <tt class="docutils literal"><span class="pre">false</span></tt> otherwise. Numeric characters include digit characters, and all characters that have the Unicode numeric value property, e.g. U+2155, VULGAR FRACTION ONE FIFTH. Formally, numeric characters are those with the property value Numeric_Type=Digit, Numeric_Type=Decimal or Numeric_Type=Numeric
 
 </dd>
-<dt id="isWhiteSpace"><a name="isWhiteSpace,seq[Rune]"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isWhiteSpace</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
-Check all characters in <cite>s</cite> passes <cite>runeProc</cite> test.
-
-</dd>
-<dt id="isUpper"><a name="isUpper,Rune"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isUpper</span><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<a id="isNumeric,seq[T][Rune]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isNumeric%2Cseq%5BT%5D%5BRune%5D"><span class="Identifier">isNumeric</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
 
-
-</dd>
-<dt id="isUpper"><a name="isUpper,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isUpper</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Operator">|</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
-<dd>
-return <cite>true</cite> if all cased runes are upper-case and there is at least one cased rune
-
-</dd>
-<dt id="isLower"><a name="isLower,Rune"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isLower</span><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
-<dd>
 
 
 </dd>
-<dt id="isLower"><a name="isLower,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isLower</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Operator">|</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
+<a id="isAlpha,Rune"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isAlpha%2CRune"><span class="Identifier">isAlpha</span></a><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
-return <cite>true</cite> if all cased runes are lower-case and there is at least one cased rune
+
+
 
 </dd>
-<dt id="isTitle"><a name="isTitle,Rune"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isTitle</span><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span class="Other pragmabegin">{.</span><div class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></div><span class="Other pragmaend">.}</span></pre></dt>
+<a id="isAlpha,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isAlpha%2Cstring"><span class="Identifier">isAlpha</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
 <dd>
+
+Return <tt class="docutils literal"><span class="pre">true</span></tt> if all characters in the string are alphabetic and there is at least one character, <tt class="docutils literal"><span class="pre">false</span></tt> otherwise. Alphabetic characters are those characters defined in the UCD as “Letter”. This is not the same as the “Alphabetic” property defined in the UCD
+
+</dd>
+<a id="isAlpha,seq[T][Rune]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isAlpha%2Cseq%5BT%5D%5BRune%5D"><span class="Identifier">isAlpha</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="isAlnum,Rune"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isAlnum%2CRune"><span class="Identifier">isAlnum</span></a><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="isAlnum,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isAlnum%2Cstring"><span class="Identifier">isAlnum</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Return <tt class="docutils literal"><span class="pre">true</span></tt> if all characters in the string are alphanumeric and there is at least one character, <tt class="docutils literal"><span class="pre">false</span></tt> otherwise. A <tt class="docutils literal"><span class="pre">c</span></tt> character is alphanumeric if one of the following returns <tt class="docutils literal"><span class="pre">true</span></tt>: <tt class="docutils literal"><span class="pre">c.isAlpha()</span></tt>, <tt class="docutils literal"><span class="pre">c.isDecimal()</span></tt>, <tt class="docutils literal"><span class="pre">c.isDigit()</span></tt>, or <tt class="docutils literal"><span class="pre">c.isNumeric()</span></tt>
+
+</dd>
+<a id="isAlnum,seq[T][Rune]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isAlnum%2Cseq%5BT%5D%5BRune%5D"><span class="Identifier">isAlnum</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="isPrintable,Rune"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isPrintable%2CRune"><span class="Identifier">isPrintable</span></a><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="isPrintable,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isPrintable%2Cstring"><span class="Identifier">isPrintable</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Nonprintable characters are those characters defined in the UCD as “Other” or “Separator”, except for the ASCII space (0x20). Return <tt class="docutils literal"><span class="pre">true</span></tt> if all characters meet this condition or the string is empty
+
+</dd>
+<a id="isPrintable,seq[T][Rune]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isPrintable%2Cseq%5BT%5D%5BRune%5D"><span class="Identifier">isPrintable</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="isWhiteSpace,Rune"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isWhiteSpace%2CRune"><span class="Identifier">isWhiteSpace</span></a><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="isWhiteSpace,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isWhiteSpace%2Cstring"><span class="Identifier">isWhiteSpace</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Whitespace characters are those characters defined in the Unicode character database as “Other” or “Separator” and those with bidirectional property being one of “WS”, “B”, or “S”. Return <tt class="docutils literal"><span class="pre">true</span></tt> if all characters meet this condition. Return <tt class="docutils literal"><span class="pre">false</span></tt> if the string is empty
+
+</dd>
+<a id="isWhiteSpace,seq[T][Rune]"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isWhiteSpace%2Cseq%5BT%5D%5BRune%5D"><span class="Identifier">isWhiteSpace</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="isUpper,Rune"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isUpper%2CRune"><span class="Identifier">isUpper</span></a><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="isUpper"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isUpper"><span class="Identifier">isUpper</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Operator">|</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
+<dd>
+
+return <tt class="docutils literal"><span class="pre">true</span></tt> if all cased runes are upper-case and there is at least one cased rune
+
+</dd>
+<a id="isLower,Rune"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isLower%2CRune"><span class="Identifier">isLower</span></a><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+
+
+</dd>
+<a id="isLower"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isLower"><span class="Identifier">isLower</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Operator">|</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
+<dd>
+
+return <tt class="docutils literal"><span class="pre">true</span></tt> if all cased runes are lower-case and there is at least one cased rune
+
+</dd>
+<a id="isTitle,Rune"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isTitle%2CRune"><span class="Identifier">isTitle</span></a><span class="Other">(</span><span class="Identifier">c</span><span class="Other">:</span> <span class="Identifier">Rune</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
 Return <tt class="docutils literal"><span class="pre">true</span></tt> for ligatures containing uppercase followed by lowercase letters (e.g., ǅ, ǈ, ǋ, and ǲ). Return <tt class="docutils literal"><span class="pre">false</span></tt> otherwise
 
 </dd>
-<dt id="isTitle"><a name="isTitle,"></a><pre><span class="Keyword">proc</span> <span class="Identifier">isTitle</span><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Operator">|</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
+<a id="isTitle"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#isTitle"><span class="Identifier">isTitle</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span> <span class="Operator">|</span> <span class="Identifier">seq</span><span class="Other">[</span><span class="Identifier">Rune</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">bool</span></pre></dt>
 <dd>
-A title is a unicode sequence of uncased characters followed by an uppercase character and cased characters followed by a lowercase character. Return <cite>false</cite> if the string is empty
+
+A title is a unicode sequence of uncased characters followed by an uppercase character and cased characters followed by a lowercase character. Return <tt class="docutils literal"><span class="pre">false</span></tt> if the string is empty
+
+</dd>
+<a id="toUpper,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#toUpper%2Cstring"><span class="Identifier">toUpper</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Return <tt class="docutils literal"><span class="pre">s</span></tt> in upper case. Beware the result may be longer than <tt class="docutils literal"><span class="pre">s</span></tt>
+
+</dd>
+<a id="toLower,string"></a>
+<dt><pre><span class="Keyword">proc</span> <a href="#toLower%2Cstring"><span class="Identifier">toLower</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Return <tt class="docutils literal"><span class="pre">s</span></tt> in lower case. Beware the result may be longer than <tt class="docutils literal"><span class="pre">s</span></tt>
+
+</dd>
+
+</dl></div>
+<div class="section" id="13">
+<h1><a class="toc-backref" href="#13">Funcs</a></h1>
+<dl class="item">
+<a id="toTitle,string"></a>
+<dt><pre><span class="Keyword">func</span> <a href="#toTitle%2Cstring"><span class="Identifier">toTitle</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">string</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">string</span> <span><span class="Other">{</span><span class="Other pragmadots">...</span><span class="Other">}</span></span><span class="pragmawrap"><span class="Other">{.</span><span class="pragma"><span class="Identifier">inline</span><span class="Other">,</span> <span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span><span class="Other">.}</span></span></pre></dt>
+<dd>
+
+Return <tt class="docutils literal"><span class="pre">s</span></tt> in title case. Beware the result may be longer than <tt class="docutils literal"><span class="pre">s</span></tt>
 
 </dd>
 
@@ -1458,7 +1131,7 @@ A title is a unicode sequence of uncased characters followed by an uppercase cha
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br/>
-        <small>Made with Nim. Generated: 2018-10-07 23:11:18 UTC</small>
+        <small>Made with Nim. Generated: 2020-02-16 02:06:29 UTC</small>
       </div>
     </div>
   </div>
