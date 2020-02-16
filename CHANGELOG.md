@@ -1,7 +1,7 @@
 v0.6.0
 ==================
 
-* Add `toTitle`
+* Add `toTitle`, `toUpper`, and `toLower`
 * Drop Nim 0.18 support
 
 v0.5.1

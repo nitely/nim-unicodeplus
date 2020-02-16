@@ -241,6 +241,37 @@ proc isTitle*(s: string | seq[Rune]): bool =
     isLastCased = utmCased in ut
     result = true
 
+template caseConversionImpl(
+  s: string,
+  caseProc: untyped
+): untyped {.dirty.} =
+  const buffCap = 16
+  var cap = s.len
+  result = newString(cap + buffCap)
+  result.setLen(0)
+  for r in s.runes:
+    for rr in caseProc(r):
+      if (result.len >= cap).unlikely:
+        cap = result.len
+        result.setLen(result.len * 2 + buffCap)
+        result.setLen(cap)
+        cap = result.len * 2
+        # echo "realloc", " ", result.len, " ", cap
+      let pos = result.len
+      fastToUtf8Copy(rr, result, pos, false)
+
+proc toUpper*(s: string): string {.inline.} =
+  ## Return `s` in upper case.
+  ## Beware the result may be
+  ## longer than `s`
+  caseConversionImpl(s, upperCase)
+
+proc toLower*(s: string): string {.inline.} =
+  ## Return `s` in lower case.
+  ## Beware the result may be
+  ## longer than `s`
+  caseConversionImpl(s, lowerCase)
+
 func toTitle*(s: string): string {.inline.} =
   ## Return `s` in title case.
   ## Beware the result may be

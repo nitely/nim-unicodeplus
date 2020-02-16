@@ -214,3 +214,51 @@ test "toTitle":
   check "abc 弢 def".toTitle == "Abc 弢 Def"
   check "abc Ⓐ def".toTitle == "Abc Ⓐ Def"
   check "abc Ϊ def".toTitle == "Abc Ϊ Def"
+  check "ßear".toTitle == "Ssear"
+
+test "toUpper":
+  check "a".toUpper == "A"
+  check "1".toUpper == "1"
+  check "some title".toUpper == "SOME TITLE"
+  check "The quick? (“brown”) fox can’t jump 32.3 feet, right?".toUpper ==
+    "THE QUICK? (“BROWN”) FOX CAN’T JUMP 32.3 FEET, RIGHT?"
+  check "a ⓗ Ⓗ ⓗ a".toUpper == "A Ⓗ Ⓗ Ⓗ A"
+  check "諸".toUpper == "諸"
+  check "ab 諸 ab ⓗ ab".toUpper == "AB 諸 AB Ⓗ AB"
+  check "abc 弢ⒶΪ def".toUpper == "ABC 弢ⒶΪ DEF"
+  check "abc 弢Ⓐ def".toUpper == "ABC 弢Ⓐ DEF"
+  check "abc ⒶΪ def".toUpper == "ABC ⒶΪ DEF"
+  check "abc 弢Ϊ def".toUpper == "ABC 弢Ϊ DEF"
+  check "abc 弢 def".toUpper == "ABC 弢 DEF"
+  check "abc Ⓐ def".toUpper == "ABC Ⓐ DEF"
+  check "abc Ϊ def".toUpper == "ABC Ϊ DEF"
+  check "ßear".toUpper == "SSEAR"
+  block testLongerResult:
+    const be = "ΐeΐeΐeΐe-ΐeΐeΐeΐe-ΐeΐeΐeΐe-ΐeΐeΐeΐe"
+    const se = "Ϊ́EΪ́EΪ́EΪ́E-Ϊ́EΪ́EΪ́EΪ́E-Ϊ́EΪ́EΪ́EΪ́E-Ϊ́EΪ́EΪ́EΪ́E"
+    check be.len < se.len
+    check (be & be & be & be & be & be & be & be).toUpper ==
+          (se & se & se & se & se & se & se & se)
+
+test "toLower":
+  check "A".toLower == "a"
+  check "1".toLower == "1"
+  check "SOME TITLE".toLower == "some title"
+  check "The quIck? (“bRown”) fox cAn’T jUMp 32.3 feet, rIGHt?".toLower ==
+    "the quick? (“brown”) fox can’t jump 32.3 feet, right?"
+  check "A ⓗ Ⓗ ⓗ A".toLower == "a ⓗ ⓗ ⓗ a"
+  check "諸".toLower == "諸"
+  check "AB 諸 AB Ⓗ AB".toLower == "ab 諸 ab ⓗ ab"
+  check "ABC 弢ⒶΪ DEF".toLower == "abc 弢ⓐϊ def"
+  check "ABC 弢Ⓐ DEF".toLower == "abc 弢ⓐ def"
+  check "ABC ⒶΪ DEF".toLower == "abc ⓐϊ def"
+  check "ABC 弢Ϊ DEF".toLower == "abc 弢ϊ def"
+  check "ABC 弢 DEF".toLower == "abc 弢 def"
+  check "ABC Ⓐ DEF".toLower == "abc ⓐ def"
+  check "ABC Ϊ DEF".toLower == "abc ϊ def"
+  block testLongerResult:
+    const be = "İEİEİEİE-İEİEİEİE-İEİEİEİE-İEİEİEİE"
+    const se = "i̇ei̇ei̇ei̇e-i̇ei̇ei̇ei̇e-i̇ei̇ei̇ei̇e-i̇ei̇ei̇ei̇e"
+    check be.len < se.len
+    check (be & be & be & be & be & be & be & be).toLower ==
+          (se & se & se & se & se & se & se & se)

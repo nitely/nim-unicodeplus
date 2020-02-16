@@ -16,7 +16,7 @@ nimble install unicodeplus
 
 ## Compatibility
 
-Nim 0.18.0, +0.19.0
+Nim 0.19, 0.20, +1.0
 
 ## Usage
 
@@ -35,6 +35,10 @@ assert "0123456789۲⅕".isNumeric
 assert "abcd".isPrintable
 assert "The quick? (“brown”) fox can’t jump 32.3 feet, right?".toTitle ==
   "The Quick? (“Brown”) Fox Can’t Jump 32.3 Feet, Right?"
+assert "The quick? (“brown”) fox can’t jump 32.3 feet, right?".toUpper ==
+  "THE QUICK? (“BROWN”) FOX CAN’T JUMP 32.3 FEET, RIGHT?"
+assert "The quIck? (“bRown”) fox cAn’T jUMp 32.3 feet, rIGHt?".toLower ==
+  "the quick? (“brown”) fox can’t jump 32.3 feet, right?"
 ```
 
 [docs](https://nitely.github.io/nim-unicodeplus/)
