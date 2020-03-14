@@ -1,4 +1,8 @@
 import unittest
+from sequtils import toSeq
+from unicode import Rune, toUTF8
+
+from unicodedb/casing import caseFold
 
 import unicodeplus
 
@@ -262,3 +266,39 @@ test "toLower":
     check be.len < se.len
     check (be & be & be & be & be & be & be & be).toLower ==
           (se & se & se & se & se & se & se & se)
+
+test "cmpCaseless":
+  check cmpCaseless("a", "a")
+  check cmpCaseless("ab", "ab")
+  check cmpCaseless("abc", "abc")
+  check cmpCaseless("ABC", "abc")
+  check(not cmpCaseless("b", "a"))
+  check(not cmpCaseless("abc", "abcd"))
+  check(not cmpCaseless("abcd", "abc"))
+  check cmpCaseless("σ", "Σ")
+  check cmpCaseless("ΐe", "Ϊ́E")
+  check cmpCaseless("Ϊ́E", "ΐe")
+  check cmpCaseless("CafÉ", "Café")
+  check cmpCaseless("Caf\u0045\u0301", "Caf\u0065\u0301")
+  check cmpCaseless("\u1FA0", "\u1F60\u03B9")  # pre-CaseFolded
+  check cmpCaseless("\u1F60\u03B9", "\u1FA0")
+  check cmpCaseless("\u1F60\u03B9\u1FA0", "\u1FA0\u1F60\u03B9")
+  check cmpCaseless("\u1FA0\u1F60\u03B9", "\u1F60\u03B9\u1FA0")
+  check cmpCaseless("\u1FA0\u1F60\u03B9", "\u1FA0\u1F60\u03B9")
+  check(not cmpCaseless("\u1FA0", "x"))
+
+test "cmpCaseless all":
+  for cp in 0 .. 0x10FFFF:
+    var s = ""
+    for r in caseFold(cp.Rune):
+      s.add r.toUtf8
+    let org = cp.Rune.toUtf8
+    check cmpCaseless(s, org)
+    check cmpCaseless(org, s)
+    check cmpCaseless(s & org, org & s)
+    check cmpCaseless(org & s, s & org)
+    check cmpCaseless(org & s & org, s & org & s)
+    check cmpCaseless(s & org & s, org & s & org)
+    check(not cmpCaseless(s & "a", org))
+    check(not cmpCaseless(org & "a", s))
+    check(not cmpCaseless(s & org & "a", org & s))

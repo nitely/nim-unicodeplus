@@ -292,3 +292,38 @@ func toTitle*(s: string): string {.inline.} =
     # this will preallocate if needed
     for i in ra .. wb.b:
       result.add s[i]
+
+func cmpCaseless*(a, b: string): bool {.inline.} =
+  ## Caseless string comparison. Beware the strings
+  ## are not normalized. This is meant for
+  ## arbitrary text, do not use it to compare
+  ## identifiers
+  template fillBuffA: untyped {.dirty.} =
+    fastRuneAt(a, riA, rA, true)
+    for c in caseFold(rA):
+      buffA[idxA] = c
+      inc idxA
+  template fillBuffB: untyped {.dirty.} =
+    fastRuneAt(b, riB, rB, true)
+    for c in caseFold(rB):
+      buffB[idxB] = c
+      inc idxB
+  var
+    buffA, buffB: array[20, Rune]  # 4x max caseFold
+    idxA, idxB = 0
+    riA, riB = 0
+    rA, rB: Rune
+  while riA < a.len and riB < b.len:
+    fillBuffA()
+    fillBuffB()
+    while idxA < idxB and riA < a.len:
+      fillBuffA()
+    while idxB < idxA and riB < b.len:
+      fillBuffB()
+    if idxA != idxB:
+      return false
+    if toOpenArray(buffA, 0, idxA) != toOpenArray(buffB, 0, idxB):
+      return false
+    idxA = 0
+    idxB = 0
+  return riA == a.len and riB == b.len
