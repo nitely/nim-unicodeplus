@@ -309,7 +309,7 @@ func cmpCaseless*(a, b: string): bool {.inline.} =
       buffB[idxB] = c
       inc idxB
   var
-    buffA, buffB: array[20, Rune]  # 4x max caseFold
+    buffA, buffB: array[8, Rune]  # at least 2x max caseFold
     idxA, idxB = 0
     riA, riB = 0
     rA, rB: Rune

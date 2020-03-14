@@ -302,3 +302,20 @@ test "cmpCaseless all":
     check(not cmpCaseless(s & "a", org))
     check(not cmpCaseless(org & "a", s))
     check(not cmpCaseless(s & org & "a", org & s))
+
+test "cmpCaseless max":
+  var cMax = 0
+  var i = 0
+  for cp in 0 .. 0x10FFFF:
+    i = 0
+    for r in caseFold(cp.Rune):
+      inc i
+    cMax = max(cMax, i)
+  # we may have to increase the
+  # `cmpCaseless` buffer size if this increases
+  doAssert cMax == 3
+  # caseFold(0x1FE2) == 3 Runes
+  # caseFold(0x1FE4) == 2 Runes
+  # max filled buff is 6
+  check(not cmpCaseless("\u1FE4\u1FE2", "\u1FE2\u1FE2"))
+  check(not cmpCaseless("\u1FE2\u1FE2", "\u1FE4\u1FE2"))
