@@ -1,24 +1,24 @@
 ## This module provides common unicode operations
 
-from unicode import
+from std/unicode import
   Rune, runes, `==`, fastRuneAt, fastToUtf8Copy, toUtf8
 
-import unicodedb/properties
-import unicodedb/types
-import unicodedb/casing
-import segmentation
+import pkg/unicodedb/properties
+import pkg/unicodedb/types
+import pkg/unicodedb/casing
+import pkg/segmentation
 
 export Rune
 
-proc genNums(): array[128, bool] =
+func genNums(): array[128, bool] =
   for i in '0'.ord .. '9'.ord:
     result[i] = true
-proc genLetters(): array[128, bool] =
+func genLetters(): array[128, bool] =
   for i in 'a'.ord .. 'z'.ord:
     result[i] = true
   for i in 'A'.ord .. 'Z'.ord:
     result[i] = true
-proc genAlphaNums(): array[128, bool] =
+func genAlphaNums(): array[128, bool] =
   for i in '0'.ord .. '9'.ord:
     result[i] = true
   for i in 'a'.ord .. 'z'.ord:
@@ -45,13 +45,13 @@ template runeCheck(s, runeProc) =
     if not result:
       break
 
-proc isDecimal*(c: Rune): bool =
+func isDecimal*(c: Rune): bool =
   result = if c.int < 128:
     nums[c.int]
   else:
     utmDecimal in c.unicodeTypes()
 
-proc isDecimal*(s: string): bool =
+func isDecimal*(s: string): bool =
   ## Return `true` if all characters in the
   ## string are decimal characters and there
   ## is at least one character, false otherwise.
@@ -62,16 +62,16 @@ proc isDecimal*(s: string): bool =
   ## value `Numeric_Type=Decimal`
   runeCheck(s, isDecimal)
 
-proc isDecimal*(s: seq[Rune]): bool =
+func isDecimal*(s: seq[Rune]): bool {.deprecated: "Use isDecimal(string)".} =
   runeCheck(s, isDecimal)
 
-proc isDigit*(c: Rune): bool =
+func isDigit*(c: Rune): bool =
   result = if c.int < 128:
     nums[c.int]
   else:
     utmDigit+utmDecimal in c.unicodeTypes()
 
-proc isDigit*(s: string): bool =
+func isDigit*(s: string): bool =
   ## Return `true` if all characters in the
   ## string are digits and there is at least
   ## one character, `false` otherwise. Digits
@@ -85,16 +85,16 @@ proc isDigit*(s: string): bool =
   ## or `Numeric_Type=Decimal`
   runeCheck(s, isDigit)
 
-proc isDigit*(s: seq[Rune]): bool =
+func isDigit*(s: seq[Rune]): bool {.deprecated: "Use isDigit(string)".} =
   runeCheck(s, isDigit)
 
-proc isNumeric*(c: Rune): bool =
+func isNumeric*(c: Rune): bool =
   result = if c.int < 128:
     nums[c.int]
   else:
     utmDigit+utmDecimal+utmNumeric in c.unicodeTypes()
 
-proc isNumeric*(s: string): bool =
+func isNumeric*(s: string): bool =
   ## Return `true` if all characters in the
   ## string are numeric, and there
   ## is at least one character, `false` otherwise.
@@ -107,16 +107,16 @@ proc isNumeric*(s: string): bool =
   ## Numeric_Type=Decimal or Numeric_Type=Numeric
   runeCheck(s, isNumeric)
 
-proc isNumeric*(s: seq[Rune]): bool =
+func isNumeric*(s: seq[Rune]): bool {.deprecated: "Use isNumeric(string)".} =
   runeCheck(s, isNumeric)
 
-proc isAlpha*(c: Rune): bool =
+func isAlpha*(c: Rune): bool =
   result = if c.int < 128:
     letters[c.int]
   else:
     c.unicodeCategory() in ctgL
 
-proc isAlpha*(s: string): bool =
+func isAlpha*(s: string): bool =
   ## Return `true` if all characters in
   ## the string are alphabetic and there
   ## is at least one character, `false` otherwise.
@@ -126,17 +126,17 @@ proc isAlpha*(s: string): bool =
   ## property defined in the UCD
   runeCheck(s, isAlpha)
 
-proc isAlpha*(s: seq[Rune]): bool =
+func isAlpha*(s: seq[Rune]): bool {.deprecated: "Use isAlpha(string)".} =
   runeCheck(s, isAlpha)
 
-proc isAlnum*(c: Rune): bool =
+func isAlnum*(c: Rune): bool =
   result = if c.int < 128:
     alphaNums[c.int]
   else:
     (c.unicodeCategory() in ctgL or
       utmDigit+utmDecimal+utmNumeric in c.unicodeTypes())
 
-proc isAlnum*(s: string): bool =
+func isAlnum*(s: string): bool =
   ## Return `true` if all characters in
   ## the string are alphanumeric and
   ## there is at least one character,
@@ -147,15 +147,15 @@ proc isAlnum*(s: string): bool =
   ## or `c.isNumeric()`
   runeCheck(s, isAlnum)
 
-proc isAlnum*(s: seq[Rune]): bool =
+func isAlnum*(s: seq[Rune]): bool {.deprecated: "Use isAlnum(string)".} =
   runeCheck(s, isAlnum)
 
-proc isPrintable*(c: Rune): bool =
+func isPrintable*(c: Rune): bool =
   result =
     c == Rune(0x20) or
     c.unicodeCategory() notin ctgC+ctgZ
 
-proc isPrintable*(s: string): bool =
+func isPrintable*(s: string): bool =
   ## Nonprintable characters are those characters
   ## defined in the UCD as “Other” or “Separator”,
   ## except for the ASCII space (0x20). Return `true` if all
@@ -163,16 +163,16 @@ proc isPrintable*(s: string): bool =
   result = true
   runeCheck(s, isPrintable)
 
-proc isPrintable*(s: seq[Rune]): bool =
+func isPrintable*(s: seq[Rune]): bool {.deprecated: "Use isPrintable(string)".} =
   result = true
   runeCheck(s, isPrintable)
 
-proc isWhiteSpace*(c: Rune): bool =
+func isWhiteSpace*(c: Rune): bool =
   result =
     c.unicodeCategory() in ctgC+ctgZ or
     c.bidirectional() in ["WS", "B", "S"]
 
-proc isWhiteSpace*(s: string): bool =
+func isWhiteSpace*(s: string): bool =
   ## Whitespace characters are those characters
   ## defined in the Unicode character database
   ## as “Other” or “Separator” and those with
@@ -182,13 +182,13 @@ proc isWhiteSpace*(s: string): bool =
   ## `false` if the string is empty
   runeCheck(s, isWhiteSpace)
 
-proc isWhiteSpace*(s: seq[Rune]): bool =
+func isWhiteSpace*(s: seq[Rune]): bool {.deprecated: "Use isWhiteSpace(string)".} =
   runeCheck(s, isWhiteSpace)
 
-proc isUpper*(c: Rune): bool =
+func isUpper*(c: Rune): bool =
   utmUppercase in c.unicodeTypes()
 
-proc isUpper*(s: string | seq[Rune]): bool =
+func isUpper*(s: string): bool =
   ## return `true` if all cased runes are
   ## upper-case and there is at least one cased rune
   result = false
@@ -199,10 +199,19 @@ proc isUpper*(s: string | seq[Rune]): bool =
       if not result:
         break
 
-proc isLower*(c: Rune): bool =
+func isUpper*(s: seq[Rune]): bool {.deprecated: "Use isUpper(string)".} =
+  result = false
+  for r in s.runes:
+    let ut = r.unicodeTypes()
+    if utmCased in ut:
+      result = utmUppercase in ut
+      if not result:
+        break
+
+func isLower*(c: Rune): bool =
   utmLowercase in c.unicodeTypes()
 
-proc isLower*(s: string | seq[Rune]): bool =
+func isLower*(s: string): bool =
   ## return `true` if all cased runes are
   ## lower-case and there is at least one cased rune
   result = false
@@ -213,7 +222,16 @@ proc isLower*(s: string | seq[Rune]): bool =
       if not result:
         break
 
-proc isTitle*(c: Rune): bool =
+func isLower*(s: seq[Rune]): bool {.deprecated: "Use isLower(string)".} =
+  result = false
+  for r in s.runes:
+    let ut = r.unicodeTypes()
+    if utmCased in ut:
+      result = utmLowercase in ut
+      if not result:
+        break
+
+func isTitle*(c: Rune): bool =
   ## Return ``true`` for ligatures
   ## containing uppercase
   ## followed by lowercase letters
@@ -221,13 +239,27 @@ proc isTitle*(c: Rune): bool =
   ## Return ``false`` otherwise
   c.unicodeCategory() == ctgLt
 
-proc isTitle*(s: string | seq[Rune]): bool =
+func isTitle*(s: string): bool =
   ## A title is a unicode sequence of
   ## uncased characters followed by an
   ## uppercase character and cased
   ## characters followed by a lowercase
   ## character. Return `false` if the
   ## string is empty
+  result = false
+  var isLastCased = false
+  for r in s.runes:
+    let ut = r.unicodeTypes()
+    if utmUppercase in ut and isLastCased:
+      result = false
+      break
+    if utmLowercase in ut and not isLastCased:
+      result = false
+      break
+    isLastCased = utmCased in ut
+    result = true
+
+func isTitle*(s: seq[Rune]): bool {.deprecated: "Use isTitle(string)".} =
   result = false
   var isLastCased = false
   for r in s.runes:
@@ -262,13 +294,13 @@ template caseConversionImpl(
 
 # This follows Unicode Chapter 3,
 # "Default Case Algorithms" section
-proc toUpper*(s: string): string {.inline.} =
+func toUpper*(s: string): string {.inline.} =
   ## Return `s` in upper case.
   ## Beware the result may be
   ## longer than `s`
   caseConversionImpl(s, upperCase)
 
-proc toLower*(s: string): string {.inline.} =
+func toLower*(s: string): string {.inline.} =
   ## Return `s` in lower case.
   ## Beware the result may be
   ## longer than `s`

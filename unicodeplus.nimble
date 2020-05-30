@@ -1,6 +1,6 @@
 # Package
 
-version = "0.7.0"
+version = "0.8.0"
 author = "Esteban Castro Borsani (@nitely)"
 description = "Common unicode operations"
 license = "MIT"
@@ -16,4 +16,4 @@ task test, "Test":
   exec "nim c -r tests/tests"
 
 task docs, "Docs":
-  exec "nim doc2 -o:./docs/index.html ./src/unicodeplus.nim"
+  exec "nim doc --project -o:./docs ./src/unicodeplus.nim"

@@ -1,5 +1,4 @@
 import unittest
-from sequtils import toSeq
 from unicode import Rune, toUTF8
 
 from unicodedb/casing import caseFold
