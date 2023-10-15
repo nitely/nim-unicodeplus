@@ -1,6 +1,12 @@
 v0.8.0
 ==================
 
+* Add `toValidUtf8(string, string): string`
+* Drop support for Nim < 1.0
+
+v0.8.0
+==================
+
 * Deprecate all funcs taking `seq[Rune]`
 
 v0.7.0

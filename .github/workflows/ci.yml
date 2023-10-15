@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  test:
+    name: Nim ${{ matrix.nim }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        # xxx trim to on use latest in each branch eg 1.0.10, 1.2.8 etc
+        nim: [1.0.10, 1.2.12, 1.4.8, 1.6.14, 2.0.0]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run Tests
+      run: |
+        docker pull nimlang/nim:${{ matrix.nim }}
+        docker run --rm -v `pwd`:/usr/src/app -w /usr/src/app nimlang/nim:${{ matrix.nim }} /bin/bash -c "git config --global --add safe.directory /usr/src/app; nimble install -y; nimble test"

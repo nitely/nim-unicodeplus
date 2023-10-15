@@ -13,7 +13,7 @@ nimble install unicodeplus
 
 ## Compatibility
 
-Nim 0.19, 0.20, +1.0
+Nim +1.0
 
 ## Usage
 
