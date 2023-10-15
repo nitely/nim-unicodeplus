@@ -357,18 +357,19 @@ func add2(s: var string, x: openArray[char]) =
   for c in x:
     s.add c
 
-func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
-  ## Return `s` with all invalid utf-8 bytes replaced by the
-  ## `replacement` value
-  if validateUtf8(s) == -1:
-    return s
-  result = ""
-  var i = 0
-  var j = 0
-  while i < s.len:
-    j = validateUtf8 toOpenArray(s, i, s.len-1)
-    if j == -1: break
-    result.add2 toOpenArray(s, i, i+j-1)
-    result.add replacement
-    i += j+1
-  result.add2 toOpenArray(s, i, s.len-1)
+when (NimMajor, NimMinor) >= (2, 0):
+  func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
+    ## Return `s` with all invalid utf-8 bytes replaced by the
+    ## `replacement` value. This is only available on Nim +2.0
+    if validateUtf8(s) == -1:
+      return s
+    result = ""
+    var i = 0
+    var j = 0
+    while i < s.len:
+      j = validateUtf8 toOpenArray(s, i, s.len-1)
+      if j == -1: break
+      result.add2 toOpenArray(s, i, i+j-1)
+      result.add replacement
+      i += j+1
+    result.add2 toOpenArray(s, i, s.len-1)

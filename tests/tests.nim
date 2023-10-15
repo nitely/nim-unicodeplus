@@ -320,23 +320,24 @@ when true:
     check(not cmpCaseless("\u1FE4\u1FE2", "\u1FE2\u1FE2"))
     check(not cmpCaseless("\u1FE2\u1FE2", "\u1FE4\u1FE2"))
 
-test "toValidUtf8":
-  check toValidUtf8("") == ""
-  check toValidUtf8("abc") == "abc"
-  check toValidUtf8("a\xffb", replacement = "") == "ab"
-  check toValidUtf8("a\xffb\xC0\xAFc\xff", "") == "abc"
-  check validateUtf8("\xed\xa0\x80") == -1  # XXX should be invalid
-  check toValidUtf8("\xed\xa0\x80") == "\xed\xa0\x80"
-  check toValidUtf8("\uFDDD") == "\uFDDD"
-  check toValidUtf8("a\xffb") == "a\uFFFDb"
-  check toValidUtf8("a\xffb\uFFFD", "X") == "aXb\uFFFD"
-  check toValidUtf8("a☺\xffb☺\xC0\xAFc☺\xff", "") == "a☺b☺c☺"
-  check toValidUtf8("a☺\xffb☺\xC0\xAFc☺\xff", "日本語") ==
-    "a☺日本語b☺日本語日本語c☺日本語"
-  check toValidUtf8("\xC0\xAF") == "\uFFFD\uFFFD"
-  check validateUtf8("\xE0\x80\xAF") == -1  # XXX should be invalid
-  check toValidUtf8("\xE0\x80\xAF") == "\xE0\x80\xAF"
-  check toValidUtf8("\xF8\x80\x80\x80\xAF") ==
-    "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
-  check toValidUtf8("\xf8\xa1\xa1\xa1\xa1") ==
-    "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
+when (NimMajor, NimMinor) >= (2, 0):
+  test "toValidUtf8":
+    check toValidUtf8("") == ""
+    check toValidUtf8("abc") == "abc"
+    check toValidUtf8("a\xffb", replacement = "") == "ab"
+    check toValidUtf8("a\xffb\xC0\xAFc\xff", "") == "abc"
+    check validateUtf8("\xed\xa0\x80") == -1  # XXX should be invalid
+    check toValidUtf8("\xed\xa0\x80") == "\xed\xa0\x80"
+    check toValidUtf8("\uFDDD") == "\uFDDD"
+    check toValidUtf8("a\xffb") == "a\uFFFDb"
+    check toValidUtf8("a\xffb\uFFFD", "X") == "aXb\uFFFD"
+    check toValidUtf8("a☺\xffb☺\xC0\xAFc☺\xff", "") == "a☺b☺c☺"
+    check toValidUtf8("a☺\xffb☺\xC0\xAFc☺\xff", "日本語") ==
+      "a☺日本語b☺日本語日本語c☺日本語"
+    check toValidUtf8("\xC0\xAF") == "\uFFFD\uFFFD"
+    check validateUtf8("\xE0\x80\xAF") == -1  # XXX should be invalid
+    check toValidUtf8("\xE0\x80\xAF") == "\xE0\x80\xAF"
+    check toValidUtf8("\xF8\x80\x80\x80\xAF") ==
+      "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
+    check toValidUtf8("\xf8\xa1\xa1\xa1\xa1") ==
+      "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
