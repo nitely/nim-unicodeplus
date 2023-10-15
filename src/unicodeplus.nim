@@ -1,7 +1,8 @@
 ## This module provides common unicode operations
 
 from std/unicode import
-  Rune, runes, `==`, fastRuneAt, fastToUtf8Copy, toUtf8
+  Rune, runes, `==`, fastRuneAt,
+  fastToUtf8Copy, toUtf8, validateUtf8
 
 import pkg/unicodedb/properties
 import pkg/unicodedb/types
@@ -351,3 +352,23 @@ func cmpCaseless*(a, b: string): bool {.inline.} =
     idxA = 0
     idxB = 0
   return riA == a.len and riB == b.len
+
+func add2(s: var string, x: openArray[char]) =
+  for c in x:
+    s.add c
+
+func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
+  ## Return `s` with all invalid utf-8 bytes replaced by the
+  ## `replacement` value
+  if validateUtf8(s) == -1:
+    return s
+  result = ""
+  var i = 0
+  var j = 0
+  while i < s.len:
+    j = validateUtf8 toOpenArray(s, i, s.len-1)
+    if j == -1: break
+    result.add2 toOpenArray(s, i, i+j-1)
+    result.add replacement
+    i += j+1
+  result.add2 toOpenArray(s, i, s.len-1)

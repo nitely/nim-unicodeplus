@@ -37,6 +37,7 @@ assert "The quick? (“brown”) fox can’t jump 32.3 feet, right?".toUpper ==
 assert "The quIck? (“bRown”) fox cAn’T jUMp 32.3 feet, rIGHt?".toLower ==
   "the quick? (“brown”) fox can’t jump 32.3 feet, right?"
 assert cmpCaseless("AbCσ", "aBcΣ")
+assert toValidUtf8("a\xffb", replacement = "") == "ab"
 ```
 
 [docs](https://nitely.github.io/nim-unicodeplus/)

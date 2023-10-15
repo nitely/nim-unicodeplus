@@ -1,5 +1,5 @@
 import unittest
-from unicode import Rune, toUTF8
+from unicode import Rune, toUTF8, validateUtf8, toRunes
 
 from unicodedb/casing import caseFold
 
@@ -286,35 +286,57 @@ test "cmpCaseless":
   check cmpCaseless("\u1FA0\u1F60\u03B9", "\u1FA0\u1F60\u03B9")
   check(not cmpCaseless("\u1FA0", "x"))
 
-test "cmpCaseless all":
-  for cp in 0 .. 0x10FFFF:
-    var s = ""
-    for r in caseFold(cp.Rune):
-      s.add r.toUtf8
-    let org = cp.Rune.toUtf8
-    check cmpCaseless(s, org)
-    check cmpCaseless(org, s)
-    check cmpCaseless(s & org, org & s)
-    check cmpCaseless(org & s, s & org)
-    check cmpCaseless(org & s & org, s & org & s)
-    check cmpCaseless(s & org & s, org & s & org)
-    check(not cmpCaseless(s & "a", org))
-    check(not cmpCaseless(org & "a", s))
-    check(not cmpCaseless(s & org & "a", org & s))
+when true:
+  test "cmpCaseless all":
+    for cp in 0 .. 0x10FFFF:
+      var s = ""
+      for r in caseFold(cp.Rune):
+        s.add r.toUtf8
+      let org = cp.Rune.toUtf8
+      check cmpCaseless(s, org)
+      check cmpCaseless(org, s)
+      check cmpCaseless(s & org, org & s)
+      check cmpCaseless(org & s, s & org)
+      check cmpCaseless(org & s & org, s & org & s)
+      check cmpCaseless(s & org & s, org & s & org)
+      check(not cmpCaseless(s & "a", org))
+      check(not cmpCaseless(org & "a", s))
+      check(not cmpCaseless(s & org & "a", org & s))
 
-test "cmpCaseless max":
-  var cMax = 0
-  var i = 0
-  for cp in 0 .. 0x10FFFF:
-    i = 0
-    for r in caseFold(cp.Rune):
-      inc i
-    cMax = max(cMax, i)
-  # we may have to increase the
-  # `cmpCaseless` buffer size if this increases
-  doAssert cMax == 3
-  # caseFold(0x1FE2) == 3 Runes
-  # caseFold(0x1FE4) == 2 Runes
-  # max filled buff is 6
-  check(not cmpCaseless("\u1FE4\u1FE2", "\u1FE2\u1FE2"))
-  check(not cmpCaseless("\u1FE2\u1FE2", "\u1FE4\u1FE2"))
+  test "cmpCaseless max":
+    var cMax = 0
+    var i = 0
+    for cp in 0 .. 0x10FFFF:
+      i = 0
+      for r in caseFold(cp.Rune):
+        inc i
+      cMax = max(cMax, i)
+    # we may have to increase the
+    # `cmpCaseless` buffer size if this increases
+    doAssert cMax == 3
+    # caseFold(0x1FE2) == 3 Runes
+    # caseFold(0x1FE4) == 2 Runes
+    # max filled buff is 6
+    check(not cmpCaseless("\u1FE4\u1FE2", "\u1FE2\u1FE2"))
+    check(not cmpCaseless("\u1FE2\u1FE2", "\u1FE4\u1FE2"))
+
+test "toValidUtf8":
+  check toValidUtf8("") == ""
+  check toValidUtf8("abc") == "abc"
+  check toValidUtf8("a\xffb", replacement = "") == "ab"
+  check toValidUtf8("a\xffb\xC0\xAFc\xff", "") == "abc"
+  check validateUtf8("\xed\xa0\x80") == -1  # XXX should be invalid
+  check toValidUtf8("\xed\xa0\x80") == "\xed\xa0\x80"
+  check toValidUtf8("\uFDDD") == "\uFDDD"
+  check toValidUtf8("a\xffb") == "a\uFFFDb"
+  check toValidUtf8("a\xffb\uFFFD", "X") == "aXb\uFFFD"
+  check toValidUtf8("a☺\xffb☺\xC0\xAFc☺\xff", "") == "a☺b☺c☺"
+  check toValidUtf8("a☺\xffb☺\xC0\xAFc☺\xff", "日本語") ==
+    "a☺日本語b☺日本語日本語c☺日本語"
+  check toValidUtf8("\xC0\xAF") == "\uFFFD\uFFFD"
+  check validateUtf8("\xE0\x80\xAF") == -1  # XXX should be invalid
+  check toValidUtf8("\xE0\x80\xAF") == "\xE0\x80\xAF"
+  check toValidUtf8("\xF8\x80\x80\x80\xAF") ==
+    "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
+  check toValidUtf8("\xf8\xa1\xa1\xa1\xa1") ==
+    "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
