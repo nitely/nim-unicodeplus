@@ -325,6 +325,10 @@ when (NimMajor, NimMinor) >= (2, 0):
     check toValidUtf8("") == ""
     check toValidUtf8("abc") == "abc"
     check toValidUtf8("a\xffb", replacement = "") == "ab"
+    check toValidUtf8("\xffabc", "") == "abc"
+    check toValidUtf8("abc\xff", "") == "abc"
+    check toValidUtf8("ab\xffc", "") == "abc"
+    check toValidUtf8("a\xffbc", "") == "abc"
     check toValidUtf8("a\xffb\xC0\xAFc\xff", "") == "abc"
     check validateUtf8("\xed\xa0\x80") == -1  # XXX should be invalid
     check toValidUtf8("\xed\xa0\x80") == "\xed\xa0\x80"
