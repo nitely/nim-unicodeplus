@@ -353,11 +353,11 @@ func cmpCaseless*(a, b: string): bool {.inline.} =
     idxB = 0
   return riA == a.len and riB == b.len
 
-func add2(s: var string, x: openArray[char]) =
-  for c in x:
-    s.add c
-
 when (NimMajor, NimMinor) >= (2, 0):
+  func add2(s: var string, x: openArray[char]) =
+    for c in x:
+      s.add c
+
   func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
     ## Return `s` with all invalid utf-8 bytes replaced by the
     ## `replacement` value. This is only available on Nim +2.0
