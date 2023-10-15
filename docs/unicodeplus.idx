@@ -1,0 +1,46 @@
+nimTitle	unicodeplus	unicodeplus.html	module unicodeplus		0
+nim	isDecimal	unicodeplus.html#isDecimal,Rune	proc isDecimal(c: Rune): bool		49
+nim	isDecimal	unicodeplus.html#isDecimal,string	proc isDecimal(s: string): bool		55
+nim	isDecimal	unicodeplus.html#isDecimal,seq[Rune]	proc isDecimal(s: seq[Rune]): bool		66
+nim	isDigit	unicodeplus.html#isDigit,Rune	proc isDigit(c: Rune): bool		69
+nim	isDigit	unicodeplus.html#isDigit,string	proc isDigit(s: string): bool		75
+nim	isDigit	unicodeplus.html#isDigit,seq[Rune]	proc isDigit(s: seq[Rune]): bool		89
+nim	isNumeric	unicodeplus.html#isNumeric,Rune	proc isNumeric(c: Rune): bool		92
+nim	isNumeric	unicodeplus.html#isNumeric,string	proc isNumeric(s: string): bool		98
+nim	isNumeric	unicodeplus.html#isNumeric,seq[Rune]	proc isNumeric(s: seq[Rune]): bool		111
+nim	isAlpha	unicodeplus.html#isAlpha,Rune	proc isAlpha(c: Rune): bool		114
+nim	isAlpha	unicodeplus.html#isAlpha,string	proc isAlpha(s: string): bool		120
+nim	isAlpha	unicodeplus.html#isAlpha,seq[Rune]	proc isAlpha(s: seq[Rune]): bool		130
+nim	isAlnum	unicodeplus.html#isAlnum,Rune	proc isAlnum(c: Rune): bool		133
+nim	isAlnum	unicodeplus.html#isAlnum,string	proc isAlnum(s: string): bool		140
+nim	isAlnum	unicodeplus.html#isAlnum,seq[Rune]	proc isAlnum(s: seq[Rune]): bool		151
+nim	isPrintable	unicodeplus.html#isPrintable,Rune	proc isPrintable(c: Rune): bool		154
+nim	isPrintable	unicodeplus.html#isPrintable,string	proc isPrintable(s: string): bool		159
+nim	isPrintable	unicodeplus.html#isPrintable,seq[Rune]	proc isPrintable(s: seq[Rune]): bool		167
+nim	isWhiteSpace	unicodeplus.html#isWhiteSpace,Rune	proc isWhiteSpace(c: Rune): bool		171
+nim	isWhiteSpace	unicodeplus.html#isWhiteSpace,string	proc isWhiteSpace(s: string): bool		176
+nim	isWhiteSpace	unicodeplus.html#isWhiteSpace,seq[Rune]	proc isWhiteSpace(s: seq[Rune]): bool		186
+nim	isUpper	unicodeplus.html#isUpper,Rune	proc isUpper(c: Rune): bool		189
+nim	isUpper	unicodeplus.html#isUpper,string	proc isUpper(s: string): bool		192
+nim	isUpper	unicodeplus.html#isUpper,seq[Rune]	proc isUpper(s: seq[Rune]): bool		203
+nim	isLower	unicodeplus.html#isLower,Rune	proc isLower(c: Rune): bool		212
+nim	isLower	unicodeplus.html#isLower,string	proc isLower(s: string): bool		215
+nim	isLower	unicodeplus.html#isLower,seq[Rune]	proc isLower(s: seq[Rune]): bool		226
+nim	isTitle	unicodeplus.html#isTitle,Rune	proc isTitle(c: Rune): bool		235
+nim	isTitle	unicodeplus.html#isTitle,string	proc isTitle(s: string): bool		243
+nim	isTitle	unicodeplus.html#isTitle,seq[Rune]	proc isTitle(s: seq[Rune]): bool		263
+nim	toUpper	unicodeplus.html#toUpper,string	proc toUpper(s: string): string		290
+nim	toLower	unicodeplus.html#toLower,string	proc toLower(s: string): string		296
+nim	toTitle	unicodeplus.html#toTitle,string	proc toTitle(s: string): string		302
+nim	cmpCaseless	unicodeplus.html#cmpCaseless,string,string	proc cmpCaseless(a, b: string): bool		321
+nim	toValidUtf8	unicodeplus.html#toValidUtf8,string,string	proc toValidUtf8(s: string; replacement = "�"): string		361
+nimgrp	isdigit	unicodeplus.html#isDigit-procs-all	proc		69
+nimgrp	istitle	unicodeplus.html#isTitle-procs-all	proc		235
+nimgrp	isdecimal	unicodeplus.html#isDecimal-procs-all	proc		49
+nimgrp	iswhitespace	unicodeplus.html#isWhiteSpace-procs-all	proc		171
+nimgrp	islower	unicodeplus.html#isLower-procs-all	proc		212
+nimgrp	isupper	unicodeplus.html#isUpper-procs-all	proc		189
+nimgrp	isnumeric	unicodeplus.html#isNumeric-procs-all	proc		92
+nimgrp	isalpha	unicodeplus.html#isAlpha-procs-all	proc		114
+nimgrp	isalnum	unicodeplus.html#isAlnum-procs-all	proc		133
+nimgrp	isprintable	unicodeplus.html#isPrintable-procs-all	proc		154
