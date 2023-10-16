@@ -361,25 +361,25 @@ func verifyUtf8*(s: openArray[char]): int =
   var i = 0
   let L = s.len
   while i < L:
-    if uint(s[i]) <= 127'u8:
+    if uint(s[i]) <= 127:
       inc(i)
     elif uint(s[i]) shr 5 == 0b110:
-      if uint(s[i]) < 0xc2'u8:  # Overlong
+      if uint(s[i]) < 0xc2:  # Overlong
         return i
       if i+1 < L and uint(s[i+1]) shr 6 == 0b10: inc(i, 2)
       else: return i
     elif uint(s[i]) shr 4 == 0b1110:
-      if (uint(s[i]) and 0xf'u8) == 0 and i+1 < L and uint(s[i+1]) < 0x9f'u8:  # Overlong
+      if (uint(s[i]) and 0xf) == 0 and i+1 < L and uint(s[i+1]) < 0x9f.uint:  # Overlong
         return i
-      if (uint(s[i]) and 0xf'u8) == 0b1101 and i+1 < L and uint(s[i+1]) > 0x9f'u8:  # Surrogate
+      if (uint(s[i]) and 0xf) == 0b1101 and i+1 < L and uint(s[i+1]) > 0x9f.uint:  # Surrogate
         return i
       if i+2 < L and uint(s[i+1]) shr 6 == 0b10 and uint(s[i+2]) shr 6 == 0b10:
         inc i, 3
       else: return i
     elif uint(s[i]) shr 3 == 0b11110:
-      if (uint(s[i]) and 0xf'u8) == 0 and i+1 < L and uint(s[i+1]) < 0x90'u8:  # Overlong
+      if (uint(s[i]) and 0xf) == 0 and i+1 < L and uint(s[i+1]) < 0x90.uint:  # Overlong
         return i
-      if (uint(s[i]) and 0xf'u8) == 0b100 and i+1 < L and uint(s[i+1]) > 0x8f'u8:  # Too large
+      if (uint(s[i]) and 0xf) == 0b100 and i+1 < L and uint(s[i+1]) > 0x8f.uint:  # Too large
         return i
       if i+3 < L and uint(s[i+1]) shr 6 == 0b10 and
                     uint(s[i+2]) shr 6 == 0b10 and
