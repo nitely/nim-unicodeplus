@@ -1,3 +1,9 @@
+v0.10.0
+==================
+
+* Add verifyUtf8
+* Add toValidUtf8 for all supported Nim versions
+
 v0.9.1
 ==================
 
