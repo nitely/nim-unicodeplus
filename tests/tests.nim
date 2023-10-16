@@ -1,5 +1,5 @@
 import unittest
-from unicode import Rune, toUTF8, validateUtf8, toRunes
+from unicode import Rune, toUTF8
 
 from unicodedb/casing import caseFold
 
