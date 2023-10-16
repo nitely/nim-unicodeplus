@@ -320,7 +320,47 @@ when true:
     check(not cmpCaseless("\u1FE4\u1FE2", "\u1FE2\u1FE2"))
     check(not cmpCaseless("\u1FE2\u1FE2", "\u1FE4\u1FE2"))
 
-when (NimMajor, NimMinor) >= (2, 0):
+test "verifyUtf8":
+  check verifyUtf8("") == -1
+  check verifyUtf8("a") == -1
+  check verifyUtf8("ab") == -1
+  check verifyUtf8("aÂâð♘☺🃞") == -1
+  check verifyUtf8("\xff") == 0
+  check verifyUtf8("\xffabc") == 0
+  check verifyUtf8("ab\xffc") == 2
+  check verifyUtf8("abc\xff") == 3
+  check verifyUtf8("a\xffb") == 1
+  # U+10FFFF, biggest code point, <F4 8F BF BF>
+  check verifyUtf8("\xf4\x8f\xbf\xbf") == -1
+  check verifyUtf8("\u{10FFFF}") == -1
+  # too big U+110000, <F4 90 80 80>
+  check verifyUtf8("\xf4\x90\x80\x80") == 0
+  # too big U+00200000, <f8 88 80 80 80>
+  check verifyUtf8("\xf8\x88\x80\x80\x80") == 0
+  # too big U+03FFFFFF, <F7 BF BF BF BF>
+  check verifyUtf8("\xF7\xBF\xBF\xBF\xBF") != -1
+  # too big U+04000000, <fc 84 80 80 80 80>
+  check verifyUtf8("\xfc\x84\x80\x80\x80\x80") == 0
+  # too big U+7FFFFFFF, <F7 BF BF BF BF BF>
+  check verifyUtf8("\xF7\xBF\xBF\xBF\xBF\xBF") != -1
+  # U+D800 to U+DBFF -- high surrogates
+  # U+DC00 to U+DFFF -- low surrogates
+  # 1 surrogate U+D800, <ed a0 80>
+  check verifyUtf8("\xed\xa0\x80") == 0
+  check verifyUtf8("\xED\xAF\xBF") == 0
+  check verifyUtf8("\xED\xB0\x80") == 0
+  check verifyUtf8("\xED\xBF\xBF") == 0
+  # overlong solidus <c0 af>
+  check verifyUtf8("\xc0\xaf") == 0
+  # overlong solidus <e0 80 af>
+  check verifyUtf8("\xe0\x80\xaf") != -1
+  check verifyUtf8("\xf0\x80\x80\xaf") != -1
+  # overlong solidus <f8 80 80 80 af>
+  check verifyUtf8("\xf0\x80\x80\x80\xaf") == 0
+  # overlong solidus <fc 80 80 80 80 af>
+  check verifyUtf8("\xf0\x80\x80\x80\x80\xaf") == 0
+
+when true:
   test "toValidUtf8":
     check toValidUtf8("") == ""
     check toValidUtf8("abc") == "abc"
@@ -330,8 +370,7 @@ when (NimMajor, NimMinor) >= (2, 0):
     check toValidUtf8("ab\xffc", "") == "abc"
     check toValidUtf8("a\xffbc", "") == "abc"
     check toValidUtf8("a\xffb\xC0\xAFc\xff", "") == "abc"
-    check validateUtf8("\xed\xa0\x80") == -1  # XXX should be invalid
-    check toValidUtf8("\xed\xa0\x80") == "\xed\xa0\x80"
+    check toValidUtf8("\xed\xa0\x80") == "\uFFFD\uFFFD\uFFFD"
     check toValidUtf8("\uFDDD") == "\uFDDD"
     check toValidUtf8("a\xffb") == "a\uFFFDb"
     check toValidUtf8("a\xffb\uFFFD", "X") == "aXb\uFFFD"
@@ -339,8 +378,7 @@ when (NimMajor, NimMinor) >= (2, 0):
     check toValidUtf8("a☺\xffb☺\xC0\xAFc☺\xff", "日本語") ==
       "a☺日本語b☺日本語日本語c☺日本語"
     check toValidUtf8("\xC0\xAF") == "\uFFFD\uFFFD"
-    check validateUtf8("\xE0\x80\xAF") == -1  # XXX should be invalid
-    check toValidUtf8("\xE0\x80\xAF") == "\xE0\x80\xAF"
+    check toValidUtf8("\xE0\x80\xAF") == "\uFFFD\uFFFD\uFFFD"
     check toValidUtf8("\xF8\x80\x80\x80\xAF") ==
       "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
     check toValidUtf8("\xf8\xa1\xa1\xa1\xa1") ==

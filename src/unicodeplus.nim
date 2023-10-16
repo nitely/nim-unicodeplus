@@ -2,7 +2,7 @@
 
 from std/unicode import
   Rune, runes, `==`, fastRuneAt,
-  fastToUtf8Copy, toUtf8, validateUtf8
+  fastToUtf8Copy
 
 import pkg/unicodedb/properties
 import pkg/unicodedb/types
@@ -353,23 +353,59 @@ func cmpCaseless*(a, b: string): bool {.inline.} =
     idxB = 0
   return riA == a.len and riB == b.len
 
-when (NimMajor, NimMinor) >= (2, 0):
-  func add2(s: var string, x: openArray[char]) =
-    for c in x:
-      s.add c
+# ref https://arxiv.org/pdf/2010.03090.pdf
+func verifyUtf8*(s: openArray[char]): int =
+  ## Returns the position of the invalid byte in `s` if
+  ## the string `s` does not hold valid UTF-8 data.
+  ## Otherwise -1 is returned.
+  var i = 0
+  let L = s.len
+  while i < L:
+    if uint(s[i]) <= 127:
+      inc(i)
+    elif uint(s[i]) shr 5 == 0b110:
+      if uint(s[i]) < 0xc2:  # Overlong
+        return i
+      if i+1 < L and uint(s[i+1]) shr 6 == 0b10: inc(i, 2)
+      else: return i
+    elif uint(s[i]) shr 4 == 0b1110:
+      if (uint(s[i]) and 0xf) == 0 and i+1 < L and uint(s[i+1]) < 0x9f:  # Overlong
+        return i
+      if (uint(s[i]) and 0xf) == 0b1101 and i+1 < L and uint(s[i+1]) > 0x9f:  # Surrogate
+        return i
+      if i+2 < L and uint(s[i+1]) shr 6 == 0b10 and uint(s[i+2]) shr 6 == 0b10:
+        inc i, 3
+      else: return i
+    elif uint(s[i]) shr 3 == 0b11110:
+      if (uint(s[i]) and 0xf) == 0 and i+1 < L and uint(s[i+1]) < 0x90:  # Overlong
+        return i
+      if (uint(s[i]) and 0xf) == 0b100 and i+1 < L and uint(s[i+1]) > 0x8f:  # Too large
+        return i
+      if i+3 < L and uint(s[i+1]) shr 6 == 0b10 and
+                    uint(s[i+2]) shr 6 == 0b10 and
+                    uint(s[i+3]) shr 6 == 0b10:
+        inc i, 4
+      else: return i
+    else:  # Too long
+      return i
+  return -1
 
-  func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
-    ## Return `s` with all invalid utf-8 bytes replaced by the
-    ## `replacement` value. This is only available on Nim +2.0
-    if validateUtf8(s) == -1:
-      return s
-    result = ""
-    var i = 0
-    var j = 0
-    while i < s.len:
-      j = validateUtf8 toOpenArray(s, i, s.len-1)
-      if j == -1: break
-      result.add2 toOpenArray(s, i, i+j-1)
-      result.add replacement
-      i += j+1
-    result.add2 toOpenArray(s, i, s.len-1)
+func add2(s: var string, x: openArray[char]) =
+  for c in x:
+    s.add c
+
+func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
+  ## Return `s` with all invalid utf-8 bytes replaced by the
+  ## `replacement` value.
+  if verifyUtf8(s) == -1:
+    return s
+  result = ""
+  var i = 0
+  var j = 0
+  while i < s.len:
+    j = verifyUtf8 toOpenArray(s, i, s.len-1)
+    if j == -1: break
+    result.add2 toOpenArray(s, i, i+j-1)
+    result.add replacement
+    i += j+1
+  result.add2 toOpenArray(s, i, s.len-1)
