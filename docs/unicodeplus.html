@@ -131,6 +131,10 @@
   <li><a class="reference" href="#toValidUtf8%2Cstring%2Cstring" title="toValidUtf8(s: string; replacement = &quot;�&quot;): string">toValidUtf8(s: string; replacement = &quot;�&quot;): string</a></li>
 
 </ul>
+<ul class="simple nested-toc-section">verifyUtf8
+  <li><a class="reference" href="#verifyUtf8%2CopenArray%5Bchar%5D" title="verifyUtf8(s: openArray[char]): int">verifyUtf8(s: openArray[char]): int</a></li>
+
+</ul>
 
     </ul>
   </details>
@@ -507,7 +511,18 @@
     <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
   <dd>
     
-    Return <tt class="docutils literal"><span class="pre"><span class="Identifier">s</span></span></tt> with all invalid utf-8 bytes replaced by the <tt class="docutils literal"><span class="pre"><span class="Identifier">replacement</span></span></tt> value. This is only available on Nim +2.0
+    Return <tt class="docutils literal"><span class="pre"><span class="Identifier">s</span></span></tt> with all invalid utf-8 bytes replaced by the <tt class="docutils literal"><span class="pre"><span class="Identifier">replacement</span></span></tt> value.
+    
+  </dd>
+</div>
+
+</div>
+<div id="verifyUtf8-procs-all">
+  <div id="verifyUtf8,openArray[char]">
+  <dt><pre><span class="Keyword">func</span> <a href="#verifyUtf8%2CopenArray%5Bchar%5D"><span class="Identifier">verifyUtf8</span></a><span class="Other">(</span><span class="Identifier">s</span><span class="Other">:</span> <span class="Identifier">openArray</span><span class="Other">[</span><span class="Identifier">char</span><span class="Other">]</span><span class="Other">)</span><span class="Other">:</span> <span class="Identifier">int</span> {.<span><span class="Other pragmadots">...</span></span><span class="pragmawrap"><span class="Identifier">raises</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">tags</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span><span class="Other">,</span> <span class="Identifier">forbids</span><span class="Other">:</span> <span class="Other">[</span><span class="Other">]</span></span>.}</pre></dt>
+  <dd>
+    
+    Returns the position of the invalid byte in <tt class="docutils literal"><span class="pre"><span class="Identifier">s</span></span></tt> if the string <tt class="docutils literal"><span class="pre"><span class="Identifier">s</span></span></tt> does not hold valid UTF-8 data. Otherwise -1 is returned.
     
   </dd>
 </div>
@@ -523,7 +538,7 @@
       <div class="twelve-columns footer">
         <span class="nim-sprite"></span>
         <br>
-        <small style="color: var(--hint);">Made with Nim. Generated: 2023-10-15 22:31:13 UTC</small>
+        <small style="color: var(--hint);">Made with Nim. Generated: 2023-10-16 23:49:55 UTC</small>
       </div>
     </div>
   </div>

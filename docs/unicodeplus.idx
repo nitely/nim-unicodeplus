@@ -33,7 +33,8 @@ nim	toUpper	unicodeplus.html#toUpper,string	proc toUpper(s: string): string		290
 nim	toLower	unicodeplus.html#toLower,string	proc toLower(s: string): string		296
 nim	toTitle	unicodeplus.html#toTitle,string	proc toTitle(s: string): string		302
 nim	cmpCaseless	unicodeplus.html#cmpCaseless,string,string	proc cmpCaseless(a, b: string): bool		321
-nim	toValidUtf8	unicodeplus.html#toValidUtf8,string,string	proc toValidUtf8(s: string; replacement = "�"): string		361
+nim	verifyUtf8	unicodeplus.html#verifyUtf8,openArray[char]	proc verifyUtf8(s: openArray[char]): int		357
+nim	toValidUtf8	unicodeplus.html#toValidUtf8,string,string	proc toValidUtf8(s: string; replacement = "�"): string		412
 nimgrp	isdigit	unicodeplus.html#isDigit-procs-all	proc		69
 nimgrp	istitle	unicodeplus.html#isTitle-procs-all	proc		235
 nimgrp	isdecimal	unicodeplus.html#isDecimal-procs-all	proc		49
