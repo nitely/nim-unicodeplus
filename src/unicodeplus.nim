@@ -353,7 +353,7 @@ func cmpCaseless*(a, b: string): bool {.inline.} =
     idxB = 0
   return riA == a.len and riB == b.len
 
-# ref https://arxiv.org/pdf/2010.03090.pdf
+# Ref https://arxiv.org/pdf/2010.03090.pdf
 func verifyUtf8*(s: openArray[char]): int =
   ## Returns the position of the invalid byte in `s` if
   ## the string `s` does not hold valid UTF-8 data.
@@ -366,26 +366,41 @@ func verifyUtf8*(s: openArray[char]): int =
     elif uint(s[i]) shr 5 == 0b110:
       if uint(s[i]) < 0xc2:  # Overlong
         return i
-      if i+1 < L and uint(s[i+1]) shr 6 == 0b10: inc(i, 2)
-      else: return i
+      if i+1 < L and uint(s[i+1]) shr 6 == 0b10:
+        inc(i, 2)
+      else:
+        return i
     elif uint(s[i]) shr 4 == 0b1110:
-      if (uint(s[i]) and 0xf) == 0 and i+1 < L and uint(s[i+1]) < 0x9f.uint:  # Overlong
+      if (uint(s[i]) and 0xf) == 0 and
+          i+1 < L and
+          uint(s[i+1]) < 0x9f.uint:  # Overlong
         return i
-      if (uint(s[i]) and 0xf) == 0b1101 and i+1 < L and uint(s[i+1]) > 0x9f.uint:  # Surrogate
+      if (uint(s[i]) and 0xf) == 0b1101 and
+          i+1 < L and
+          uint(s[i+1]) > 0x9f.uint:  # Surrogate
         return i
-      if i+2 < L and uint(s[i+1]) shr 6 == 0b10 and uint(s[i+2]) shr 6 == 0b10:
+      if i+2 < L and
+          uint(s[i+1]) shr 6 == 0b10 and
+          uint(s[i+2]) shr 6 == 0b10:
         inc i, 3
-      else: return i
+      else:
+        return i
     elif uint(s[i]) shr 3 == 0b11110:
-      if (uint(s[i]) and 0xf) == 0 and i+1 < L and uint(s[i+1]) < 0x90.uint:  # Overlong
+      if (uint(s[i]) and 0xf) == 0 and
+          i+1 < L and
+          uint(s[i+1]) < 0x90.uint:  # Overlong
         return i
-      if (uint(s[i]) and 0xf) == 0b100 and i+1 < L and uint(s[i+1]) > 0x8f.uint:  # Too large
+      if (uint(s[i]) and 0xf) == 0b100 and
+          i+1 < L and
+          uint(s[i+1]) > 0x8f.uint:  # Too large
         return i
-      if i+3 < L and uint(s[i+1]) shr 6 == 0b10 and
-                    uint(s[i+2]) shr 6 == 0b10 and
-                    uint(s[i+3]) shr 6 == 0b10:
+      if i+3 < L and
+          uint(s[i+1]) shr 6 == 0b10 and
+          uint(s[i+2]) shr 6 == 0b10 and
+          uint(s[i+3]) shr 6 == 0b10:
         inc i, 4
-      else: return i
+      else:
+        return i
     else:  # Too long
       return i
   return -1
