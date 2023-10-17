@@ -456,8 +456,9 @@ func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
   var badSeq = 0 .. -1
   var oldLen = -1
   var i = 0
-  var j = 0
+  var i2 = -1
   while i < s.len:
+    doAssert i > i2; i2 = i
     if verifyUtf8(toOpenArray(s, i, s.len-1), badSeq):
       break
     result.add2 toOpenArray(s, i, i+badSeq.a-1)
