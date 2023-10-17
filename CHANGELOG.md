@@ -1,8 +1,16 @@
+v0.11.0
+==================
+
+* Add `verifyUtf8(openArray[char], var Slice[int]): bool`
+  to get the bad char bounds not just the start index
+* Change `toValidUtf8` behaviour to replace bad byte sequences
+  by a single replacement value
+
 v0.10.0
 ==================
 
-* Add verifyUtf8
-* Add toValidUtf8 for all supported Nim versions
+* Add `verifyUtf8`
+* Add `toValidUtf8` for all supported Nim versions
 
 v0.9.1
 ==================

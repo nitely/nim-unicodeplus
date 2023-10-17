@@ -353,74 +353,116 @@ func cmpCaseless*(a, b: string): bool {.inline.} =
     idxB = 0
   return riA == a.len and riB == b.len
 
-# Ref https://arxiv.org/pdf/2010.03090.pdf
-func verifyUtf8*(s: openArray[char]): int =
-  ## Returns the position of the invalid byte in `s` if
-  ## the string `s` does not hold valid UTF-8 data.
-  ## Otherwise -1 is returned.
+type
+  verifyUtf8State = enum
+    vusError, vusStart, vusA, vusB, vusC, vusD, vusE, vusF, vusG
+
+# Ref http://unicode.org/mail-arch/unicode-ml/y2003-m02/att-0467/01-The_Algorithm_to_Valide_an_UTF-8_String
+func verifyUtf8*(s: openArray[char], badSeq: var Slice[int]): bool =
+  ## Return `true` is `s` is a valid utf-8 string. Otherwise, return `false`
+  ## and assign the bad sequence bounds to `badSeq`.
+  var state = vusStart
+  var badSeqStart = 0
   var i = 0
   let L = s.len
   while i < L:
-    if uint(s[i]) <= 127:
-      inc(i)
-    elif uint(s[i]) shr 5 == 0b110:
-      if uint(s[i]) < 0xc2:  # Overlong
-        return i
-      if i+1 < L and uint(s[i+1]) shr 6 == 0b10:
-        inc(i, 2)
+    case state:
+    of vusStart:
+      badSeqStart = i
+      state = if uint(s[i]) in 0x00'u8 .. 0x7F'u8:
+        vusStart
+      elif uint(s[i]) in 0xC2'u8 .. 0xDF'u8:
+        vusA
+      elif uint(s[i]) in 0xE1'u8 .. 0xEC'u8 or uint(s[i]) in 0xEE'u8 .. 0xEF'u8:
+        vusB
+      elif uint(s[i]) == 0xE0'u8:
+        vusC
+      elif uint(s[i]) == 0xED'u8:
+        vusD
+      elif uint(s[i]) in 0xF1'u8 .. 0xF3'u8:
+        vusE
+      elif uint(s[i]) == 0xF0'u8:
+        vusF
+      elif uint(s[i]) == 0xF4'u8:
+        vusG
       else:
-        return i
-    elif uint(s[i]) shr 4 == 0b1110:
-      if (uint(s[i]) and 0xf) == 0 and
-          i+1 < L and
-          uint(s[i+1]) < 0x9f.uint:  # Overlong
-        return i
-      if (uint(s[i]) and 0xf) == 0b1101 and
-          i+1 < L and
-          uint(s[i+1]) > 0x9f.uint:  # Surrogate
-        return i
-      if i+2 < L and
-          uint(s[i+1]) shr 6 == 0b10 and
-          uint(s[i+2]) shr 6 == 0b10:
-        inc i, 3
+        vusError
+    of vusA:
+      state = if uint(s[i]) in 0x80'u8 .. 0xBF'u8:
+        vusStart
       else:
-        return i
-    elif uint(s[i]) shr 3 == 0b11110:
-      if (uint(s[i]) and 0xf) == 0 and
-          i+1 < L and
-          uint(s[i+1]) < 0x90.uint:  # Overlong
-        return i
-      if (uint(s[i]) and 0xf) == 0b100 and
-          i+1 < L and
-          uint(s[i+1]) > 0x8f.uint:  # Too large
-        return i
-      if i+3 < L and
-          uint(s[i+1]) shr 6 == 0b10 and
-          uint(s[i+2]) shr 6 == 0b10 and
-          uint(s[i+3]) shr 6 == 0b10:
-        inc i, 4
+        vusError
+    of vusB:
+      state = if uint(s[i]) in 0x80'u8 .. 0xBF'u8:
+        vusA
       else:
-        return i
-    else:  # Too long
-      return i
-  return -1
+        vusError
+    of vusC:
+      state = if uint(s[i]) in 0xA0'u8 .. 0xBF'u8:
+        vusA
+      else:
+        vusError
+    of vusD:
+      state = if uint(s[i]) in 0x80'u8 .. 0x9F'u8:
+        vusA
+      else:
+        vusError
+    of vusE:
+      state = if uint(s[i]) in 0x80'u8 .. 0xBF'u8:
+        vusB
+      else:
+        vusError
+    of vusF:
+      state = if uint(s[i]) in 0x90'u8 .. 0xBF'u8:
+        vusB
+      else:
+        vusError
+    of vusG:
+      state = if uint(s[i]) in 0x80'u8 .. 0x8F'u8:
+        vusB
+      else:
+        vusError
+    of vusError:
+      doAssert false
+    if state == vusError:
+      break
+    inc i
+  if state != vusStart:
+    badSeq = badSeqStart .. i
+    return false
+  else:
+    badSeq = 0 .. -1
+    return true
+
+func verifyUtf8*(s: openArray[char]): int =
+  ## Return `-1` if `s` is a valid utf-8 string.
+  ## Otherwise, return the index of the first bad char.
+  var badSeq = 0 .. -1
+  if verifyUtf8(s, badSeq):
+    return -1
+  else:
+    return badSeq.a
 
 func add2(s: var string, x: openArray[char]) =
   for c in x:
     s.add c
 
 func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
-  ## Return `s` with all invalid utf-8 bytes replaced by the
+  ## Return `s` with invalid utf-8 bytes sequences replaced by the
   ## `replacement` value.
   if verifyUtf8(s) == -1:
     return s
   result = ""
+  var badSeq = 0 .. -1
+  var oldLen = -1
   var i = 0
   var j = 0
   while i < s.len:
-    j = verifyUtf8 toOpenArray(s, i, s.len-1)
-    if j == -1: break
-    result.add2 toOpenArray(s, i, i+j-1)
-    result.add replacement
-    i += j+1
+    if verifyUtf8(toOpenArray(s, i, s.len-1), badSeq):
+      break
+    result.add2 toOpenArray(s, i, i+badSeq.a-1)
+    if oldLen != result.len:
+      result.add replacement
+      oldLen = result.len
+    i += badSeq.b+1
   result.add2 toOpenArray(s, i, s.len-1)

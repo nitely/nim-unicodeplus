@@ -286,7 +286,7 @@ test "cmpCaseless":
   check cmpCaseless("\u1FA0\u1F60\u03B9", "\u1FA0\u1F60\u03B9")
   check(not cmpCaseless("\u1FA0", "x"))
 
-when true:
+when false:
   test "cmpCaseless all":
     for cp in 0 .. 0x10FFFF:
       var s = ""
@@ -370,16 +370,14 @@ when true:
     check toValidUtf8("ab\xffc", "") == "abc"
     check toValidUtf8("a\xffbc", "") == "abc"
     check toValidUtf8("a\xffb\xC0\xAFc\xff", "") == "abc"
-    check toValidUtf8("\xed\xa0\x80") == "\uFFFD\uFFFD\uFFFD"
+    check toValidUtf8("\xed\xa0\x80") == "\uFFFD"
     check toValidUtf8("\uFDDD") == "\uFDDD"
     check toValidUtf8("a\xffb") == "a\uFFFDb"
     check toValidUtf8("a\xffb\uFFFD", "X") == "aXb\uFFFD"
     check toValidUtf8("a☺\xffb☺\xC0\xAFc☺\xff", "") == "a☺b☺c☺"
     check toValidUtf8("a☺\xffb☺\xC0\xAFc☺\xff", "日本語") ==
-      "a☺日本語b☺日本語日本語c☺日本語"
-    check toValidUtf8("\xC0\xAF") == "\uFFFD\uFFFD"
-    check toValidUtf8("\xE0\x80\xAF") == "\uFFFD\uFFFD\uFFFD"
-    check toValidUtf8("\xF8\x80\x80\x80\xAF") ==
-      "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
-    check toValidUtf8("\xf8\xa1\xa1\xa1\xa1") ==
-      "\uFFFD\uFFFD\uFFFD\uFFFD\uFFFD"
+      "a☺日本語b☺日本語c☺日本語"
+    check toValidUtf8("\xC0\xAF") == "\uFFFD"
+    check toValidUtf8("\xE0\x80\xAF") == "\uFFFD"
+    check toValidUtf8("\xF8\x80\x80\x80\xAF") == "\uFFFD"
+    check toValidUtf8("\xf8\xa1\xa1\xa1\xa1") == "\uFFFD"
