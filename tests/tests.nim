@@ -286,7 +286,7 @@ test "cmpCaseless":
   check cmpCaseless("\u1FA0\u1F60\u03B9", "\u1FA0\u1F60\u03B9")
   check(not cmpCaseless("\u1FA0", "x"))
 
-when false:
+when true:
   test "cmpCaseless all":
     for cp in 0 .. 0x10FFFF:
       var s = ""
@@ -320,47 +320,23 @@ when false:
     check(not cmpCaseless("\u1FE4\u1FE2", "\u1FE2\u1FE2"))
     check(not cmpCaseless("\u1FE2\u1FE2", "\u1FE4\u1FE2"))
 
+# Ref http://unicode.org/mail-arch/unicode-ml/y2003-m02/att-0467/01-The_Algorithm_to_Valide_an_UTF-8_String
 test "verifyUtf8":
   check verifyUtf8("") == -1
   check verifyUtf8("a") == -1
   check verifyUtf8("ab") == -1
   check verifyUtf8("aÂâð♘☺🃞") == -1
-  check verifyUtf8("\xff") == 0
   check verifyUtf8("\xffabc") == 0
   check verifyUtf8("ab\xffc") == 2
   check verifyUtf8("abc\xff") == 3
   check verifyUtf8("a\xffb") == 1
-  # U+10FFFF, biggest code point, <F4 8F BF BF>
+  check verifyUtf8("\xc2") == 0
+  check verifyUtf8("\xf8\xa1\xa1\xa1\xa1") == 0
+  # 0x10FFFF biggest code point
   check verifyUtf8("\xf4\x8f\xbf\xbf") == -1
   check verifyUtf8("\u{10FFFF}") == -1
-  # too big U+110000, <F4 90 80 80>
-  check verifyUtf8("\xf4\x90\x80\x80") == 0
-  # too big U+00200000, <f8 88 80 80 80>
-  check verifyUtf8("\xf8\x88\x80\x80\x80") == 0
-  # too big U+03FFFFFF, <F7 BF BF BF BF>
-  check verifyUtf8("\xF7\xBF\xBF\xBF\xBF") != -1
-  # too big U+04000000, <fc 84 80 80 80 80>
-  check verifyUtf8("\xfc\x84\x80\x80\x80\x80") == 0
-  # too big U+7FFFFFFF, <F7 BF BF BF BF BF>
-  check verifyUtf8("\xF7\xBF\xBF\xBF\xBF\xBF") != -1
-  # U+D800 to U+DBFF -- high surrogates
-  # U+DC00 to U+DFFF -- low surrogates
-  # 1 surrogate U+D800, <ed a0 80>
-  check verifyUtf8("\xed\xa0\x80") == 0
-  check verifyUtf8("\xED\xAF\xBF") == 0
-  check verifyUtf8("\xED\xB0\x80") == 0
-  check verifyUtf8("\xED\xBF\xBF") == 0
-  # overlong solidus <c0 af>
-  check verifyUtf8("\xc0\xaf") == 0
-  # overlong solidus <e0 80 af>
-  check verifyUtf8("\xe0\x80\xaf") != -1
-  check verifyUtf8("\xf0\x80\x80\xaf") != -1
-  # overlong solidus <f8 80 80 80 af>
-  check verifyUtf8("\xf0\x80\x80\x80\xaf") == 0
-  # overlong solidus <fc 80 80 80 80 af>
-  check verifyUtf8("\xf0\x80\x80\x80\x80\xaf") == 0
-  # other
-  check verifyUtf8("\xc2") == 0
+  # XXX Add tests for good ranges
+
   # Non-shortest form (which is illegal) UTF-8 octet range (hex)
   # 0xc0-0xc1 0x80-0xbf
   check verifyUtf8("\xc0\x80") == 0
@@ -422,6 +398,40 @@ test "verifyUtf8":
   check verifyUtf8("\xf7\xbf\x80\x80") == 0
   check verifyUtf8("\xf7\xbf\xbf\x80") == 0
   check verifyUtf8("\xf7\xbf\xbf\xbf") == 0
+  # Bytes never used by valid UTF-8
+  check verifyUtf8("\xfe") == 0
+  check verifyUtf8("\xff") == 0
+  check verifyUtf8("\xf8") == 0
+  check verifyUtf8("\xfb") == 0
+  check verifyUtf8("\xfc") == 0
+  check verifyUtf8("\xfd") == 0
+  check verifyUtf8("\xc0") == 0
+  check verifyUtf8("\xc1") == 0
+  check verifyUtf8("\xf5") == 0
+  check verifyUtf8("\xf7") == 0
+  # Two byte pairs never used in UTF-8
+  # 0xc0-0xf7 0x00-0x7f
+  # 0xc0-0xf7 0xc0-0xff
+  check verifyUtf8("\xc0\x00") == 0
+  check verifyUtf8("\xc0\x7f") == 0
+  check verifyUtf8("\xc0\xc0") == 0
+  check verifyUtf8("\xc0\xff") == 0
+  check verifyUtf8("\xf7\x00") == 0
+  check verifyUtf8("\xf7\x7f") == 0
+  check verifyUtf8("\xf7\xc0") == 0
+  check verifyUtf8("\xf7\xff") == 0
+  # 0xe0      0x80-0x9f
+  check verifyUtf8("\xe0\x80") == 0
+  check verifyUtf8("\xe0\x9f") == 0
+  # 0xf0      0x80-0x8f
+  check verifyUtf8("\xf0\x80") == 0
+  check verifyUtf8("\xf0\x8f") == 0
+  # 0xed      0xa0-0xbf
+  check verifyUtf8("\xed\xa0") == 0
+  check verifyUtf8("\xed\xbf") == 0
+  # 0xf4      0x90-0xbf
+  check verifyUtf8("\xf4\x90") == 0
+  check verifyUtf8("\xf4\xbf") == 0
 
 when true:
   test "toValidUtf8":
