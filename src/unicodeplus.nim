@@ -358,9 +358,9 @@ type
     vusError, vusStart, vusA, vusB, vusC, vusD, vusE, vusF, vusG
 
 # Ref http://unicode.org/mail-arch/unicode-ml/y2003-m02/att-0467/01-The_Algorithm_to_Valide_an_UTF-8_String
-func verifyUtf8*(s: openArray[char], badSeq: var Slice[int]): bool =
-  ## Return `true` is `s` is a valid utf-8 string. Otherwise, return `false`
-  ## and assign the first bad sequence bounds to `badSeq`.
+func findBadSeqUtf8*(s: openArray[char]): Slice[int] =
+  ## Return a zero len `Slice` if `s` is a valid utf-8 string.
+  ## Otherwise, return the first invalid bytes sequence bounds.
   var state = vusStart
   var badSeqStart = 0
   var i = 0
@@ -428,17 +428,15 @@ func verifyUtf8*(s: openArray[char], badSeq: var Slice[int]): bool =
       break
     inc i
   if state != vusStart:
-    badSeq = badSeqStart .. i
-    return false
+    result = badSeqStart .. i
   else:
-    badSeq = 0 .. -1
-    return true
+    result = 0 .. -1
 
 func verifyUtf8*(s: openArray[char]): int =
   ## Return `-1` if `s` is a valid utf-8 string.
   ## Otherwise, return the index of the first bad char.
-  var badSeq = 0 .. -1
-  if verifyUtf8(s, badSeq):
+  let badSeq = findBadSeqUtf8(s)
+  if badSeq.len == 0:
     return -1
   else:
     return badSeq.a
@@ -459,7 +457,8 @@ func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
   var i2 = -1
   while i < s.len:
     doAssert i > i2; i2 = i
-    if verifyUtf8(toOpenArray(s, i, s.len-1), badSeq):
+    badSeq = findBadSeqUtf8 toOpenArray(s, i, s.len-1)
+    if badSeq.len == 0:
       break
     result.add2 toOpenArray(s, i, i+badSeq.a-1)
     if oldLen != result.len:

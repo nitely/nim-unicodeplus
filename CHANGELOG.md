@@ -1,7 +1,7 @@
 v0.11.0
 ==================
 
-* Add `verifyUtf8(openArray[char], var Slice[int]): bool`
+* Add `findBadSeqUtf8(openArray[char]): Slice[int]`
   to get the bad char bounds not just the start index
 * Change `toValidUtf8` behaviour to replace bad byte sequences
   by a single replacement value
