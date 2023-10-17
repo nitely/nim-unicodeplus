@@ -360,7 +360,7 @@ type
 # Ref http://unicode.org/mail-arch/unicode-ml/y2003-m02/att-0467/01-The_Algorithm_to_Valide_an_UTF-8_String
 func verifyUtf8*(s: openArray[char], badSeq: var Slice[int]): bool =
   ## Return `true` is `s` is a valid utf-8 string. Otherwise, return `false`
-  ## and assign the bad sequence bounds to `badSeq`.
+  ## and assign the first bad sequence bounds to `badSeq`.
   var state = vusStart
   var badSeqStart = 0
   var i = 0
@@ -369,56 +369,56 @@ func verifyUtf8*(s: openArray[char], badSeq: var Slice[int]): bool =
     case state:
     of vusStart:
       badSeqStart = i
-      state = if uint(s[i]) in 0x00'u8 .. 0x7F'u8:
+      state = if uint8(s[i]) in 0x00'u8 .. 0x7F'u8:
         vusStart
-      elif uint(s[i]) in 0xC2'u8 .. 0xDF'u8:
+      elif uint8(s[i]) in 0xC2'u8 .. 0xDF'u8:
         vusA
-      elif uint(s[i]) in 0xE1'u8 .. 0xEC'u8 or uint(s[i]) in 0xEE'u8 .. 0xEF'u8:
+      elif uint8(s[i]) in 0xE1'u8 .. 0xEC'u8 or uint8(s[i]) in 0xEE'u8 .. 0xEF'u8:
         vusB
-      elif uint(s[i]) == 0xE0'u8:
+      elif uint8(s[i]) == 0xE0'u8:
         vusC
-      elif uint(s[i]) == 0xED'u8:
+      elif uint8(s[i]) == 0xED'u8:
         vusD
-      elif uint(s[i]) in 0xF1'u8 .. 0xF3'u8:
+      elif uint8(s[i]) in 0xF1'u8 .. 0xF3'u8:
         vusE
-      elif uint(s[i]) == 0xF0'u8:
+      elif uint8(s[i]) == 0xF0'u8:
         vusF
-      elif uint(s[i]) == 0xF4'u8:
+      elif uint8(s[i]) == 0xF4'u8:
         vusG
       else:
         vusError
     of vusA:
-      state = if uint(s[i]) in 0x80'u8 .. 0xBF'u8:
+      state = if uint8(s[i]) in 0x80'u8 .. 0xBF'u8:
         vusStart
       else:
         vusError
     of vusB:
-      state = if uint(s[i]) in 0x80'u8 .. 0xBF'u8:
+      state = if uint8(s[i]) in 0x80'u8 .. 0xBF'u8:
         vusA
       else:
         vusError
     of vusC:
-      state = if uint(s[i]) in 0xA0'u8 .. 0xBF'u8:
+      state = if uint8(s[i]) in 0xA0'u8 .. 0xBF'u8:
         vusA
       else:
         vusError
     of vusD:
-      state = if uint(s[i]) in 0x80'u8 .. 0x9F'u8:
+      state = if uint8(s[i]) in 0x80'u8 .. 0x9F'u8:
         vusA
       else:
         vusError
     of vusE:
-      state = if uint(s[i]) in 0x80'u8 .. 0xBF'u8:
+      state = if uint8(s[i]) in 0x80'u8 .. 0xBF'u8:
         vusB
       else:
         vusError
     of vusF:
-      state = if uint(s[i]) in 0x90'u8 .. 0xBF'u8:
+      state = if uint8(s[i]) in 0x90'u8 .. 0xBF'u8:
         vusB
       else:
         vusError
     of vusG:
-      state = if uint(s[i]) in 0x80'u8 .. 0x8F'u8:
+      state = if uint8(s[i]) in 0x80'u8 .. 0x8F'u8:
         vusB
       else:
         vusError

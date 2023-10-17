@@ -359,6 +359,69 @@ test "verifyUtf8":
   check verifyUtf8("\xf0\x80\x80\x80\xaf") == 0
   # overlong solidus <fc 80 80 80 80 af>
   check verifyUtf8("\xf0\x80\x80\x80\x80\xaf") == 0
+  # other
+  check verifyUtf8("\xc2") == 0
+  # Non-shortest form (which is illegal) UTF-8 octet range (hex)
+  # 0xc0-0xc1 0x80-0xbf
+  check verifyUtf8("\xc0\x80") == 0
+  check verifyUtf8("\xc0\xbf") == 0
+  check verifyUtf8("\xc1\x80") == 0
+  check verifyUtf8("\xc1\xbf") == 0
+  # 0xe0      0x80-0x9f 0x80-0xbf
+  check verifyUtf8("\xe0\x80\x80") == 0
+  check verifyUtf8("\xe0\x9f\x80") == 0
+  check verifyUtf8("\xe0\x80\xbf") == 0
+  check verifyUtf8("\xe0\x9f\xbf") == 0
+  # 0xf0      0x80-0x8f 0x80-0xbf 0x80-0xbf
+  check verifyUtf8("\xf0\x80\x80\x80") == 0
+  check verifyUtf8("\xf0\x8f\x80\x80") == 0
+  check verifyUtf8("\xf0\x80\xbf\x80") == 0
+  check verifyUtf8("\xf0\x80\x80\xbf") == 0
+  check verifyUtf8("\xf0\x80\xbf\xbf") == 0
+  check verifyUtf8("\xf0\x8f\xbf\x80") == 0
+  check verifyUtf8("\xf0\x8f\x80\xbf") == 0
+  check verifyUtf8("\xf0\x8f\xbf\xbf") == 0
+  # Surrogate high and surrogate low range directly map to UTF-8 octet range (hex)
+  # 0xed 0xa0-0xbf 0x80-0xbf
+  check verifyUtf8("\xed\xa0\x80") == 0
+  check verifyUtf8("\xed\xbf\x80") == 0
+  check verifyUtf8("\xed\xa0\xbf") == 0
+  check verifyUtf8("\xed\xbf\xbf") == 0
+  # Illegal UTF-8 octet range (hex) represent UCS4 value greater than 0x10FFFF
+  # 0xf4      0x90-0x9f 0x80-0xbf 0x80-0xbf
+  check verifyUtf8("\xf4\x90\x80\x80") == 0
+  check verifyUtf8("\xf4\x9f\x80\x80") == 0
+  check verifyUtf8("\xf4\x9f\xbf\x80") == 0
+  check verifyUtf8("\xf4\x9f\xbf\xbf") == 0
+  check verifyUtf8("\xf4\x90\xbf\x80") == 0
+  check verifyUtf8("\xf4\x90\x80\xbf") == 0
+  # 0xf4      0xa0-0xbf 0x80-0xbf 0x80-0xbf
+  check verifyUtf8("\xf4\xa0\x80\x80") == 0
+  check verifyUtf8("\xf4\xa0\xbf\x80") == 0
+  check verifyUtf8("\xf4\xa0\xbf\xbf") == 0
+  check verifyUtf8("\xf4\xbf\x80\x80") == 0
+  check verifyUtf8("\xf4\xbf\xbf\x80") == 0
+  check verifyUtf8("\xf4\xbf\xbf\xbf") == 0
+  # 0xf5      0x80-0xbf 0x80-0xbf 0x80-0xbf
+  check verifyUtf8("\xf5\x80\x80\x80") == 0
+  check verifyUtf8("\xf5\x80\xbf\x80") == 0
+  check verifyUtf8("\xf5\x80\xbf\xbf") == 0
+  check verifyUtf8("\xf5\xbf\x80\x80") == 0
+  check verifyUtf8("\xf5\xbf\xbf\x80") == 0
+  check verifyUtf8("\xf5\xbf\xbf\xbf") == 0
+  # 0xf6-0xf7 0x80-0xbf 0x80-0xbf 0x80-0xbf
+  check verifyUtf8("\xf6\x80\x80\x80") == 0
+  check verifyUtf8("\xf6\x80\xbf\x80") == 0
+  check verifyUtf8("\xf6\x80\xbf\xbf") == 0
+  check verifyUtf8("\xf6\xbf\x80\x80") == 0
+  check verifyUtf8("\xf6\xbf\xbf\x80") == 0
+  check verifyUtf8("\xf6\xbf\xbf\xbf") == 0
+  check verifyUtf8("\xf7\x80\x80\x80") == 0
+  check verifyUtf8("\xf7\x80\xbf\x80") == 0
+  check verifyUtf8("\xf7\x80\xbf\xbf") == 0
+  check verifyUtf8("\xf7\xbf\x80\x80") == 0
+  check verifyUtf8("\xf7\xbf\xbf\x80") == 0
+  check verifyUtf8("\xf7\xbf\xbf\xbf") == 0
 
 when true:
   test "toValidUtf8":
