@@ -366,6 +366,8 @@ func findBadSeqUtf8*(s: openArray[char]): Slice[int] =
   var i = 0
   let L = s.len
   while i < L:
+    if state == vusError:
+      break
     case state:
     of vusStart:
       badSeqStart = i
@@ -424,11 +426,9 @@ func findBadSeqUtf8*(s: openArray[char]): Slice[int] =
         vusError
     of vusError:
       doAssert false
-    if state == vusError:
-      break
     inc i
   if state != vusStart:
-    result = badSeqStart .. i
+    result = badSeqStart .. i-1
   else:
     result = 0 .. -1
 
