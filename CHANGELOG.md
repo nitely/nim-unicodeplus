@@ -1,3 +1,8 @@
+v0.11.1
+==================
+
+* Fix `findBadSeqUtf8` off by one result
+
 v0.11.0
 ==================
 
