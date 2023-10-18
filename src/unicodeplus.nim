@@ -360,6 +360,8 @@ type
     vusError, vusStart, vusA, vusB, vusC, vusD, vusE, vusF, vusG
 
 # Ref http://unicode.org/mail-arch/unicode-ml/y2003-m02/att-0467/01-The_Algorithm_to_Valide_an_UTF-8_String
+# and https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf
+# Table 3-7. Well-Formed UTF-8 Byte Sequences
 func findBadSeqUtf8*(s: openArray[char]): Slice[int] =
   ## Return a zero len `Slice` if `s` is a valid utf-8 string.
   ## Otherwise, return the first invalid bytes sequence bounds.
@@ -368,8 +370,6 @@ func findBadSeqUtf8*(s: openArray[char]): Slice[int] =
   var i = 0
   let L = s.len
   while i < L:
-    if state == vusError:
-      break
     case state:
     of vusStart:
       badSeqStart = i
@@ -398,9 +398,14 @@ func findBadSeqUtf8*(s: openArray[char]): Slice[int] =
       state = if uint8(s[i]) in 0x80'u8 .. 0x8F'u8: vusB else: vusError
     of vusError:
       doAssert false
+    if state == vusError:
+      break
     inc i
   if state != vusStart:
-    result = badSeqStart .. i-1
+    result = if badSeqStart == i:
+      badSeqStart .. i
+    else:  # continuation or truncated
+      badSeqStart .. i-1
   else:
     result = 0 .. -1
 

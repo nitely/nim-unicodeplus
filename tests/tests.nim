@@ -330,10 +330,19 @@ test "findBadSeqUtf8":
   check findBadSeqUtf8("\xF1\x80\x80\x80") == 0 .. -1
   check findBadSeqUtf8("a\xffb") == 1 .. 1
   check findBadSeqUtf8("\xc2") == 0 .. 0
-  check findBadSeqUtf8("\xE1\x80") == 0 .. 1
+  check findBadSeqUtf8("\xE1\x80") == 0 .. 1  # truncated
+  check findBadSeqUtf8("\xE1\x80abc") == 0 .. 1
   check findBadSeqUtf8("\xF1\x80\x80") == 0 .. 2
-  # XXX a better implementation would detect the whole sequence
-  check findBadSeqUtf8("\xf4\x90\x80\x80") == 0 .. 1
+  check findBadSeqUtf8("\xf4\x90\x80\x80") == 0 .. 0
+  check findBadSeqUtf8("\x90\x80\x80") == 0 .. 0
+  check findBadSeqUtf8("\x80\x80") == 0 .. 0
+
+test "findBadSeqUtf8_spec":
+  # https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf
+  # Constraints on Conversion Processes
+  check findBadSeqUtf8("\xC2\x41\x42") == 0 .. 0
+  check findBadSeqUtf8("\x41\x42") == 0 .. -1
+  check findBadSeqUtf8("\xF0\x80\x80") == 0 .. 0
   check findBadSeqUtf8("\x80\x80") == 0 .. 0
 
 # Ref http://unicode.org/mail-arch/unicode-ml/y2003-m02/att-0467/01-The_Algorithm_to_Valide_an_UTF-8_String
@@ -527,3 +536,11 @@ when true:
     check toValidUtf8("\xE0\x80\xAF") == "\uFFFD"
     check toValidUtf8("\xF8\x80\x80\x80\xAF") == "\uFFFD"
     check toValidUtf8("\xf8\xa1\xa1\xa1\xa1") == "\uFFFD"
+
+  test "toValidUtf8_spec":
+    # https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf
+    # Constraints on Conversion Processes
+    check toValidUtf8("\xC2\x41\x42") == "\uFFFD\x41\x42"
+    check toValidUtf8("\xC2abc") == "\uFFFDabc"
+    check toValidUtf8("\xF0\x80\x80") == "\uFFFD"
+    check toValidUtf8("\x80\x80") == "\uFFFD"
