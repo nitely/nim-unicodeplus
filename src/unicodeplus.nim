@@ -341,10 +341,12 @@ func cmpCaseless*(a, b: string): bool {.inline.} =
   while riA < a.len and riB < b.len:
     fillBuffA()
     fillBuffB()
-    while idxA < idxB and riA < a.len:
-      fillBuffA()
-    while idxB < idxA and riB < b.len:
-      fillBuffB()
+    if idxA < idxB:  # only increase one buffer
+      while idxA < idxB and riA < a.len:
+        fillBuffA()
+    elif idxB < idxA:
+      while idxB < idxA and riB < b.len:
+        fillBuffB()
     if idxA != idxB:
       return false
     if toOpenArray(buffA, 0, idxA) != toOpenArray(buffB, 0, idxB):
