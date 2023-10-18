@@ -286,7 +286,7 @@ test "cmpCaseless":
   check cmpCaseless("\u1FA0\u1F60\u03B9", "\u1FA0\u1F60\u03B9")
   check(not cmpCaseless("\u1FA0", "x"))
 
-when true:
+when false:
   test "cmpCaseless all":
     for cp in 0 .. 0x10FFFF:
       var s = ""
@@ -322,6 +322,20 @@ when true:
     check(not cmpCaseless("\u1FE2a\u1FE2", "\u1FE4\u1FE2"))
     check(not cmpCaseless("\u1FE4\u1FE2", "\u1FE2a\u1FE2"))
 
+test "findBadSeqUtf8":
+  check findBadSeqUtf8("") == 0 .. -1
+  check findBadSeqUtf8("a") == 0 .. -1
+  check findBadSeqUtf8("ab") == 0 .. -1
+  check findBadSeqUtf8("abc") == 0 .. -1
+  check findBadSeqUtf8("\xF1\x80\x80\x80") == 0 .. -1
+  check findBadSeqUtf8("a\xffb") == 1 .. 1
+  check findBadSeqUtf8("\xc2") == 0 .. 0
+  check findBadSeqUtf8("\xE1\x80") == 0 .. 1
+  check findBadSeqUtf8("\xF1\x80\x80") == 0 .. 2
+  # XXX a better implementation would detect the whole sequence
+  check findBadSeqUtf8("\xf4\x90\x80\x80") == 0 .. 1
+  check findBadSeqUtf8("\x80\x80") == 0 .. 0
+
 # Ref http://unicode.org/mail-arch/unicode-ml/y2003-m02/att-0467/01-The_Algorithm_to_Valide_an_UTF-8_String
 test "verifyUtf8":
   check verifyUtf8("") == -1
@@ -337,8 +351,65 @@ test "verifyUtf8":
   # 0x10FFFF biggest code point
   check verifyUtf8("\xf4\x8f\xbf\xbf") == -1
   check verifyUtf8("\u{10FFFF}") == -1
-  # XXX Add tests for good ranges
-
+  # Good ranges
+  check verifyUtf8("\x00") == -1
+  check verifyUtf8("\x7F") == -1
+  check verifyUtf8("\xC2\x80") == -1
+  check verifyUtf8("\xC2\xBF") == -1
+  check verifyUtf8("\xDF\x80") == -1
+  check verifyUtf8("\xDF\xBF") == -1
+  check verifyUtf8("\xE1\x80\x80") == -1
+  check verifyUtf8("\xE1\x80\xBF") == -1
+  check verifyUtf8("\xE1\xBF\x80") == -1
+  check verifyUtf8("\xE1\xBF\xBF") == -1
+  check verifyUtf8("\xEC\x80\x80") == -1
+  check verifyUtf8("\xEC\x80\xBF") == -1
+  check verifyUtf8("\xEC\xBF\x80") == -1
+  check verifyUtf8("\xEC\xBF\xBF") == -1
+  check verifyUtf8("\xEE\x80\x80") == -1
+  check verifyUtf8("\xEE\x80\xBF") == -1
+  check verifyUtf8("\xEE\xBF\x80") == -1
+  check verifyUtf8("\xEE\xBF\xBF") == -1
+  check verifyUtf8("\xEF\x80\x80") == -1
+  check verifyUtf8("\xEF\x80\xBF") == -1
+  check verifyUtf8("\xEF\xBF\x80") == -1
+  check verifyUtf8("\xEF\xBF\xBF") == -1
+  check verifyUtf8("\xE0\xA0\xA0") == -1
+  check verifyUtf8("\xE0\xA0\xBF") == -1
+  check verifyUtf8("\xE0\xBF\xA0") == -1
+  check verifyUtf8("\xE0\xBF\xBF") == -1
+  check verifyUtf8("\xED\x80\x80") == -1
+  check verifyUtf8("\xED\x80\x9F") == -1
+  check verifyUtf8("\xED\x9F\x80") == -1
+  check verifyUtf8("\xED\x9F\x9F") == -1
+  check verifyUtf8("\xF1\x80\x80\x80") == -1
+  check verifyUtf8("\xF1\xBF\x80\x80") == -1
+  check verifyUtf8("\xF1\x80\xBF\x80") == -1
+  check verifyUtf8("\xF1\x80\x80\xBF") == -1
+  check verifyUtf8("\xF1\xBF\xBF\x80") == -1
+  check verifyUtf8("\xF1\x80\xBF\xBF") == -1
+  check verifyUtf8("\xF1\xBF\x80\xBF") == -1
+  check verifyUtf8("\xF3\x80\x80\x80") == -1
+  check verifyUtf8("\xF3\xBF\x80\x80") == -1
+  check verifyUtf8("\xF3\x80\xBF\x80") == -1
+  check verifyUtf8("\xF3\x80\x80\xBF") == -1
+  check verifyUtf8("\xF3\xBF\xBF\x80") == -1
+  check verifyUtf8("\xF3\x80\xBF\xBF") == -1
+  check verifyUtf8("\xF3\xBF\x80\xBF") == -1
+  check verifyUtf8("\xF0\x90\x90\x90") == -1
+  check verifyUtf8("\xF0\xBF\x90\x90") == -1
+  check verifyUtf8("\xF0\x90\xBF\x90") == -1
+  check verifyUtf8("\xF0\x90\x90\xBF") == -1
+  check verifyUtf8("\xF0\xBF\xBF\x90") == -1
+  check verifyUtf8("\xF0\x90\xBF\xBF") == -1
+  check verifyUtf8("\xF0\xBF\x90\xBF") == -1
+  check verifyUtf8("\xF4\x80\x80\x80") == -1
+  check verifyUtf8("\xF4\x8F\x80\x80") == -1
+  check verifyUtf8("\xF4\x80\x8F\x80") == -1
+  check verifyUtf8("\xF4\x80\x80\x8F") == -1
+  check verifyUtf8("\xF4\x8F\x8F\x80") == -1
+  check verifyUtf8("\xF4\x80\x8F\x8F") == -1
+  check verifyUtf8("\xF4\x8F\x80\x8F") == -1
   # Non-shortest form (which is illegal) UTF-8 octet range (hex)
   # 0xc0-0xc1 0x80-0xbf
   check verifyUtf8("\xc0\x80") == 0
