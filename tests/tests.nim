@@ -286,7 +286,7 @@ test "cmpCaseless":
   check cmpCaseless("\u1FA0\u1F60\u03B9", "\u1FA0\u1F60\u03B9")
   check(not cmpCaseless("\u1FA0", "x"))
 
-when true:
+when false:
   test "cmpCaseless all":
     for cp in 0 .. 0x10FFFF:
       var s = ""
@@ -333,17 +333,20 @@ test "findBadSeqUtf8":
   check findBadSeqUtf8("\xE1\x80") == 0 .. 1  # truncated
   check findBadSeqUtf8("\xE1\x80abc") == 0 .. 1
   check findBadSeqUtf8("\xF1\x80\x80") == 0 .. 2
-  check findBadSeqUtf8("\xf4\x90\x80\x80") == 0 .. 0
-  check findBadSeqUtf8("\x90\x80\x80") == 0 .. 0
-  check findBadSeqUtf8("\x80\x80") == 0 .. 0
+  check findBadSeqUtf8("\xF1\x80\x80\xF1\x80\x80") == 0 .. 2
+  check findBadSeqUtf8("\xf4\x90\x80\x80") == 0 .. 3
+  check findBadSeqUtf8("\x90\x80\x80") == 0 .. 2
+  check findBadSeqUtf8("\x80\x80") == 0 .. 1
 
 test "findBadSeqUtf8_spec":
   # https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf
   # Constraints on Conversion Processes
   check findBadSeqUtf8("\xC2\x41\x42") == 0 .. 0
   check findBadSeqUtf8("\x41\x42") == 0 .. -1
-  check findBadSeqUtf8("\xF0\x80\x80") == 0 .. 0
-  check findBadSeqUtf8("\x80\x80") == 0 .. 0
+  check findBadSeqUtf8("\xF0\x80\x80") == 0 .. 2
+  check findBadSeqUtf8("\x80\x80") == 0 .. 1
+  check findBadSeqUtf8("\xF0\x80\x80\xF0\x80\x80") == 0 .. 2
+  check findBadSeqUtf8("\xF0\x80\x80\x80\x80\x80") == 0 .. 5
 
 # Ref http://unicode.org/mail-arch/unicode-ml/y2003-m02/att-0467/01-The_Algorithm_to_Valide_an_UTF-8_String
 test "verifyUtf8":

@@ -362,17 +362,16 @@ type
 # Ref http://unicode.org/mail-arch/unicode-ml/y2003-m02/att-0467/01-The_Algorithm_to_Valide_an_UTF-8_String
 # and https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf
 # Table 3-7. Well-Formed UTF-8 Byte Sequences
-func findBadSeqUtf8*(s: openArray[char]): Slice[int] =
-  ## Return a zero len `Slice` if `s` is a valid utf-8 string.
-  ## Otherwise, return the first invalid bytes sequence bounds.
+func verifyUtf8*(s: openArray[char]): int =
+  ## Return `-1` if `s` is a valid utf-8 string.
+  ## Otherwise, return the index of the first bad char.
   var state = vusStart
-  var badSeqStart = 0
   var i = 0
   let L = s.len
   while i < L:
     case state:
     of vusStart:
-      badSeqStart = i
+      result = i
       state = if uint8(s[i]) in 0x00'u8 .. 0x7F'u8: vusStart
       elif uint8(s[i]) in 0xC2'u8 .. 0xDF'u8: vusA
       elif uint8(s[i]) in 0xE1'u8 .. 0xEC'u8 or uint8(s[i]) in 0xEE'u8 .. 0xEF'u8: vusB
@@ -401,22 +400,23 @@ func findBadSeqUtf8*(s: openArray[char]): Slice[int] =
     if state == vusError:
       break
     inc i
-  if state != vusStart:
-    result = if badSeqStart == i:
-      badSeqStart .. i
-    else:  # continuation or truncated
-      badSeqStart .. i-1
-  else:
-    result = 0 .. -1
+  if state == vusStart:
+    result = -1
 
-func verifyUtf8*(s: openArray[char]): int =
-  ## Return `-1` if `s` is a valid utf-8 string.
-  ## Otherwise, return the index of the first bad char.
-  let badSeq = findBadSeqUtf8(s)
-  if badSeq.len == 0:
-    return -1
-  else:
-    return badSeq.a
+func findBadSeqUtf8*(s: openArray[char]): Slice[int] =
+  ## Return a zero len `Slice` if `s` is a valid utf-8 string.
+  ## Otherwise, return the first invalid bytes sequence bounds.
+  let start = verifyUtf8(s)
+  if start == -1:
+    return 0 .. -1
+  var i = start+1
+  let L = s.len
+  # skip continuations
+  while i < L:
+    if uint8(s[i]) shr 6 != 0b10:
+      break
+    inc i
+  return start .. i-1
 
 func add2(s: var string, x: openArray[char]) =
   for c in x:
@@ -428,18 +428,18 @@ func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
   if verifyUtf8(s) == -1:
     return s
   result = ""
-  var badSeq = 0 .. -1
   var oldLen = -1
   var i = 0
+  var j = 0
   var i2 = -1
   while i < s.len:
     doAssert i > i2; i2 = i
-    badSeq = findBadSeqUtf8 toOpenArray(s, i, s.len-1)
-    if badSeq.len == 0:
+    j = verifyUtf8 toOpenArray(s, i, s.len-1)
+    if j == -1:
       break
-    result.add2 toOpenArray(s, i, i+badSeq.a-1)
+    result.add2 toOpenArray(s, i, i+j-1)
     if oldLen != result.len:
       result.add replacement
       oldLen = result.len
-    i += badSeq.b+1
+    i += j+1
   result.add2 toOpenArray(s, i, s.len-1)

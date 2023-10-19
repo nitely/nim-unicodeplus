@@ -1,3 +1,8 @@
+v0.12.0
+==================
+
+* Change `findBadSeqUtf8` to include continuation bytes
+
 v0.11.1
 ==================
 
