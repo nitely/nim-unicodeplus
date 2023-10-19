@@ -396,8 +396,6 @@ func verifyUtf8*(s: openArray[char]): int =
     of vusG:
       state = if uint8(s[i]) in 0x80'u8 .. 0x8F'u8: vusB else: vusError
     of vusError:
-      doAssert false
-    if state == vusError:
       break
     inc i
   if state == vusStart:

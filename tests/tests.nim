@@ -286,7 +286,7 @@ test "cmpCaseless":
   check cmpCaseless("\u1FA0\u1F60\u03B9", "\u1FA0\u1F60\u03B9")
   check(not cmpCaseless("\u1FA0", "x"))
 
-when false:
+when true:
   test "cmpCaseless all":
     for cp in 0 .. 0x10FFFF:
       var s = ""
