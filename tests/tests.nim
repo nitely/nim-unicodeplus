@@ -315,10 +315,10 @@ when true:
     doAssert cMax == 3
     # caseFold(0x1FE2) == 3 Runes
     # caseFold(0x1FE4) == 2 Runes
-    # max filled buff is 6
+    # max filled buff is 5
     check(not cmpCaseless("\u1FE4\u1FE2", "\u1FE2\u1FE2"))
     check(not cmpCaseless("\u1FE2\u1FE2", "\u1FE4\u1FE2"))
-    # max filled buff is 7
+    # max filled buff is 5
     check(not cmpCaseless("\u1FE2a\u1FE2", "\u1FE4\u1FE2"))
     check(not cmpCaseless("\u1FE4\u1FE2", "\u1FE2a\u1FE2"))
 
@@ -401,6 +401,7 @@ test "verifyUtf8":
   check verifyUtf8("\xF1\xBF\xBF\x80") == -1
   check verifyUtf8("\xF1\x80\xBF\xBF") == -1
   check verifyUtf8("\xF1\xBF\x80\xBF") == -1
+  check verifyUtf8("\xF1\xBF\xBF\xBF") == -1
   check verifyUtf8("\xF3\x80\x80\x80") == -1
   check verifyUtf8("\xF3\xBF\x80\x80") == -1
   check verifyUtf8("\xF3\x80\xBF\x80") == -1
@@ -408,6 +409,7 @@ test "verifyUtf8":
   check verifyUtf8("\xF3\xBF\xBF\x80") == -1
   check verifyUtf8("\xF3\x80\xBF\xBF") == -1
   check verifyUtf8("\xF3\xBF\x80\xBF") == -1
+  check verifyUtf8("\xF3\xBF\xBF\xBF") == -1
   check verifyUtf8("\xF0\x90\x90\x90") == -1
   check verifyUtf8("\xF0\xBF\x90\x90") == -1
   check verifyUtf8("\xF0\x90\xBF\x90") == -1
@@ -415,13 +417,15 @@ test "verifyUtf8":
   check verifyUtf8("\xF0\xBF\xBF\x90") == -1
   check verifyUtf8("\xF0\x90\xBF\xBF") == -1
   check verifyUtf8("\xF0\xBF\x90\xBF") == -1
+  check verifyUtf8("\xF0\xBF\xBF\xBF") == -1
   check verifyUtf8("\xF4\x80\x80\x80") == -1
   check verifyUtf8("\xF4\x8F\x80\x80") == -1
-  check verifyUtf8("\xF4\x80\x8F\x80") == -1
-  check verifyUtf8("\xF4\x80\x80\x8F") == -1
-  check verifyUtf8("\xF4\x8F\x8F\x80") == -1
-  check verifyUtf8("\xF4\x80\x8F\x8F") == -1
-  check verifyUtf8("\xF4\x8F\x80\x8F") == -1
+  check verifyUtf8("\xF4\x80\xBF\x80") == -1
+  check verifyUtf8("\xF4\x80\x80\xBF") == -1
+  check verifyUtf8("\xF4\x8F\xBF\x80") == -1
+  check verifyUtf8("\xF4\x80\xBF\xBF") == -1
+  check verifyUtf8("\xF4\x8F\x80\xBF") == -1
+  check verifyUtf8("\xF4\x8F\xBF\xBF") == -1
   # Non-shortest form (which is illegal) UTF-8 octet range (hex)
   # 0xc0-0xc1 0x80-0xbf
   check verifyUtf8("\xc0\x80") == 0
