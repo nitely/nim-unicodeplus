@@ -425,7 +425,7 @@ func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
   ## `replacement` value.
   if verifyUtf8(s) == -1:
     return s
-  result = ""
+  result = newStringOfCap(s.len)
   var oldLen = -1
   var i = 0
   var j = 0
