@@ -1,6 +1,6 @@
 # UnicodePlus
 
-[![Build Status](https://img.shields.io/travis/nitely/nim-unicodeplus.svg?style=flat-square)](https://travis-ci.org/nitely/nim-unicodeplus)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/nitely/nim-unicodeplus/ci.yml?style=flat-square)](https://github.com/nitely/nim-unicodeplus/actions?query=workflow%3ACI)
 [![licence](https://img.shields.io/github/license/nitely/nim-unicodeplus.svg?style=flat-square)](https://raw.githubusercontent.com/nitely/nim-unicodeplus/master/LICENSE)
 
 Common unicode operations.
