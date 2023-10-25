@@ -1,3 +1,8 @@
+v0.13.0
+==================
+
+* Add utf-8 validation to every API taking a string. Only in debug mode.
+
 v0.12.0
 ==================
 
