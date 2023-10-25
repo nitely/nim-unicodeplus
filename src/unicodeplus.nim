@@ -11,6 +11,56 @@ import pkg/segmentation
 
 export Rune
 
+type
+  verifyUtf8State = enum
+    vusError, vusStart, vusA, vusB, vusC, vusD, vusE, vusF, vusG
+
+# Ref http://unicode.org/mail-arch/unicode-ml/y2003-m02/att-0467/01-The_Algorithm_to_Valide_an_UTF-8_String
+# and https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf
+# Table 3-7. Well-Formed UTF-8 Byte Sequences
+func verifyUtf8*(s: openArray[char]): int =
+  ## Return `-1` if `s` is a valid utf-8 string.
+  ## Otherwise, return the index of the first bad char.
+  var state = vusStart
+  var i = 0
+  let L = s.len
+  while i < L:
+    case state:
+    of vusStart:
+      result = i
+      state = if uint8(s[i]) in 0x00'u8 .. 0x7F'u8: vusStart
+      elif uint8(s[i]) in 0xC2'u8 .. 0xDF'u8: vusA
+      elif uint8(s[i]) in 0xE1'u8 .. 0xEC'u8 or uint8(s[i]) in 0xEE'u8 .. 0xEF'u8: vusB
+      elif uint8(s[i]) == 0xE0'u8: vusC
+      elif uint8(s[i]) == 0xED'u8: vusD
+      elif uint8(s[i]) in 0xF1'u8 .. 0xF3'u8: vusE
+      elif uint8(s[i]) == 0xF0'u8: vusF
+      elif uint8(s[i]) == 0xF4'u8: vusG
+      else: vusError
+    of vusA:
+      state = if uint8(s[i]) in 0x80'u8 .. 0xBF'u8: vusStart else: vusError
+    of vusB:
+      state = if uint8(s[i]) in 0x80'u8 .. 0xBF'u8: vusA else: vusError
+    of vusC:
+      state = if uint8(s[i]) in 0xA0'u8 .. 0xBF'u8: vusA else: vusError
+    of vusD:
+      state = if uint8(s[i]) in 0x80'u8 .. 0x9F'u8: vusA else: vusError
+    of vusE:
+      state = if uint8(s[i]) in 0x80'u8 .. 0xBF'u8: vusB else: vusError
+    of vusF:
+      state = if uint8(s[i]) in 0x90'u8 .. 0xBF'u8: vusB else: vusError
+    of vusG:
+      state = if uint8(s[i]) in 0x80'u8 .. 0x8F'u8: vusB else: vusError
+    of vusError:
+      break
+    inc i
+  if state == vusStart:
+    result = -1
+
+template debugVerifyUtf8(s: string): untyped =
+  when not defined(release):
+    assert(verifyUtf8(s) == -1, "Invalid utf-8 input")
+
 func genNums(): array[128, bool] =
   for i in '0'.ord .. '9'.ord:
     result[i] = true
@@ -61,6 +111,7 @@ func isDecimal*(s: string): bool =
   ## ARABIC-INDIC DIGIT ZERO. Formally, a decimal
   ## is a character that has the property
   ## value `Numeric_Type=Decimal`
+  debugVerifyUtf8(s)
   runeCheck(s, isDecimal)
 
 func isDecimal*(s: seq[Rune]): bool {.deprecated: "Use isDecimal(string)".} =
@@ -84,6 +135,7 @@ func isDigit*(s: string): bool =
   ## numbers. Formally, a digit is a character
   ## that has the property value `Numeric_Type=Digit`
   ## or `Numeric_Type=Decimal`
+  debugVerifyUtf8(s)
   runeCheck(s, isDigit)
 
 func isDigit*(s: seq[Rune]): bool {.deprecated: "Use isDigit(string)".} =
@@ -106,6 +158,7 @@ func isNumeric*(s: string): bool =
   ## numeric characters are those with the
   ## property value Numeric_Type=Digit,
   ## Numeric_Type=Decimal or Numeric_Type=Numeric
+  debugVerifyUtf8(s)
   runeCheck(s, isNumeric)
 
 func isNumeric*(s: seq[Rune]): bool {.deprecated: "Use isNumeric(string)".} =
@@ -125,6 +178,7 @@ func isAlpha*(s: string): bool =
   ## characters defined in the UCD as “Letter”.
   ## This is not the same as the “Alphabetic”
   ## property defined in the UCD
+  debugVerifyUtf8(s)
   runeCheck(s, isAlpha)
 
 func isAlpha*(s: seq[Rune]): bool {.deprecated: "Use isAlpha(string)".} =
@@ -146,6 +200,7 @@ func isAlnum*(s: string): bool =
   ## returns `true`: `c.isAlpha()`,
   ## `c.isDecimal()`, `c.isDigit()`,
   ## or `c.isNumeric()`
+  debugVerifyUtf8(s)
   runeCheck(s, isAlnum)
 
 func isAlnum*(s: seq[Rune]): bool {.deprecated: "Use isAlnum(string)".} =
@@ -161,6 +216,7 @@ func isPrintable*(s: string): bool =
   ## defined in the UCD as “Other” or “Separator”,
   ## except for the ASCII space (0x20). Return `true` if all
   ## characters meet this condition or the string is empty
+  debugVerifyUtf8(s)
   result = true
   runeCheck(s, isPrintable)
 
@@ -181,6 +237,7 @@ func isWhiteSpace*(s: string): bool =
   ## “WS”, “B”, or “S”. Return `true` if all
   ## characters meet this condition. Return
   ## `false` if the string is empty
+  debugVerifyUtf8(s)
   runeCheck(s, isWhiteSpace)
 
 func isWhiteSpace*(s: seq[Rune]): bool {.deprecated: "Use isWhiteSpace(string)".} =
@@ -192,6 +249,7 @@ func isUpper*(c: Rune): bool =
 func isUpper*(s: string): bool =
   ## return `true` if all cased runes are
   ## upper-case and there is at least one cased rune
+  debugVerifyUtf8(s)
   result = false
   for r in s.runes:
     let ut = r.unicodeTypes()
@@ -215,6 +273,7 @@ func isLower*(c: Rune): bool =
 func isLower*(s: string): bool =
   ## return `true` if all cased runes are
   ## lower-case and there is at least one cased rune
+  debugVerifyUtf8(s)
   result = false
   for r in s.runes:
     let ut = r.unicodeTypes()
@@ -247,6 +306,7 @@ func isTitle*(s: string): bool =
   ## characters followed by a lowercase
   ## character. Return `false` if the
   ## string is empty
+  debugVerifyUtf8(s)
   result = false
   var isLastCased = false
   for r in s.runes:
@@ -291,18 +351,21 @@ func toUpper*(s: string): string {.inline.} =
   ## Return `s` in upper case.
   ## Beware the result may be
   ## longer than `s`
+  debugVerifyUtf8(s)
   caseConversionImpl(s, upperCase)
 
 func toLower*(s: string): string {.inline.} =
   ## Return `s` in lower case.
   ## Beware the result may be
   ## longer than `s`
+  debugVerifyUtf8(s)
   caseConversionImpl(s, lowerCase)
 
 func toTitle*(s: string): string {.inline.} =
   ## Return `s` in title case.
   ## Beware the result may be
   ## longer than `s`
+  debugVerifyUtf8(s)
   result = newString(s.len + 16)
   result.setLen(0)
   var r: Rune
@@ -323,6 +386,8 @@ func cmpCaseless*(a, b: string): bool {.inline.} =
   ## are not normalized. This is meant for
   ## arbitrary text, do not use it to compare
   ## identifiers
+  debugVerifyUtf8(a)
+  debugVerifyUtf8(b)
   template fillBuffA: untyped {.dirty.} =
     fastRuneAt(a, riA, rA, true)
     for c in caseFold(rA):
@@ -354,52 +419,6 @@ func cmpCaseless*(a, b: string): bool {.inline.} =
     idxA = 0
     idxB = 0
   return riA == a.len and riB == b.len
-
-type
-  verifyUtf8State = enum
-    vusError, vusStart, vusA, vusB, vusC, vusD, vusE, vusF, vusG
-
-# Ref http://unicode.org/mail-arch/unicode-ml/y2003-m02/att-0467/01-The_Algorithm_to_Valide_an_UTF-8_String
-# and https://www.unicode.org/versions/Unicode15.0.0/ch03.pdf
-# Table 3-7. Well-Formed UTF-8 Byte Sequences
-func verifyUtf8*(s: openArray[char]): int =
-  ## Return `-1` if `s` is a valid utf-8 string.
-  ## Otherwise, return the index of the first bad char.
-  var state = vusStart
-  var i = 0
-  let L = s.len
-  while i < L:
-    case state:
-    of vusStart:
-      result = i
-      state = if uint8(s[i]) in 0x00'u8 .. 0x7F'u8: vusStart
-      elif uint8(s[i]) in 0xC2'u8 .. 0xDF'u8: vusA
-      elif uint8(s[i]) in 0xE1'u8 .. 0xEC'u8 or uint8(s[i]) in 0xEE'u8 .. 0xEF'u8: vusB
-      elif uint8(s[i]) == 0xE0'u8: vusC
-      elif uint8(s[i]) == 0xED'u8: vusD
-      elif uint8(s[i]) in 0xF1'u8 .. 0xF3'u8: vusE
-      elif uint8(s[i]) == 0xF0'u8: vusF
-      elif uint8(s[i]) == 0xF4'u8: vusG
-      else: vusError
-    of vusA:
-      state = if uint8(s[i]) in 0x80'u8 .. 0xBF'u8: vusStart else: vusError
-    of vusB:
-      state = if uint8(s[i]) in 0x80'u8 .. 0xBF'u8: vusA else: vusError
-    of vusC:
-      state = if uint8(s[i]) in 0xA0'u8 .. 0xBF'u8: vusA else: vusError
-    of vusD:
-      state = if uint8(s[i]) in 0x80'u8 .. 0x9F'u8: vusA else: vusError
-    of vusE:
-      state = if uint8(s[i]) in 0x80'u8 .. 0xBF'u8: vusB else: vusError
-    of vusF:
-      state = if uint8(s[i]) in 0x90'u8 .. 0xBF'u8: vusB else: vusError
-    of vusG:
-      state = if uint8(s[i]) in 0x80'u8 .. 0x8F'u8: vusB else: vusError
-    of vusError:
-      break
-    inc i
-  if state == vusStart:
-    result = -1
 
 func findBadSeqUtf8*(s: openArray[char]): Slice[int] =
   ## Return a zero len `Slice` if `s` is a valid utf-8 string.

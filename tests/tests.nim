@@ -1,9 +1,22 @@
 import unittest
 from unicode import Rune, toUTF8
+from strutils import contains
 
 from unicodedb/casing import caseFold
 
 import unicodeplus
+
+when (NimMajor, NimMinor) >= (2, 0):
+  type MyAssertionDefect = ref AssertionDefect
+else:
+  type MyAssertionDefect = ref AssertionError
+
+template raisesInvalidUtf8(exp: untyped): untyped =
+  try:
+    discard exp
+    check false
+  except MyAssertionDefect:
+    check "Invalid utf-8 input" in getCurrentExceptionMsg()
 
 test "isLower":
   check(not "".isLower())
@@ -23,6 +36,7 @@ test "isLower":
   # non-BMP, non-cased
   check(not Rune(0x1F40D).isLower())
   check(not Rune(0x1F46F).isLower())
+  raisesInvalidUtf8 "\xff".isLower()
 
 test "isUpper":
   check(not "".isUpper())
@@ -42,6 +56,7 @@ test "isUpper":
   # non-BMP, non-cased
   check(not Rune(0x1F40D).isUpper())
   check(not Rune(0x1F46F).isUpper())
+  raisesInvalidUtf8 "\xff".isUpper()
 
 test "isTitle":
   check(Rune(0x1FFC).isTitle())
@@ -59,6 +74,7 @@ test "isTitle":
   check(not Rune(0x1044E).isTitle())
   check(not Rune(0x1F40D).isTitle())
   check(not Rune(0x1F46F).isTitle())
+  raisesInvalidUtf8 "\xff".isTitle()
 
 test "isWhiteSpace":
   check(not "".isWhiteSpace())
@@ -73,6 +89,7 @@ test "isWhiteSpace":
   check(not Rune(0x1044E).isWhiteSpace())
   check(not Rune(0x1F40D).isWhiteSpace())
   check(not Rune(0x1F46F).isWhiteSpace())
+  raisesInvalidUtf8 "\xff".isWhiteSpace()
 
 test "isAlnum":
   check(not "".isAlnum())
@@ -88,6 +105,7 @@ test "isAlnum":
   check(Rune(0x1F107).isAlnum())
   check(not Rune(0x2000).isAlnum())
   check(not "@".isAlnum())
+  raisesInvalidUtf8 "\xff".isAlnum()
 
 test "isAlpha":
   check(not "".isAlpha())
@@ -102,6 +120,7 @@ test "isAlpha":
   # non-BMP, non-cased
   check(not Rune(0x1F40D).isAlpha())
   check(not Rune(0x1F46F).isAlpha())
+  raisesInvalidUtf8 "\xff".isAlpha()
 
 test "isDecimal":
   check(not "".isDecimal())
@@ -123,6 +142,7 @@ test "isDecimal":
   check(Rune(0x1D7F6).isDecimal())
   check(Rune(0x11066).isDecimal())
   check(Rune(0x104A0).isDecimal())
+  raisesInvalidUtf8 "\xff".isDecimal()
 
 test "isDigit":
   check(not "".isDigit())
@@ -144,6 +164,7 @@ test "isDigit":
   check(Rune(0x11066).isDigit())
   check(Rune(0x104A0).isDigit())
   check(Rune(0x1F107).isDigit())
+  raisesInvalidUtf8 "\xff".isDigit()
 
 test "isNumeric":
   check(not "".isNumeric())
@@ -168,6 +189,7 @@ test "isNumeric":
   check(Rune(0x11066).isNumeric())
   check(Rune(0x104A0).isNumeric())
   check(Rune(0x1F107).isNumeric())
+  raisesInvalidUtf8 "\xff".isNumeric()
 
 test "isPrintable":
   check("".isPrintable())
@@ -184,6 +206,7 @@ test "isPrintable":
   # non-BMP
   check(Rune(0x1F46F).isPrintable())
   check(not Rune(0xE0020).isPrintable())
+  raisesInvalidUtf8 "\xff".isPrintable()
 
 test "sanityCheck":
   # I don't care about the results
@@ -218,6 +241,7 @@ test "toTitle":
   check "abc Ⓐ def".toTitle == "Abc Ⓐ Def"
   check "abc Ϊ def".toTitle == "Abc Ϊ Def"
   check "ßear".toTitle == "Ssear"
+  raisesInvalidUtf8 "\xff".toTitle()
 
 test "toUpper":
   check "a".toUpper == "A"
@@ -236,6 +260,7 @@ test "toUpper":
   check "abc Ⓐ def".toUpper == "ABC Ⓐ DEF"
   check "abc Ϊ def".toUpper == "ABC Ϊ DEF"
   check "ßear".toUpper == "SSEAR"
+  raisesInvalidUtf8 "\xff".toUpper()
   block testLongerResult:
     const be = "ΐeΐeΐeΐe-ΐeΐeΐeΐe-ΐeΐeΐeΐe-ΐeΐeΐeΐe"
     const se = "Ϊ́EΪ́EΪ́EΪ́E-Ϊ́EΪ́EΪ́EΪ́E-Ϊ́EΪ́EΪ́EΪ́E-Ϊ́EΪ́EΪ́EΪ́E"
@@ -259,6 +284,7 @@ test "toLower":
   check "ABC 弢 DEF".toLower == "abc 弢 def"
   check "ABC Ⓐ DEF".toLower == "abc ⓐ def"
   check "ABC Ϊ DEF".toLower == "abc ϊ def"
+  raisesInvalidUtf8 "\xff".toLower()
   block testLongerResult:
     const be = "İEİEİEİE-İEİEİEİE-İEİEİEİE-İEİEİEİE"
     const se = "i̇ei̇ei̇ei̇e-i̇ei̇ei̇ei̇e-i̇ei̇ei̇ei̇e-i̇ei̇ei̇ei̇e"
@@ -285,6 +311,8 @@ test "cmpCaseless":
   check cmpCaseless("\u1FA0\u1F60\u03B9", "\u1F60\u03B9\u1FA0")
   check cmpCaseless("\u1FA0\u1F60\u03B9", "\u1FA0\u1F60\u03B9")
   check(not cmpCaseless("\u1FA0", "x"))
+  raisesInvalidUtf8 cmpCaseless("\xff", "abc")
+  raisesInvalidUtf8 cmpCaseless("abc", "\xff")
 
 when true:
   test "cmpCaseless all":
@@ -292,6 +320,8 @@ when true:
       var s = ""
       for r in caseFold(cp.Rune):
         s.add r.toUtf8
+      if verifyUtf8(s) != -1:
+        continue
       let org = cp.Rune.toUtf8
       check cmpCaseless(s, org)
       check cmpCaseless(org, s)
