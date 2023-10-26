@@ -12,11 +12,12 @@ else:
   type MyAssertionDefect = ref AssertionError
 
 template raisesInvalidUtf8(exp: untyped): untyped =
-  try:
-    discard exp
-    check false
-  except MyAssertionDefect:
-    check "Invalid utf-8 input" in getCurrentExceptionMsg()
+  when not defined(release):  # do not test in release mode
+    try:
+      discard exp
+      check false
+    except MyAssertionDefect:
+      check "Invalid utf-8 input" in getCurrentExceptionMsg()
 
 test "isLower":
   check(not "".isLower())
