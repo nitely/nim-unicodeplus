@@ -14,6 +14,7 @@ requires "segmentation >= 0.1"
 
 task test, "Test":
   exec "nim c -r tests/tests"
+  exec "nim c -r -d:release tests/tests"
 
 task docs, "Docs":
   exec "nim doc --project -o:./docs ./src/unicodeplus.nim"
