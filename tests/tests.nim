@@ -1,10 +1,10 @@
-import unittest
-from unicode import Rune, toUTF8
-from strutils import contains
+import std/unittest
+from std/unicode import Rune, toUTF8
+from std/strutils import contains
 
-from unicodedb/casing import caseFold
+from pkg/unicodedb/casing import caseFold
 
-import unicodeplus
+import ../src/unicodeplus
 
 when (NimMajor, NimMinor) >= (2, 0):
   type MyAssertionDefect = ref AssertionDefect
@@ -582,3 +582,6 @@ when true:
     check toValidUtf8("\xC2abc") == "\uFFFDabc"
     check toValidUtf8("\xF0\x80\x80") == "\uFFFD"
     check toValidUtf8("\x80\x80") == "\uFFFD"
+
+test "width":
+  doAssert width("이건 테스트야", cjk=true) == 13
