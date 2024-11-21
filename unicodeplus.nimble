@@ -1,6 +1,6 @@
 # Package
 
-version = "0.14.1"
+version = "0.14.2"
 author = "Esteban Castro Borsani (@nitely)"
 description = "Common unicode operations"
 license = "MIT"
