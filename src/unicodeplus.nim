@@ -480,6 +480,7 @@ when enableWidth:
     ## This is usually correct for monospaced fonts,
     ## but it may not be accurate in some cases.
     ## Requires Nim >= 2.
+    debugVerifyUtf8(s)
     result = 0
     var i = 0
     var i2 = 0
