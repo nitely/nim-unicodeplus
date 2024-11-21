@@ -468,13 +468,15 @@ func width(c: Rune, cjk: bool): int =
   result = case c.unicodeWidth()
     of uwdtFull, uwdtWide: 2
     of uwdtAmbiguous:
-      if cjk: 1 else: 2
+      if cjk: 2 else: 1
     else: 1
 
 func width*(s: string, cjk = false): int =
   ## Return the display width of `s`.
   ## This is usually correct for monospaced fonts,
   ## but it may not be accurate in some cases.
+  ## The `cjk` param is for *legacy* cjk character encodings,
+  ## and it should usually not be true.
   debugVerifyUtf8(s)
   result = 0
   var i = 0
