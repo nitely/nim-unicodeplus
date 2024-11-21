@@ -39,6 +39,7 @@ assert "The quIck? (“bRown”) fox cAn’T jUMp 32.3 feet, rIGHt?".toLower ==
 assert cmpCaseless("AbCσ", "aBcΣ")
 assert toValidUtf8("a\xffb", replacement = "") == "ab"
 assert verifyUtf8("a\xffb") == 1
+assert width("이건 테스트야", cjk=true) == 13
 ```
 
 [docs](https://nitely.github.io/nim-unicodeplus/)
