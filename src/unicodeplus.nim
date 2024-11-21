@@ -479,6 +479,7 @@ when enableWidth:
     ## Return the display width of `s`.
     ## This is usually correct for monospaced fonts,
     ## but it may not be accurate in some cases.
+    ## Requires Nim >= 2.
     result = 0
     var i = 0
     var i2 = 0
