@@ -8,10 +8,7 @@ import pkg/unicodedb/types
 import pkg/unicodedb/casing
 import pkg/unicodedb/widths
 import pkg/segmentation
-
-const enableWidth = (NimMajor, NimMinor) >= (2, 0)
-when enableWidth:
-  import pkg/graphemes
+import pkg/graphemes
 
 export Rune
 
@@ -465,35 +462,33 @@ func toValidUtf8*(s: string, replacement = "\uFFFD"): string =
     i += j+1
   result.add2 toOpenArray(s, i, s.len-1)
 
-when enableWidth:
-  func width(c: Rune, cjk: bool): int =
-    if c.int == 0xFE0F:  # emoji style
-      return 2
-    result = case c.unicodeWidth()
-      of uwdtFull, uwdtWide: 2
-      of uwdtAmbiguous:
-        if cjk: 1 else: 2
-      else: 1
+func width(c: Rune, cjk: bool): int =
+  if c.int == 0xFE0F:  # emoji style
+    return 2
+  result = case c.unicodeWidth()
+    of uwdtFull, uwdtWide: 2
+    of uwdtAmbiguous:
+      if cjk: 1 else: 2
+    else: 1
 
-  func width*(s: string, cjk = false): int =
-    ## Return the display width of `s`.
-    ## This is usually correct for monospaced fonts,
-    ## but it may not be accurate in some cases.
-    ## Requires Nim >= 2.
-    debugVerifyUtf8(s)
-    result = 0
-    var i = 0
-    var i2 = 0
-    var c = Rune(0)
-    var w = 0
-    for bounds in s.graphemeBounds:
-      i = 0
-      i2 = -1
-      c = Rune(0)
-      w = 0
-      while i < bounds.b-bounds.a+1:
-        doAssert i > i2, "invalid utf8"
-        i2 = i
-        fastRuneAt(toOpenArray(s, bounds.a, bounds.b), i, c)
-        w = max(w, c.width(cjk))
-      result += w
+func width*(s: string, cjk = false): int =
+  ## Return the display width of `s`.
+  ## This is usually correct for monospaced fonts,
+  ## but it may not be accurate in some cases.
+  ## Requires Nim >= 2.
+  debugVerifyUtf8(s)
+  result = 0
+  var i = 0
+  var i2 = 0
+  var c = Rune(0)
+  var w = 0
+  for bounds in s.graphemeBounds:
+    i = bounds.a
+    i2 = i-1
+    c = Rune(0)
+    w = 0
+    while i < bounds.b+1:
+      doAssert i > i2, "invalid utf8"; i2 = i
+      fastRuneAt(s, i, c)
+      w = max(w, c.width(cjk))
+    result += w
